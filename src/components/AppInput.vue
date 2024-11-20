@@ -58,7 +58,7 @@ function addToSearchTerms(event, string) {
     if (event.key === 'Enter' && (searchInput.value && (searchInput.value !== '' || searchInput.value !== ' '))) {
         searchStore.addSearchTerm(searchInput.value)
         searchInput.value = ''
-        fetch('http://localhost:3333', {
+        fetch(import.meta.env.VITE_SERVER_URL, {
             method: "POST",
             body: JSON.stringify({
                 message: "respond"
