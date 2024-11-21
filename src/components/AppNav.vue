@@ -1,5 +1,5 @@
 <template>
-    <header class="flex justify-center w-full py-4 z-50 fixed top-0 bg-white">
+    <header class="flex justify-center w-full py-4 z-50 fixed top-0">
         <nav class="flex justify-between px-8 w-full max-w-screen-xl">
             <RouterLink 
                 :to="'/'" 
@@ -37,6 +37,7 @@ import { RouterLink } from 'vue-router';
 <style lang="sass" scoped>
 header
     border-bottom: 1px solid g.$grey-divider
+    background-color:  white
 #logo
     max-width: 200px
 li
@@ -61,13 +62,20 @@ nav
 
 
 @media (prefers-color-scheme:dark)
+    header
+        background-color: g.$green-acc2
+        border-color: g.$green-primary
     li 
         a
             color: g.$tan-primary
 
-            &:hover, &:focus, &:focus-visible, &:focus-within
-                outline-color: g.$green-light
-                background-color: g.$green-light
-                color: g.$green-acc2
+            &:hover, &:focus-visible
+                outline-color: g.$tan-primary
+                background-color: g.$green-acc3
+
+    nav
+        a:has(#logo)
+            &:focus-visible
+                outline: 1px solid g.$tan-primary
 
 </style>

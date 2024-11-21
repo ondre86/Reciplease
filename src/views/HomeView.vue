@@ -32,31 +32,42 @@ const desktopMainWrapSize = 494
 
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col items-center h-full px-8" ref="mainWrap" :style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2) - 81) + 'px' }">
-			<MainLogo></MainLogo>
-			<SearchModeWrapper></SearchModeWrapper>
-			<AppInput></AppInput>
-			<SearchItemWrapper></SearchItemWrapper>
-			<Transition name="fade" mode="out-in">
-				<img
-					src="@/assets/logo/logo-icon-green-primary.svg"
-					alt="fork spoon knife question mark in right-to-left order"
-					class="absolute opacity-10 -z-10"
-					v-if="searchStore.getSearchTerms.length == 0"
-				>
-			</Transition>
-		</main>
+		<Transition>
+			<main
+				class="flex flex-col items-center h-full px-8"
+				ref="mainWrap"
+				:style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2) - 81) + 'px' }"
+			>
+				<MainLogo></MainLogo>
+				<SearchModeWrapper></SearchModeWrapper>
+				<AppInput></AppInput>
+				<SearchItemWrapper></SearchItemWrapper>
+				<Transition name="fade" mode="out-in">
+					<picture 
+						class="absolute opacity-30" 
+						v-if="searchStore.getSearchTerms.length == 0"
+					>
+						<source media="(prefers-color-scheme:dark)" srcset="@/assets/logo/logo-icon-tan.svg">
+						<img
+							src="@/assets/logo/logo-icon-green-primary.svg"
+							alt="fork spoon knife question mark in right-to-left order"
+							class="absolute -z-10"
+						>
+					</picture>
+				</Transition>
+			</main>
+
+		</Transition>
 	</div>
 </template>
 
 <style lang="sass" scoped>
 main
 	margin-top: 81px
-	// min-height: calc( 100dvh - 81px - 36px )
-	// padding-top: 10%
 
-img
+img, picture
 	height: 40px
+	width: 80px
 	bottom: 7.5%
 
 .fade-move,

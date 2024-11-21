@@ -1,5 +1,5 @@
 <template>
-    <div class="grid py-8 px-12 rounded-lg gap-6 outline-1 outline-slate-100 outline justify-center justify-items-center auto-rows-min">
+    <div class="grid py-8 px-12 rounded-lg gap-6 border justify-center justify-items-center auto-rows-min">
         <h3 class="text-center font-semibold">{{ plan }}</h3>
         <span class="text-3xl text-center max-w-sm block">${{ price }}/month</span>
         <span class="text-xl text-center max-w-sm block font-light">{{ subtitle }}</span>
@@ -17,8 +17,9 @@
         </div>
 
         <ButtonPrimary 
-            class="toggled mt-4" 
+            class="mt-4" 
             :link="'auth'"
+            :darkEmphasis="darkEmphasis"
         >
             Sign Up Now
         </ButtonPrimary>
@@ -36,6 +37,7 @@ const props = defineProps({
     price: Number,
     subtitle: String,
     features: Array,
+    darkEmphasis: Boolean
 })
 
 onMounted(()=>{
@@ -69,12 +71,15 @@ onMounted(()=>{
 </script>
 
 <style lang="sass" scoped>
-@media (prefers-color-scheme:dark)
-    .pricing-plan
-        background-color: g.$green-acc1
-
 li
     &::marker
         content: url(./src/assets/svg/fork-knife.svg)
 
+@media (prefers-color-scheme:dark)
+    .pricing-plan
+        background-color: g.$green-acc1  
+        border-color: g.$green-acc1  
+
+    #unlimited
+        background-color: g.$green-acc3
 </style>

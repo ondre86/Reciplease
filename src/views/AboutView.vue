@@ -55,7 +55,7 @@
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
 						<span class="text-center font-light mt-4">
 							Have an account? <br>
-							<RouterLink class="underline font-medium" to="auth">Log In</RouterLink>
+							<RouterLink class="underline font-medium rounded-sm p-0.5" to="auth">Log In</RouterLink>
 						</span>
 					</div>
 				</div>
@@ -152,4 +152,26 @@ a
 
 	&:hover
 		color: g.$green-acc1
+
+	&:focus-visible
+		outline: 2px solid g.$green-primary
+		outline-offset: 3px
+
+@media (prefers-color-scheme:dark)
+	div
+		border-color: g.$green-acc1
+
+	.about-cta
+		background-color: g.$green-acc3
+
+	a
+		color: g.$green-light
+
+		&:hover
+			color: g.$green-primary
+
+		&:focus-visible
+			outline: 2px solid g.$green-light
+			outline-offset: 3px
+
 </style>

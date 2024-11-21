@@ -5,14 +5,15 @@
             ref="search"
             v-model="searchInput"
             class="
-                h-16 w-full px-4 py-2 rounded-xl text-3xl transition-all duration-300 bg-transparent relative z-10
+                h-16 w-full px-4 py-2 pr-20 rounded-xl text-3xl transition-all duration-300 bg-transparent relative z-10
                 focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
             "
             @keydown="addToSearchTerms($event)"
+            @paste="addToSearchTerms($event)"
             @focus="hidePlaceholder"
             @blur="showPlaceholder"
         />
-        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0">
+        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0 placeholder-wrap">
             <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
         </div>
         <Transition name="fade" mode="out-in">
@@ -36,6 +37,14 @@ import { ref, onMounted, useTemplateRef, computed, watch } from 'vue';
 import { useSearchModeStore } from '@/stores/search';
 import gsap from 'gsap';
 import TextPlugin from 'gsap/TextPlugin';
+import isURL from 'validator/es/lib/isURL';
+import { useDark, whenever } from '@vueuse/core';
+
+defineEmits({
+    submit: ({})=>{
+
+    }
+})
 
 gsap.registerPlugin(TextPlugin)
 const ingredientTL = gsap.timeline({
@@ -44,19 +53,30 @@ const ingredientTL = gsap.timeline({
 const recipeTL = gsap.timeline({
     repeat: -1,
 })
-const urlTL = gsap.timeline({
-    onInterrupt: ()=>{console.group("hish")}
+
+const isDark = useDark()
+let outlineColor = isDark.value ? '#FEFAE0' : '#687441'
+watch(isDark, (cur, prev)=>{
+    if (cur){
+        outlineColor = '#FEFAE0'
+        search.value.style.outlineColor = outlineColor
+    }
+    else {
+        outlineColor = '#687441'
+        search.value.style.outlineColor = outlineColor
+    }
 })
 
 const searchStore = useSearchModeStore()
 
 const searchInput = defineModel('searchInput')
+const search = ref(null)
 const placeholder = ref('')
 const placeholderEl = useTemplateRef('placeholderEl')
 
 const searchMode = computed(()=>searchStore.searchMode)
-
 watch(searchMode, async (newMode, oldMode) =>{
+    search.value.style.outlineColor = outlineColor
     searchInput.value = ''
     hidePlaceholder()
     setTimeout(() => {
@@ -79,29 +99,6 @@ watch(searchMode, async (newMode, oldMode) =>{
     }, 500)
 
 })
-
-function addToSearchTerms(event) {
-    if (searchMode.value == 'pantry'){
-        if (!event.key.match(/[a-zA-Z\s]/)){
-            event.preventDefault()
-        }
-        if (
-            event.key === 'Enter' 
-            && (searchInput.value && (searchInput.value !== '' || searchInput.value !== ' '))
-        ){
-            searchStore.addSearchTerm(searchInput.value)
-            searchInput.value = ''
-        }
-    }
-}
-fetch(import.meta.env.VITE_SERVER_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                message: "respond"
-            })
-        })
-        .then(response => response.json())
-        .then(json => console.log(json))
 
 function hidePlaceholder(){
     gsap.to('#placeholder', {
@@ -363,30 +360,76 @@ function startRecipePlaceholderAnimation(){
     })
 }
 
-
 onMounted(() => {
     startIngredientPlaceholderAnimation()
 })
 
+function isSearchEmpty(){
+    if ((searchInput.value && (searchInput.value !== '' || searchInput.value !== ' '))){
+        return false
+    }
+    return true
+}
+function sanitizeSearchTerm(event, key){
+    if (key && !key.match(/[a-zA-Z\s]/)){
+        event.preventDefault()
+    }
+}
 
+function addToSearchTerms(event) {
+    if (searchMode.value == 'pantry'){
+        sanitizeSearchTerm(event, event.key)
+        if (event.key === 'Enter' && !isSearchEmpty()){
+            searchStore.addSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9]/g, ''))
+            searchInput.value = ''
+        }
+    }
+    if (searchMode.value == 'recipe'){
+        sanitizeSearchTerm(event, event.key)
+    }
+    if (searchMode.value == 'extractor'){
+        setTimeout(() => {
+            if(isURL(searchInput.value)){
+                search.value.style.outlineColor = outlineColor
+            }
+            else {
+                search.value.style.outlineColor = 'red'
+            }
+        }, 100)
+    }
+}
+
+fetch(import.meta.env.VITE_SERVER_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                message: "respond"
+            })
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
 </script>
 
 <style lang="sass" scoped>
 input 
     transition: all .3s
     border: 2px solid g.$green-acc2
+    color: g.$green-acc2
 
     &:focus, &:focus-visible, &:focus-within
-        outline: 4px solid g.$green-primary
+        outline: 6px solid g.$green-primary
 
-    @media (prefers-color-scheme: dark)
-        &:focus, &:focus-visible, &:focus-within
-            outline: 4px solid g.$tan-primary
-
-        color: g.$green-acc2
-        
+.placeholder-wrap
+    opacity: .7
 #placeholder
-    color: g.$grey-divider
+    color: g.$tan-acc3
+
+@media (prefers-color-scheme: dark)
+    input
+        border-color: g.$tan-acc1
+        color: g.$tan-primary
+
+        &:focus, &:focus-visible, &:focus-within
+            outline: 6px solid g.$tan-primary
 
 
 </style>

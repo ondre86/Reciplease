@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center gap-4 mt-16 w-full max-w-2xl z-0">
-        <span class="text-center text-2xl font-medium">Let's Get a Recipe:</span>
+        <span class="text-center text-2xl font-medium">Toggle Search Mode:</span>
         <ul class="flex gap-6 justify-center">
             <li>
                 <ButtonPrimary
@@ -76,7 +76,7 @@ function toggleSearchMode(event) {
 
 	setTimeout(() => {
 		event.target.blur()
-	}, 1000)
+	}, 200)
 
 	const modeButtons = document.querySelectorAll('[data-searchmode]')
 	for (let button of modeButtons){

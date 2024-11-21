@@ -33,6 +33,7 @@
 							'Custom Shopping Lists',
 							'Access To ALL New Features',
 						]"
+						:darkEmphasis="true"
 						class="shadow-2xl"
 						id="unlimited"
 					>
@@ -73,4 +74,8 @@ onMounted(()=>{
 <style lang="sass" scoped>
 main
 	margin-top: calc( 81px + 3rem )
+
+@media (prefers-color-scheme:dark)
+	div
+		border-color: g.$green-acc1
 </style>
