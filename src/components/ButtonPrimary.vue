@@ -3,6 +3,7 @@
         class="btn w-fit px-3 py-2 rounded-lg ring-1 h-fit transition-all duration-300 text-xl font-medium cursor-pointer text-center" 
         tabindex="0" 
         role="button" 
+        :class="{ toggled: darkEmphasis }"
         v-if="!props.link"
     >
         <slot></slot>
@@ -10,6 +11,7 @@
     <RouterLink 
         class="btn w-fit px-3 py-2 rounded-lg ring-1 h-fit transition-all duration-300 text-xl font-medium cursor-pointer text-center" 
         :to="link"
+        :class="{ toggled: darkEmphasis }"
         v-else
     >
         <slot></slot>
@@ -20,7 +22,8 @@
 import { RouterLink } from 'vue-router';
 
 const props = defineProps({
-    link: String
+    link: String,
+    darkEmphasis: Boolean
 })
 
 </script>
@@ -33,49 +36,25 @@ div, a
     --tw-ring-color: #687441
     outline: 3px solid transparent
 
-    &:hover, &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+    &:hover, &:focus-visible
         background-color: g.$green-acc1
         --tw-ring-color: #283618
         color: g.$tan-primary
 
-    &:active
-        background-color: g.$green-acc2
-        --tw-ring-color: #141B0C
-        color: g.$tan-primary
-
-    &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+    &:focus-visible
         outline: 3px solid g.$green-acc2
         outline-offset: 3px
 
-    @media (prefers-color-scheme: dark)
-        background-color: g.$green-acc1
-        border: 1px solid g.$green-acc2
-        --tw-ring-color: #BBCC85
-        color: g.$tan-primary
+    &:active
+        background-color: g.$green-acc2
+        --tw-ring-color: #141B0C
 
-        &:hover
-            background-color: g.$green-primary
-            --tw-ring-color: #687441
-            border-color: #FEFAE0
-            color: g.$tan-primary
-
-        &:active
-            background-color: g.$green-acc2
-            --tw-ring-color: #141B0C
-
-        &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
-            outline: 3px solid g.$tan-primary
-            outline-offset: 3px
-
-        .toggled
-            background-color: g.$green-light
-            color: g.$green-acc2
 
     .toggled
         background-color: g.$green-primary
         color: g.$tan-primary
 
-        &:hover
+        &:hover, &:focus-visible
             background-color: g.$green-acc1
             --tw-ring-color: #283618
             color: g.$tan-primary
@@ -85,9 +64,49 @@ div, a
             --tw-ring-color: #141B0C
             color: g.$tan-primary
 
-        &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
-            background-color: g.$green-acc1
+        &:focus-visible
             outline: 3px solid g.$green-acc2
             outline-offset: 3px
+
+    @media (prefers-color-scheme: dark)
+        background-color: transparent
+        border: 1px solid g.$green-acc1
+        --tw-ring-color: #687441
+        color: g.$tan-primary
+
+        &:hover, &:focus-visible
+            background-color: g.$green-acc1
+            --tw-ring-color: #687441
+            border-color: #FEFAE0
             color: g.$tan-primary
+
+        &:focus-visible
+            outline: 3px solid g.$tan-primary
+            outline-offset: 3px
+
+        &:active
+            background-color: g.$green-acc2
+            --tw-ring-color: #141B0C
+
+
+        .toggled
+            background-color: g.$green-light
+            color: g.$green-acc2
+            --tw-ring-color: #BBCC85
+
+            &:hover, &:focus-visible
+                background-color: g.$green-acc1
+                --tw-ring-color: #687441
+                border-color: #FEFAE0
+                color: g.$tan-primary
+
+            &:focus-visible
+                outline: 3px solid g.$tan-primary
+                outline-offset: 3px
+
+            &:active
+                background-color: g.$green-acc2
+                --tw-ring-color: #141B0C
+
+
 </style>

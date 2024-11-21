@@ -33,5 +33,5 @@ const props = defineProps({
     &:hover
         div:has(img)
             img
-                scale: (1.2)
+                scale: (1.125)
 </style>

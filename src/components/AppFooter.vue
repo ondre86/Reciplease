@@ -11,4 +11,8 @@
 <style lang="sass" scoped>
 span
     color: g.$grey-divider
+
+@media (prefers-color-scheme:dark)
+    span
+        color: g.$green-acc1
 </style>
