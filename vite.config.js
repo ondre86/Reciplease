@@ -18,7 +18,8 @@ export default defineConfig({
 	css: {
 		preprocessorOptions: {
 		  sass: {
-			additionalData: `@use "@/assets/global.sass" as g`
+			additionalData: `@use "@/assets/global.sass" as g`,
+			api: 'modern-compiler'
 		  }
 		}
 	},
