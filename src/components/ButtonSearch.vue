@@ -1,0 +1,51 @@
+<template>
+    <div 
+        class="close-btn w-fit h-fit p-3 rounded-full ring-1 transition-all duration-300 z-30" 
+        tabindex="0" 
+        role="button"
+    >
+    <svg viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.31939 0.262577C6.48963 0.094441 6.7204 0 6.96101 0C7.20162 0 7.43239 0.094441 7.60263 0.262577L11.2345 3.85393C11.4045 4.02228 11.5 4.25048 11.5 4.48841C11.5 4.72634 11.4045 4.95453 11.2345 5.12288L7.60263 8.71424C7.51951 8.80245 7.41927 8.8732 7.3079 8.92227C7.19652 8.97135 7.07629 8.99773 6.95438 8.99986C6.83247 9.00199 6.71137 8.97981 6.59831 8.93466C6.48526 8.8895 6.38256 8.82229 6.29634 8.73703C6.21012 8.65177 6.14215 8.55022 6.09648 8.43842C6.05082 8.32662 6.02839 8.20687 6.03054 8.08632C6.0327 7.96577 6.05938 7.84688 6.109 7.73674C6.15863 7.62661 6.23018 7.52749 6.31939 7.44529L8.40164 5.38625H0.907958C0.667152 5.38625 0.43621 5.29165 0.265935 5.12328C0.0956594 4.9549 0 4.72653 0 4.48841C0 4.25029 0.0956594 4.02192 0.265935 3.85354C0.43621 3.68516 0.667152 3.59057 0.907958 3.59057H8.40164L6.31939 1.53152C6.14936 1.36318 6.05385 1.13498 6.05385 0.89705C6.05385 0.659122 6.14936 0.430922 6.31939 0.262577Z" fill="#FEFAE0"/>
+    </svg>
+
+    </div>
+</template>
+
+<script setup>
+defineProps({
+    svgWidth: String,
+    svgHeight: String,
+})
+</script>
+
+<style lang="sass" scoped>
+svg
+    height: v-bind('svgHeight')
+    width: v-bind('svgWidth')
+    
+div
+    background-color: g.$green-primary
+    font-size: 1.25rem
+    font-weight: 500
+    color: g.$tan-primary
+    border: 1px solid g.$tan-primary
+    --tw-ring-color: #8a514c
+    cursor: pointer
+
+    &:hover
+        background-color: g.$green-acc1
+        --tw-ring-color: #502520
+
+    &:active
+        background-color: g.$green-acc2
+        --tw-ring-color: #25110F
+
+    &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+        outline: 3px solid g.$green-acc2
+        outline-offset: 3px
+
+    @media (prefers-color-scheme: dark)
+        &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+            outline-color: g.$tan-primary
+
+</style>

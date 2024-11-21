@@ -12,7 +12,8 @@
 					:alt="''"
 					:title="'Time Saver'"
 					:subline="`No more staring in the fridge, stressing about tonight's dinner.`"
-					:desc="'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda.'"
+					:desc="`Reciplease takes the guesswork out of cooking by finding recipes based on ingredients you already have in your pantry. Then, once you find recipes that you like, you can create one organized shopping list with everything you need.`"
+					:lastLine="`Spend less time in recipe books or at the grocery store and more time with family and friends.`"
 				>
 				</AboutGridItem>
 				<AboutGridItem
@@ -20,7 +21,8 @@
 					:alt="''"
 					:title="'Creativity Catalyst'"
 					:subline="`Spice things up for your family & friends...and Instagram!`"
-					:desc="'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda.'"
+					:desc="`You cook pretty often and you've got a nice rotation of meals, but we all get tired of eating the same things over and over. You can find new recipes from dozens of different cuisines that use interesting new ingredients on Reciplease.`"
+					:lastLine="`Expand your culture and feed people something that will make them wonder.`"
 				>
 				</AboutGridItem>
 				<AboutGridItem
@@ -28,15 +30,17 @@
 					:alt="''"
 					:title="'Budget Booster'"
 					:subline="`Forget about surprises at the cash register.`"
-					:desc="'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda.'"
+					:desc="'We all know that food prices are rising and our budgets need to be better. Take the guesswork out of the grocery store by knowing how much your meals are going to cost with our Shopping List Generator.'"
+					lastLine="Plan your grocery budget smarter and earlier - and make sure your money isn't wasted."
 				>
 				</AboutGridItem>
 				<AboutGridItem
 					:image="'./src/assets/svg/smile.svg'"
 					:alt="''"
 					:title="'Headache Reliever'"
-					:subline="`Keep everything together - without clutter, scrolling, and ads.`"
-					:desc="'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt eaque culpa aperiam velit odit saepe, natus, quidem enim illo perferendis vero, repudiandae assumenda.'"
+					:subline="`No more clutter, scrolling, and ads.`"
+					:desc="`Scrolling through endless stories, anecdotes, and ads can be a real pain when you just need to see two things - ingredients and instructions. There's none of that here on Reciplease; just grab what you need and go.`"
+					lastLine="Enjoy cooking again. We can't help with the dishes though!"
 				>
 				</AboutGridItem>
 			</div>
@@ -50,13 +54,13 @@
 					<div class="flex flex-col gap-4 items-center pl-16 border-l">
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
 						<span class="text-center font-light mt-4">
-							Have an account? <br><RouterLink class="underline font-medium" to="auth">Log In</RouterLink>
+							Have an account? <br>
+							<RouterLink class="underline font-medium" to="auth">Log In</RouterLink>
 						</span>
 					</div>
 				</div>
 			</div>
 		</main>
-		<AppFooter></AppFooter>
 	</div>
 </template>
 
@@ -68,6 +72,16 @@ import { annotate } from 'rough-notation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { onMounted } from 'vue';
+import { useSeoMeta } from '@unhead/vue';
+
+useSeoMeta({
+	title: 'About - Reciplease',
+	description: 'Learn how to cook better and save money with Reciplease. Save time, money, and headaches when cooking and grocery shopping.',
+	ogDescription: 'Learn how to cook better and save money with Reciplease. Save time, money, and headaches when cooking and grocery shopping.',
+	ogTitle: 'About - Reciplease',
+	// ogImage: '/src/assets/img/og-img.jpg',
+	twitterCard: 'summary_large_image'
+})
 
 onMounted(() => {
 	gsap.registerPlugin(ScrollTrigger)
@@ -134,4 +148,8 @@ main
 	margin-top: calc( 81px + 3rem )
 a
 	color: g.$green-primary
+	transition: all .15s
+
+	&:hover
+		color: g.$green-acc1
 </style>

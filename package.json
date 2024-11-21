@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@2toad/profanity": "^3.0.1",
+    "@unhead/vue": "^1.11.11",
+    "@vueuse/core": "^11.3.0",
     "express": "^4.21.1",
     "gsap": "^3.12.5",
     "helmet": "^8.0.0",
     "pinia": "^2.2.6",
     "rough-notation": "^0.5.1",
     "vue": "^3.5.12",
-    "vue-meta": "^2.4.0",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {

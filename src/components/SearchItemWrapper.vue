@@ -2,7 +2,7 @@
     <TransitionGroup 
         name="taglist" 
         tag="ul" 
-        class="flex gap-2 w-full max-w-2xl flex-wrap mt-8"
+        class="flex gap-2 w-full max-w-2xl flex-wrap mt-8 mb-4"
         @before-leave="beforeLeave"
     >
         <li v-for="(term, index) in searchStore.getSearchTerms" :key="term">

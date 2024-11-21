@@ -17,9 +17,19 @@
                     @click="toggleSearchMode($event)"
                     @keyup.space="toggleSearchMode($event)"
                     @keyup.enter="toggleSearchMode($event)"
+                    data-searchmode="recipe"
+                >
+                    Search by Name
+                </ButtonPrimary>
+            </li>
+            <li>
+                <ButtonPrimary
+                    @click="toggleSearchMode($event)"
+                    @keyup.space="toggleSearchMode($event)"
+                    @keyup.enter="toggleSearchMode($event)"
                     data-searchmode="extractor"
                 >
-                    Paste Link to Recipe
+                    Link to Recipe
                 </ButtonPrimary>
             </li>
         </ul>
@@ -36,7 +46,8 @@ import gsap from 'gsap';
 const searchStore = useSearchModeStore()
 const modeDescriptors = {
     pantry: 'Search for recipes based on ingredients you currently have.',
-    extractor: 'Paste in a recipe link to read it without extra scrolling and clutter.',
+    recipe: 'Search for a recipe by name.',
+    extractor: 'Paste or type in a recipe link.',
 }
 
 let modeDescriptor = ref(modeDescriptors.pantry)
