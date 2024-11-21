@@ -5,14 +5,34 @@ import SearchModeWrapper from '@/components/SearchModeWrapper.vue';
 import SearchItemWrapper from '@/components/SearchItemWrapper.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { useSearchModeStore } from '@/stores/search';
+import { useSeoMeta } from '@unhead/vue';
+import { useElementSize, useWindowSize } from '@vueuse/core';
+import { ref, onMounted } from 'vue';
+
+useSeoMeta({
+	title: 'Reciplease',
+	description: 'Save money and become a better cook with Reciplease! Find and manage recipes and create custom shopping lists to maximize your budget.',
+	ogDescription: 'Save money and become a better cook with Reciplease! Find and manage recipes and create custom shopping lists to maximize your budget.',
+	ogTitle: 'Reciplease',
+	// ogImage: '/src/assets/img/og-img.jpg',
+	twitterCard: 'summary_large_image'
+})
 
 const searchStore = useSearchModeStore()
-console.log(searchStore.getSearchTerms)
+
+const mainWrap = ref(null)
+const mainWrapSize = useElementSize(mainWrap)
+const windowSize = useWindowSize()
+
+const desktopMainWrapSize = 494
+// 
+
+
 </script>
 
 <template>
-	<div>
-		<main class="flex flex-col justify-center items-center h-full px-8">
+	<div id="app-wrap">
+		<main class="flex flex-col items-center h-full px-8" ref="mainWrap" :style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2) - 81) + 'px' }">
 			<MainLogo></MainLogo>
 			<SearchModeWrapper></SearchModeWrapper>
 			<AppInput></AppInput>
@@ -26,14 +46,14 @@ console.log(searchStore.getSearchTerms)
 				>
 			</Transition>
 		</main>
-		<AppFooter></AppFooter>
 	</div>
 </template>
 
 <style lang="sass" scoped>
 main
 	margin-top: 81px
-	min-height: calc( 100dvh - 81px - 36px )
+	// min-height: calc( 100dvh - 81px - 36px )
+	// padding-top: 10%
 
 img
 	height: 40px

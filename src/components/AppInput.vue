@@ -15,18 +15,37 @@
         <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0">
             <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
         </div>
+        <Transition name="fade" mode="out-in">
+            <ButtonSearch
+                :svg-width="'12px'"
+                :svg-height="'12px'"
+                class="absolute right-4 top-1/2 -translate-y-1/2"
+                v-if="searchStore.getSearchTerms.length >= 1 || searchMode !== 'pantry'"
+            >
+            </ButtonSearch>
+        </Transition>
+        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0">
+            <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
+        </div>
     </div>
 </template>
 
 <script setup>
+import ButtonSearch from './ButtonSearch.vue';
 import { ref, onMounted, useTemplateRef, computed, watch } from 'vue';
 import { useSearchModeStore } from '@/stores/search';
 import gsap from 'gsap';
 import TextPlugin from 'gsap/TextPlugin';
 
 gsap.registerPlugin(TextPlugin)
-const textTL = gsap.timeline({
+const ingredientTL = gsap.timeline({
     repeat: -1,
+})
+const recipeTL = gsap.timeline({
+    repeat: -1,
+})
+const urlTL = gsap.timeline({
+    onInterrupt: ()=>{console.group("hish")}
 })
 
 const searchStore = useSearchModeStore()
@@ -38,27 +57,44 @@ const placeholderEl = useTemplateRef('placeholderEl')
 const searchMode = computed(()=>searchStore.searchMode)
 
 watch(searchMode, async (newMode, oldMode) =>{
-    const placeholderValue = placeholderEl.value.textContent
     searchInput.value = ''
-    showPlaceholder()
-    if (newMode == 'extractor'){
-        textTL.pause()
-        placeholderEl.value.textContent = 'https://verytastyrecipes.com/recipe'
-    }
-    else{
-        placeholderEl.value.textContent = placeholderValue
-        textTL.resume()
-    }
+    hidePlaceholder()
+    setTimeout(() => {
+        showPlaceholder()
+        if (newMode == 'pantry'){
+            recipeTL.pause()
+            ingredientTL.play()
+            startIngredientPlaceholderAnimation()
+        }
+        if(newMode == 'recipe'){
+            ingredientTL.pause()
+            recipeTL.play()
+            startRecipePlaceholderAnimation()
+        }
+        if (newMode == 'extractor'){
+            ingredientTL.pause()
+            recipeTL.pause()
+            placeholderEl.value.textContent = 'Link to Recipe'
+        }
+    }, 500)
+
 })
 
-function addToSearchTerms(event, string) {
-    if (searchMode == 'pantry' && !event.key.match(/[a-zA-Z\s]/)){
-        event.preventDefault()
+function addToSearchTerms(event) {
+    if (searchMode.value == 'pantry'){
+        if (!event.key.match(/[a-zA-Z\s]/)){
+            event.preventDefault()
+        }
+        if (
+            event.key === 'Enter' 
+            && (searchInput.value && (searchInput.value !== '' || searchInput.value !== ' '))
+        ){
+            searchStore.addSearchTerm(searchInput.value)
+            searchInput.value = ''
+        }
     }
-    if (event.key === 'Enter' && (searchInput.value && (searchInput.value !== '' || searchInput.value !== ' '))) {
-        searchStore.addSearchTerm(searchInput.value)
-        searchInput.value = ''
-        fetch(import.meta.env.VITE_SERVER_URL, {
+}
+fetch(import.meta.env.VITE_SERVER_URL, {
             method: "POST",
             body: JSON.stringify({
                 message: "respond"
@@ -66,11 +102,9 @@ function addToSearchTerms(event, string) {
         })
         .then(response => response.json())
         .then(json => console.log(json))
-    }
-}
 
 function hidePlaceholder(){
-    gsap.to(placeholderEl.value, {
+    gsap.to('#placeholder', {
         opacity: 0,
         duration: .5
     })
@@ -84,130 +118,254 @@ function showPlaceholder(){
     }
 }
 
+function startIngredientPlaceholderAnimation(){
+    ingredientTL.to('#placeholder', {
+        text: {
+            value:"tomato"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:"",
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"eggplant"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"applesauce"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"lemons"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"chicken breast"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"jumbo shrimp"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"penne pasta"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"green beans"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+}
+function startRecipePlaceholderAnimation(){
+    recipeTL.to('#placeholder', {
+        text: {
+            value:"grilled cheese"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"french fries"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"peach cobbler"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"stir fry rice"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"crawfish etoufee"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"shrimp fetuccine"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"lasagna"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            value:"green bean casserole"
+        },
+        duration: 2,
+        delay: 1
+    })
+    .to('#placeholder', {
+        text: {
+            rtl: true,
+            value:""
+        },
+        duration: 2,
+        delay: 1
+    })
+}
+
+
 onMounted(() => {
-    function startPlaceholderAnimation(){
-        textTL.to('#placeholder', {
-            text: {
-                value:"tomato"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"eggplant"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"applesauce"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"lemons"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"chicken breast"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"jumbo shrimp"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"penne pasta"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                value:"green beans"
-            },
-            duration: 2,
-            delay: 1
-        })
-        .to('#placeholder', {
-            text: {
-                rtl: true,
-                value:""
-            },
-            duration: 2,
-            delay: 1
-        })
-    }
-    startPlaceholderAnimation()
+    startIngredientPlaceholderAnimation()
 })
 
 
@@ -229,4 +387,6 @@ input
         
 #placeholder
     color: g.$grey-divider
+
+
 </style>

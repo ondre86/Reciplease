@@ -40,7 +40,6 @@
 				</div>
 			</div>
 		</main>
-		<AppFooter></AppFooter>
 	</div>
 </template>
 
@@ -50,6 +49,16 @@ import AppFooter from '@/components/AppFooter.vue';
 import { RouterLink } from 'vue-router';
 import gsap from 'gsap';
 import { onMounted } from 'vue';
+import { useSeoMeta } from '@unhead/vue';
+
+useSeoMeta({
+	title: 'Pricing - Reciplease',
+	description: 'Make cooking and grocery shopping easier with Reciplease. Choose a free or paid plan to help find and manage recipes and maximize your budget.',
+	ogDescription: 'Make cooking and grocery shopping easier with Reciplease. Choose a free or paid plan to help find and manage recipes and maximize your budget.',
+	ogTitle: 'Pricing - Reciplease',
+	// ogImage: '/src/assets/img/og-img.jpg',
+	twitterCard: 'summary_large_image'
+})
 
 onMounted(()=>{
 	gsap.from("#unlimited", {
@@ -64,5 +73,4 @@ onMounted(()=>{
 <style lang="sass" scoped>
 main
 	margin-top: calc( 81px + 3rem )
-	min-height: calc( 100vh - 81px - 36px )
 </style>

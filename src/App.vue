@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { defineStore } from 'pinia';
 import AppNav from './components/AppNav.vue';
+import AppFooter from './components/AppFooter.vue';
 
 </script>
 
@@ -12,6 +13,7 @@ import AppNav from './components/AppNav.vue';
 			<component :is="Component" />
 		</Transition>
 	</RouterView>
+	<AppFooter class="self-end"></AppFooter>
 </template>
 
 <style lang="sass">
@@ -19,6 +21,7 @@ import AppNav from './components/AppNav.vue';
 	min-height: 100vh
 	display: flex
 	flex-direction: column
+	justify-content: space-between
 		
 *
 	font-family: "Infra"
