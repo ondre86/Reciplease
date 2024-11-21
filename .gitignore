@@ -1,4 +1,3 @@
 .gitignore
 .env
-/environment
-/node_modules
+node_modules
