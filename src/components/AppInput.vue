@@ -39,6 +39,12 @@ import gsap from 'gsap';
 import TextPlugin from 'gsap/TextPlugin';
 import isURL from 'validator/es/lib/isURL';
 import { useDark, whenever } from '@vueuse/core';
+import { Profanity } from '@2toad/profanity';
+
+const profanity = new Profanity({
+    wholeWord: false
+})
+profanity.whitelist.addWords(['casserole', 'cassava', 'cassareep', 'glass', 'molasses'])
 
 defineEmits({
     submit: ({})=>{
@@ -379,7 +385,7 @@ function sanitizeSearchTerm(event, key){
 function addToSearchTerms(event) {
     if (searchMode.value == 'pantry'){
         sanitizeSearchTerm(event, event.key)
-        if (event.key === 'Enter' && !isSearchEmpty()){
+        if (event.key === 'Enter' && !isSearchEmpty() && !profanity.exists(searchInput.value.replace(/[^a-zA-Z0-9]/g, ''))){
             searchStore.addSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9]/g, ''))
             searchInput.value = ''
         }
