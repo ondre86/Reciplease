@@ -1,5 +1,7 @@
 import express from "express"
 import helmet from "helmet"
+import * as cheerio from "cheerio"
+import OpenAI from "openai"
 
 const app = express()
 
