@@ -5,8 +5,15 @@ import PricingView from '@/views/PricingView.vue'
 import AuthView from '@/views/AuthView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+	scrollBehavior(to, from, savedPosition) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve({ left: 0, top: 0 })
+			}, 250)
+		})
+	},
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes: [
 		{
 			path: '/',
 			name: 'home',

@@ -1,5 +1,5 @@
 <template>
-    <header class="flex justify-center py-4 z-50">
+    <header class="flex justify-center w-full py-4 z-50 fixed top-0 bg-white">
         <nav class="flex justify-between px-8 w-full max-w-screen-xl">
             <RouterLink 
                 :to="'/'" 
