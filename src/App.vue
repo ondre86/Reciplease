@@ -16,8 +16,9 @@ import AppNav from './components/AppNav.vue';
 
 <style lang="sass">
 #app
-	height: calc(100dvh - 81px)
-	max-height: 100dvh
+	min-height: 100vh
+	display: flex
+	flex-direction: column
 		
 *
 	font-family: "Infra"

@@ -1,18 +1,17 @@
 <template>
-    <div class="grid py-8 px-12 rounded-lg gap-6 outline-1 outline-slate-100 outline justify-center justify-items-center auto-rows-min  mb-24">
+    <div class="grid py-8 px-12 rounded-lg gap-6 outline-1 outline-slate-100 outline justify-center justify-items-center auto-rows-min">
         <h3 class="text-center font-semibold">{{ plan }}</h3>
         <span class="text-3xl text-center max-w-sm block">${{ price }}/month</span>
         <span class="text-xl text-center max-w-sm block font-light">{{ subtitle }}</span>
         <div class="grid gap-4 mt-4 border-t py-8 justify-items-center">
             <h4 class="text-2xl text-center font-medium ">Features</h4>
             <ul 
-                :key="index"
                 class="list-disc text-base">
                 <li 
                     v-for="(feature, index) in features" :key="feature"
                     class="list-item items-center h-fit mt-2 font-light"
                 >
-                    <span class="text-base"><span v-if="plan == 'Unlimited'" class="annotate">Unlimited</span>&nbsp;{{ feature }}</span>
+                    <span class="text-base">&nbsp;&nbsp;<span v-if="plan == 'Unlimited'" class="annotate">Unlimited</span>&nbsp;{{ feature }}</span>
                 </li>
             </ul>
         </div>
@@ -66,7 +65,6 @@ onMounted(()=>{
         ag.show()
     },
     750)
-
 })
 </script>
 
@@ -75,5 +73,8 @@ onMounted(()=>{
     .pricing-plan
         background-color: g.$green-acc1
 
+li
+    &::marker
+        content: url(./src/assets/svg/fork-knife.svg)
 
 </style>
