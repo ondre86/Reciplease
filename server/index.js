@@ -41,6 +41,10 @@ app.listen(process.env.PORT, (error) =>{
 
 function sendResponse(req, res){
     res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL)
+
+
     
-    res.send({hello: "world"})
+    res.send({
+        received: req.body
+    })
 }

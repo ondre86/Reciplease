@@ -5,8 +5,8 @@
         class="flex gap-2 w-full max-w-2xl flex-wrap mt-8 mb-4"
         @before-leave="beforeLeave"
     >
-        <li v-for="(term, index) in searchStore.getSearchTerms" :key="term">
-            <ButtonSecondaryTag :index="index">{{ searchStore.searchTerms[index] }}</ButtonSecondaryTag>
+        <li v-for="term in searchStore.getSearchTerms" :key="term">
+            <ButtonSecondaryTag :term="term">{{ term }}</ButtonSecondaryTag>
         </li>
     </TransitionGroup>
 </template>

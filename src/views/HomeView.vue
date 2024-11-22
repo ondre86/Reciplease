@@ -42,19 +42,6 @@ const desktopMainWrapSize = 494
 				<SearchModeWrapper></SearchModeWrapper>
 				<AppInput></AppInput>
 				<SearchItemWrapper></SearchItemWrapper>
-				<Transition name="fade" mode="out-in">
-					<picture 
-						class="absolute opacity-30" 
-						v-if="searchStore.getSearchTerms.length == 0"
-					>
-						<source media="(prefers-color-scheme:dark)" srcset="@/assets/logo/logo-icon-tan.svg">
-						<img
-							src="@/assets/logo/logo-icon-green-primary.svg"
-							alt="fork spoon knife question mark in right-to-left order"
-							class="absolute -z-10"
-						>
-					</picture>
-				</Transition>
 			</main>
 
 		</Transition>

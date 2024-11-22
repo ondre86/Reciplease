@@ -5,9 +5,9 @@
             class="tag-x ring-1" 
             :svgSize="'8px'" 
             :solo="false"
-            @click="searchStore.deleteSearchTerm(props.index, 1)"
-            @keyup.space="searchStore.deleteSearchTerm(props.index, 1)"
-            @keyup.enter="searchStore.deleteSearchTerm(props.index, 1)"
+            @click="searchStore.deleteSearchTerm(term); searchStore.deleteServerSearchTerm(term)"
+            @keyup.space="searchStore.deleteSearchTerm(term); searchStore.deleteServerSearchTerm(term)"
+            @keyup.enter="searchStore.deleteSearchTerm(term); searchStore.deleteServerSearchTerm(term)"
         >
         </ButtonClose>
     </div>
@@ -20,7 +20,7 @@ import ButtonClose from './ButtonClose.vue';
 const searchStore = useSearchModeStore()
 
 const props = defineProps({
-    index: Number
+    term: String
 })
 
 </script>

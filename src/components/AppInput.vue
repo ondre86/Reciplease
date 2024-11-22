@@ -8,7 +8,7 @@
                 h-16 w-full px-4 py-2 pr-20 rounded-xl text-3xl transition-all duration-300 bg-transparent relative z-10
                 focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
             "
-            @keydown="addToSearchTerms($event)"
+            @keydown="addToSearchTerms($event); hidePlaceholder()"
             @paste="addToSearchTerms($event)"
             @focus="hidePlaceholder"
             @blur="showPlaceholder"
@@ -21,7 +21,10 @@
                 :svg-width="'12px'"
                 :svg-height="'12px'"
                 class="absolute right-4 top-1/2 -translate-y-1/2"
-                v-if="searchStore.getSearchTerms.length >= 1 || searchMode !== 'pantry'"
+                v-if="searchStore.getSearchTerms.size >= 1 || searchMode !== 'pantry'"
+                @click="sendSearchtoServer"    
+                @keyup.enter="sendSearchtoServer"
+                @keyup.space="sendSearchtoServer"
             >
             </ButtonSearch>
         </Transition>
@@ -79,6 +82,7 @@ const searchInput = defineModel('searchInput')
 const search = ref(null)
 const placeholder = ref('')
 const placeholderEl = useTemplateRef('placeholderEl')
+const validURL = ref(false)
 
 const searchMode = computed(()=>searchStore.searchMode)
 watch(searchMode, async (newMode, oldMode) =>{
@@ -386,17 +390,27 @@ function addToSearchTerms(event) {
     if (searchMode.value == 'pantry'){
         sanitizeSearchTerm(event, event.key)
         if (event.key === 'Enter' && !isSearchEmpty() && !profanity.exists(searchInput.value.replace(/[^a-zA-Z0-9]/g, ''))){
-            searchStore.addSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9]/g, ''))
+            searchStore.addSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9\s]/g, ''))
+            searchStore.addServerSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9\s]/g, ''))
             searchInput.value = ''
         }
     }
     if (searchMode.value == 'recipe'){
         sanitizeSearchTerm(event, event.key)
+        if (event.key === 'Enter' && !isSearchEmpty()){
+            sendSearchtoServer()
+            searchInput.value = ''
+        }
     }
     if (searchMode.value == 'extractor'){
         setTimeout(() => {
             if(isURL(searchInput.value)){
                 search.value.style.outlineColor = outlineColor
+                validURL.value = true
+                if (event.key === 'Enter' && !isSearchEmpty() && validURL.value){
+                    sendSearchtoServer()
+                    searchInput.value = ''
+                }
             }
             else {
                 search.value.style.outlineColor = 'red'
@@ -405,14 +419,23 @@ function addToSearchTerms(event) {
     }
 }
 
-fetch(import.meta.env.VITE_SERVER_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                message: "respond"
-            })
-        })
-        .then(response => response.json())
-        .then(json => console.log(json))
+async function sendSearchtoServer(){
+    if (searchMode.value == 'recipe' && !isSearchEmpty()){
+        searchStore.addServerSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9\s]/g, ''))
+        searchInput.value = ''
+    }
+    if (searchMode.value == 'extractor' && !isSearchEmpty() && validURL){
+        searchStore.addServerSearchTerm(searchInput.value)
+        searchInput.value = ''
+    }
+    
+    // emit event to change screen?
+
+    await searchStore.sendSearchTerms()
+    searchStore.clearSearchTerms()
+    searchStore.clearServerSearchTerms()
+}
+
 </script>
 
 <style lang="sass" scoped>
