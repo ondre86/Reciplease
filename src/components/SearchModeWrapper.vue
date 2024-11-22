@@ -54,7 +54,8 @@ let modeDescriptor = ref(modeDescriptors.pantry)
 
 function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
-    searchStore.deleteSearchTerm(0, searchStore.getSearchTerms.length)
+    searchStore.clearSearchTerms()
+    searchStore.clearServerSearchTerms()
 
     const descriptorTL = gsap.timeline()
     .to('#mode-descriptor', {
