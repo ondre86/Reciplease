@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center gap-4 mt-16 w-full max-w-2xl z-0">
-        <span class="text-center text-2xl font-medium">Toggle Search Mode:</span>
+        <span class="text-center text-2xl font-medium">Find a Recipe:</span>
         <ul class="flex gap-6 justify-center">
             <li>
                 <ButtonPrimary

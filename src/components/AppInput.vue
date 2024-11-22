@@ -44,7 +44,7 @@ import { Profanity } from '@2toad/profanity';
 const profanity = new Profanity({
     wholeWord: false
 })
-profanity.whitelist.addWords(['casserole', 'cassava', 'cassareep', 'glass', 'molasses'])
+profanity.whitelist.addWords(['casserole', 'cassava', 'cassareep', 'glass', 'molasses', 'butter', 'buttered'])
 
 defineEmits({
     submit: ({})=>{
