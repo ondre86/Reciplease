@@ -8,6 +8,8 @@
                     @keyup.space="toggleSearchMode($event)"
                     @keyup.enter="toggleSearchMode($event)"
                     data-searchmode="pantry"
+                    :class="{ toggled: searchStore.getSearchMode == 'pantry' }"
+                    :aria-pressed="searchStore.getSearchMode == 'pantry'"
                 >
                     Search By Ingredients
                 </ButtonPrimary>
@@ -18,6 +20,8 @@
                     @keyup.space="toggleSearchMode($event)"
                     @keyup.enter="toggleSearchMode($event)"
                     data-searchmode="recipe"
+                    :class="{ toggled: searchStore.getSearchMode == 'recipe' }"
+                    :aria-pressed="searchStore.getSearchMode == 'recipe'"
                 >
                     Search by Name
                 </ButtonPrimary>
@@ -28,6 +32,8 @@
                     @keyup.space="toggleSearchMode($event)"
                     @keyup.enter="toggleSearchMode($event)"
                     data-searchmode="extractor"
+                    :class="{ toggled: searchStore.getSearchMode == 'extractor' }"
+                    :aria-pressed="searchStore.getSearchMode == 'extractor'"
                 >
                     Link to Recipe
                 </ButtonPrimary>
@@ -50,7 +56,7 @@ const modeDescriptors = {
     extractor: 'Paste or type in a recipe link.',
 }
 
-let modeDescriptor = ref(modeDescriptors.pantry)
+let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
 
 function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
@@ -87,11 +93,6 @@ function toggleSearchMode(event) {
 		}
 	}
 }
-
-onMounted(() => {
-	document.querySelectorAll('[data-searchmode]')[0].classList.add('toggled')
-    document.querySelectorAll('[data-searchmode]')[0].setAttribute('aria-pressed', true)
-})
 </script>
 
 <style lang="sass" scoped>

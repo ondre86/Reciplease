@@ -1,5 +1,5 @@
 <template>
-    <div class="w-fit px-3 py-2 rounded-lg ring-1 transition duration-300" tabindex="0" role="button">
+    <div class="w-fit px-3 py-2 rounded-lg ring-1 transition duration-300 cursor-not-allowed">
         <slot></slot>
     </div>
 </template>
@@ -16,7 +16,6 @@ div
     color: g.$tan-primary
     border: 1px solid g.$tan-primary
     --tw-ring-color: #8a514c
-    cursor: pointer
 
     &:hover
         background-color: g.$red-acc1
@@ -33,4 +32,13 @@ div
     @media (prefers-color-scheme: dark)
         &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
             outline-color: g.$tan-primary
+
+.static
+    // background-color: transparent
+    // color: g.$red-acc2
+
+    &:hover, &:focus, &:active
+        background-color: g.$red-primary
+        
+        
 </style>
