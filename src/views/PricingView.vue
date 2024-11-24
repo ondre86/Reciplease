@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="app-wrap">
 		<main class="flex flex-col justify-start items-center px-4 gap-16 mb-16">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-6xl font-semibold">Pricing</h1>
@@ -46,8 +46,6 @@
 
 <script setup>
 import PricingPlan from '@/components/PricingPlan.vue';
-import AppFooter from '@/components/AppFooter.vue';
-import { RouterLink } from 'vue-router';
 import gsap from 'gsap';
 import { onMounted } from 'vue';
 import { useSeoMeta } from '@unhead/vue';

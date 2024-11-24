@@ -5,6 +5,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchMode = ref('pantry')
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
+	const submittedRequest = ref(null)
+	const requestFulfilled = ref(null)
 
 	const getSearchMode = computed(()=>{
 		return searchMode.value
@@ -39,6 +41,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	}
 
 	async function sendSearchTerms(mode){
+		submittedRequest.value = true
 		const values = Array.from(searchTermsForServer.value)
 		fetch(import.meta.env.VITE_SERVER_URL, {
             method: "POST",
@@ -48,6 +51,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
         })
         .then(response => response.json())
         .then(json => console.log(json))
+		.then(
+			setTimeout(() => {
+				requestFulfilled.value = true
+			}, 3000)
+		)
 	}
 
 	return { 
@@ -57,6 +65,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		getSearchMode, 
 		getSearchTerms, 
 		getServerSearchTerms, 
+		submittedRequest,
+		requestFulfilled,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 

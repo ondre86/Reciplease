@@ -428,12 +428,10 @@ async function sendSearchtoServer(){
         searchStore.addServerSearchTerm(searchInput.value)
         searchInput.value = ''
     }
-    
+
     // emit event to change screen?
 
     await searchStore.sendSearchTerms()
-    searchStore.clearSearchTerms()
-    searchStore.clearServerSearchTerms()
 }
 
 </script>

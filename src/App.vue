@@ -26,6 +26,14 @@ import AppFooter from './components/AppFooter.vue';
 *
 	font-family: "Infra"
 
+#app-wrap
+	display: flex
+	justify-content: center
+
+main
+	width: 100%
+	max-width: 1280px
+
 @media (prefers-color-scheme: dark)
 	html, body
 		background-color: g.$green-acc2
