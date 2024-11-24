@@ -59,7 +59,7 @@ const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontS
 			>
 				<div 
 					class="
-						absolute left-8 top-0 back border-b-2 border-b-transparent cursor-pointer p-1 rounded-md outline outline-1 outline-transparent transition-all duration-200
+						back absolute left-8 top-0 border-b-2 border-b-transparent cursor-pointer p-1 rounded-md outline outline-1 outline-transparent transition-all duration-200
 						hover:outline-black
 						focus:outline-black
 					"
@@ -94,4 +94,9 @@ main
 .fade-enter-from,
 .fade-leave-to 
 	opacity: 0 !important
+
+@media (prefers-color-scheme:dark)
+	.back
+		&:hover, &:focus
+			outline-color: g.$tan-primary
 </style>
