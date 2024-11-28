@@ -6,7 +6,12 @@
 				<span class="w-full text-lg font-light text-center">Save time and take your cooking to the next level.</span>
 			</div>
 			<div class="flex flex-col text-4xl justify-center gap-12">
-				<div class="flex justify-center gap-12 ">
+				<div 
+					class="
+							flex flex-col justify-center gap-12
+							sm:flex-row
+						"
+					>
 					<PricingPlan
 						:plan="'Free'"
 						:price="0"
@@ -76,4 +81,7 @@ main
 @media (prefers-color-scheme:dark)
 	div
 		border-color: g.$green-acc1
+
+	#unlimited
+		border-color: g.$green-primary
 </style>

@@ -1,9 +1,20 @@
 <template>
-    <div class="about-card flex gap-12 max-w-4xl justify-between p-10 py-16 rounded-xl shadow-xl border">
-        <div class="flex justify-center w-full px-8">
-            <img :src=image :alt="alt" class="transition-all duration-300">
+    <div 
+        class="
+            about-card flex flex-col gap-4 max-w-4xl justify-between p-10 py-16 rounded-xl shadow-xl border
+            md:flex-row
+        "
+    >
+        <div class="flex w-full md:px-8">
+            <img 
+                :src=image 
+                :alt="alt" 
+                class="
+                    transition-all duration-300 min-h-20
+                "
+            >
         </div>
-        <div class="about-text max-w-1/2">
+        <div class="about-text">
             <h2 class="font-bold text-4xl w-fit">{{ title }}</h2>
             <h3 class="font-semibold text-lg mt-6">{{ subline }}</h3>
             <div>
@@ -29,7 +40,12 @@ const props = defineProps({
 .about-text
     max-width: 66%
 
+    @media (max-width: 768px)
+        max-width: none
+
 .about-card
+    &:first-of-type
+        // gap: 4rem
     &:hover
         div:has(img)
             img

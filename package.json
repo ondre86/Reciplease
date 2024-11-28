@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"nodemon --env-file=./server/.env ./server/index.js\"",
+    "dev": "concurrently \"vite --host\" \"nodemon --env-file=./server/.env ./server/index.js\"",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -8,7 +8,7 @@ import ListResults from '@/components/ListResults.vue';
 
 import { useSearchModeStore } from '@/stores/search';
 import { useSeoMeta } from '@unhead/vue';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useMediaQuery } from '@vueuse/core';
 import { ref, onMounted, watch } from 'vue';
 
 useSeoMeta({
@@ -26,7 +26,7 @@ const windowSize = useWindowSize()
 const desktopMainWrapSize = 494
 const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontSize))
 
-
+const isSmallScreen = useMediaQuery('(max-width: 700px)')
 
 </script>
 
@@ -37,13 +37,20 @@ const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontS
 			<main
 				class="flex flex-col items-center h-full px-8"
 				ref="mainWrap"
-				:style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2) - 81) + 'px' }"
+				:style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2.5) - 81) + 'px' }"
 				v-if="!searchStore.submittedRequest && !searchStore.requestFulfilled"
 			>
 				<MainLogo></MainLogo>
-				<SearchModeWrapper></SearchModeWrapper>
-				<AppInput></AppInput>
-				<SearchItemWrapper></SearchItemWrapper>
+				<div v-if="!isSmallScreen">
+					<SearchModeWrapper></SearchModeWrapper>
+					<AppInput></AppInput>
+					<SearchItemWrapper></SearchItemWrapper>
+				</div>
+				<div v-else>
+					<AppInput></AppInput>
+					<SearchItemWrapper></SearchItemWrapper>
+					<SearchModeWrapper></SearchModeWrapper>
+				</div>
 			</main>
 			<!-- Loading -->
 			<main

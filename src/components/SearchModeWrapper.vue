@@ -1,7 +1,24 @@
 <template>
-    <div class="flex flex-col justify-center gap-4 mt-16 w-full max-w-2xl z-0">
+    <div 
+        class="flex flex-col justify-center gap-4 mt-16 w-full max-w-2xl z-0"
+        :class="{'mt-6': isSmallScreen}"
+    >
+        <span 
+            id="mode-descriptor" 
+            class="w-full text-center" 
+            :class="{'mb-6': isSmallScreen}"
+            v-if="isSmallScreen"
+        >
+            {{modeDescriptor}}
+        </span>
         <span class="text-center text-2xl font-medium">Find a Recipe:</span>
-        <ul class="flex gap-6 justify-center">
+        <ul 
+            class="flex gap-6 justify-center"
+            :class="{
+                'flex-col': isSmallScreen,
+                'items-center': isSmallScreen
+            }"
+        >
             <li>
                 <ButtonPrimary
                     @click="toggleSearchMode($event)"
@@ -39,7 +56,7 @@
                 </ButtonPrimary>
             </li>
         </ul>
-        <span id="mode-descriptor" class="mt-12 w-full text-center">{{modeDescriptor}}</span>
+        <span id="mode-descriptor" class="mt-12 w-full text-center" v-if="!isSmallScreen">{{modeDescriptor}}</span>
     </div>
 </template>
 
@@ -48,10 +65,13 @@ import ButtonPrimary from './ButtonPrimary.vue';
 import { useSearchModeStore } from '@/stores/search';
 import { ref, onMounted } from 'vue';
 import gsap from 'gsap';
+import { useMediaQuery } from '@vueuse/core';
+
+const isSmallScreen = useMediaQuery('(max-width: 700px)')
 
 const searchStore = useSearchModeStore()
 const modeDescriptors = {
-    pantry: 'Search for recipes based on ingredients you currently have.',
+    pantry: 'Search for recipes with your ingredients.',
     recipe: 'Search for a recipe by name.',
     extractor: 'Paste or type in a recipe link.',
 }

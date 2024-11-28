@@ -24,14 +24,14 @@ export default defineConfig({
 		}
 	},
 	server: {
-		headers: {
-			"Strict-Transport-Security": "max-age=86400; includeSubDomains",
-			"X-Content-Type-Options": "nosniff",
-			"X-Frame-Options": "DENY",
-			"X-XSS-Protection": "1; mode=block",
-			"Content-Security-Policy": 
-				"default-src 'self'; connect-src 'self' http://localhost:3333; base-uri 'self'; font-src 'self' https: data:; form-action 'self'; frame-ancestors 'self'; img-src 'self' data:; object-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; upgrade-insecure-requests",
-		  },
-	  
+		host: true,
+		// headers: {
+		// 	"Strict-Transport-Security": "max-age=86400; includeSubDomains",
+		// 	"X-Content-Type-Options": "nosniff",
+		// 	"X-Frame-Options": "DENY",
+		// 	"X-XSS-Protection": "1; mode=block",
+		// 	"Content-Security-Policy": 
+		// 		"default-src 'self'; connect-src 'self' http://localhost:3333 http://192.168.1.118:5173; base-uri 'self'; font-src 'self' https: data:; form-action 'self'; frame-ancestors 'self'; img-src 'self' data:; object-src 'none'; script-src 'self'; script-src-attr 'none'; style-src 'self' https: 'unsafe-inline'; upgrade-insecure-requests",
+		// },
 	}
 })
