@@ -14,6 +14,7 @@
 					:subline="`No more staring in the fridge, stressing about tonight's dinner.`"
 					:desc="`Reciplease takes the guesswork out of cooking by finding recipes based on ingredients you already have in your pantry. Then, once you find recipes that you like, you can create one organized shopping list with everything you need.`"
 					:lastLine="`Spend less time in recipe books or at the grocery store and more time with family and friends.`"
+					id="first-about"
 				>
 				</AboutGridItem>
 				<AboutGridItem
@@ -44,14 +45,29 @@
 				>
 				</AboutGridItem>
 			</div>
-			<div class="about-cta flex flex-col my-24 mt-36 gap-6 border p-16 rounded-xl shadow-2xl">
+			<div class="about-cta flex flex-col my-24 gap-6 border p-16 rounded-xl shadow-2xl">
 				<h2 class="font-semibold text-4xl text-center">Ready to Level Up?</h2>
 				<span class="font-normal text-base text-center">Start using Reciplease today!</span>
-				<div class="flex justify-center mt-6">
-					<div class="flex flex-col pr-16">
+				<div 
+					class="
+						flex flex-col justify-center mt-6 gap-8
+						md:flex-row
+					"
+				>
+					<div 
+						class="
+							flex flex-col items-center
+							md:pr-16
+						"
+					>
 						<ButtonPrimary :link="'pricing'">View Pricing Plans</ButtonPrimary>
 					</div>
-					<div class="flex flex-col gap-4 items-center pl-16 border-l">
+					<div 
+						class="
+							flex flex-col gap-4 items-center
+							md:pl-16 md:border-l
+						"
+					>
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
 						<span class="text-center font-light mt-4">
 							Have an account? <br>
@@ -123,10 +139,10 @@ onMounted(() => {
 		})
 	}
 
-	showUnderlines(cards.card1.parentElement.parentElement, ann.a1)
-	showUnderlines(cards.card2.parentElement.parentElement, ann.a2)
-	showUnderlines(cards.card3.parentElement.parentElement, ann.a3)
-	showUnderlines(cards.card4.parentElement.parentElement, ann.a4)
+	showUnderlines(cards.card1, ann.a1)
+	showUnderlines(cards.card2, ann.a2)
+	showUnderlines(cards.card3, ann.a3)
+	showUnderlines(cards.card4, ann.a4)
 
 	gsap.from(".about-cta", {
 		scrollTrigger: {
@@ -157,9 +173,12 @@ a
 		outline: 2px solid g.$green-primary
 		outline-offset: 3px
 
+#first-about
+	gap: 3rem
+
 @media (prefers-color-scheme:dark)
 	div
-		border-color: g.$green-acc1
+		border-color: g.$green-primary
 
 	.about-cta
 		background-color: g.$green-acc3

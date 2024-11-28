@@ -36,10 +36,11 @@ div, a
     --tw-ring-color: #687441
     outline: 3px solid transparent
 
-    &:hover, &:focus-visible
-        background-color: g.$green-acc1
-        --tw-ring-color: #283618
-        color: g.$tan-primary
+    @media (hover:hover)
+        &:hover, &:focus-visible
+            background-color: g.$green-acc1
+            --tw-ring-color: #283618
+            color: g.$tan-primary
 
     &:focus-visible
         outline: 3px solid g.$green-acc2
@@ -54,10 +55,11 @@ div, a
         background-color: g.$green-primary
         color: g.$tan-primary
 
-        &:hover, &:focus-visible
-            background-color: g.$green-acc1
-            --tw-ring-color: #283618
-            color: g.$tan-primary
+        @media (hover:hover)
+            &:hover, &:focus-visible
+                background-color: g.$green-acc1
+                --tw-ring-color: #283618
+                color: g.$tan-primary
 
         &:active
             background-color: g.$green-acc2
@@ -74,11 +76,12 @@ div, a
         --tw-ring-color: #687441
         color: g.$tan-primary
 
-        &:hover, &:focus-visible
-            background-color: g.$green-acc1
-            --tw-ring-color: #687441
-            border-color: #FEFAE0
-            color: g.$tan-primary
+        @media (hover:hover)
+            &:hover, &:focus-visible
+                background-color: g.$green-acc1
+                --tw-ring-color: #687441
+                border-color: #FEFAE0
+                color: g.$tan-primary
 
         &:focus-visible
             outline: 3px solid g.$tan-primary
@@ -94,11 +97,12 @@ div, a
             color: g.$green-acc2
             --tw-ring-color: #BBCC85
 
-            &:hover, &:focus-visible
-                background-color: g.$green-acc1
-                --tw-ring-color: #687441
-                border-color: #FEFAE0
-                color: g.$tan-primary
+            @media (hover:hover)
+                &:hover, &:focus-visible
+                    background-color: g.$green-acc1
+                    --tw-ring-color: #687441
+                    border-color: #FEFAE0
+                    color: g.$tan-primary
 
             &:focus-visible
                 outline: 3px solid g.$tan-primary

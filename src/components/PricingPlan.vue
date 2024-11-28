@@ -9,9 +9,9 @@
                 class="list-disc text-base">
                 <li 
                     v-for="(feature, index) in features" :key="feature"
-                    class="list-item items-center h-fit mt-2 font-light"
+                    class="list-item items-center h-fit mt-2 font-light pl-4"
                 >
-                    <span class="text-base">&nbsp;&nbsp;<span v-if="plan == 'Unlimited'" class="annotate">Unlimited</span>&nbsp;{{ feature }}</span>
+                    <span class="text-base leading-8"><span v-if="plan == 'Unlimited'" class="annotate">Unlimited&nbsp;</span>{{ feature }}</span>
                 </li>
             </ul>
         </div>
