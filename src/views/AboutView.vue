@@ -131,7 +131,7 @@ onMounted(() => {
 		gsap.to(el, {
 			scrollTrigger:{
 				trigger: el,
-				start: 'bottom bottom+=20%',
+				start: 'bottom bottom-=20%',
 				onEnter: ()=>{
 					annotateEl.show()
 				}

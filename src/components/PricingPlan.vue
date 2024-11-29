@@ -11,7 +11,7 @@
                     v-for="(feature, index) in features" :key="feature"
                     class="list-item items-center h-fit mt-2 font-light pl-4"
                 >
-                    <span class="text-base leading-8"><span v-if="plan == 'Unlimited'" class="annotate">Unlimited&nbsp;</span>{{ feature }}</span>
+                    <span class="text-base leading-8"><span v-if="plan == 'Unlimited'" class="annotate">Unlimited</span>&nbsp;&nbsp;{{ feature }}</span>
                 </li>
             </ul>
         </div>
@@ -27,10 +27,13 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
 import ButtonPrimary from './ButtonPrimary.vue'
 import { annotate, annotationGroup } from 'rough-notation'
 import { onMounted } from 'vue'
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger)
 
 const props = defineProps({
     plan: String,
@@ -41,36 +44,55 @@ const props = defineProps({
 })
 
 onMounted(()=>{
-    setTimeout(() => {
-        const a1 = annotate(document.querySelectorAll('.annotate')[0], { 
-            type: 'underline',
-            color: '#687441'
-        })
-        const a2 = annotate(document.querySelectorAll('.annotate')[1], { 
-            type: 'underline',
-            color: '#687441'
-        })
-        const a3 = annotate(document.querySelectorAll('.annotate')[2], { 
-            type: 'underline',
-            color: '#687441'
-        })
-        const a4 = annotate(document.querySelectorAll('.annotate')[3], { 
-            type: 'underline',
-            color: '#687441'
-        })
-        const a5 = annotate(document.querySelectorAll('.annotate')[4], { 
-            type: 'underline',
-            color: '#687441'
-        })
-        const ag = annotationGroup([a1, a2, a3, a4, a5])
-        
-        ag.show()
-    },
-    750)
+    const features = {
+		f1: document.querySelectorAll('.annotate')[0],
+		f2: document.querySelectorAll('.annotate')[1],
+		f3: document.querySelectorAll('.annotate')[2],
+		f4: document.querySelectorAll('.annotate')[3],
+		f5: document.querySelectorAll('.annotate')[4],
+	}
+	const spanAnn = {
+		a1: annotate(features.f1, { 
+				type: 'underline',
+				color: '#687441'
+			}),
+		a2: annotate(features.f2, { 
+				type: 'underline',
+				color: '#687441'
+			}),
+		a3: annotate(features.f3, { 
+				type: 'underline',
+				color: '#687441'
+			}),
+		a4: annotate(features.f4, { 
+				type: 'underline',
+				color: '#687441'
+			}),
+		a5: annotate(features.f5, { 
+				type: 'underline',
+				color: '#687441'
+			})
+	}
+
+	function showUnderlines(el, annotateEl){
+		gsap.to(el, {
+			scrollTrigger:{
+				trigger: el,
+				start: 'bottom bottom-=10%',
+				onEnter: ()=>{
+					annotateEl.show()
+				}
+			}
+		})
+	}
+
+	showUnderlines(features.f1, annotationGroup([spanAnn.a1, spanAnn.a2, spanAnn.a3, spanAnn.a4, spanAnn.a5]))
 })
 </script>
 
 <style lang="sass" scoped>
+ul
+    list-style-type: url(./src/assets/svg/fork-knife.svg)
 li
     &::marker
         content: url(./src/assets/svg/fork-knife.svg)
