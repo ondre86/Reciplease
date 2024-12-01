@@ -11,11 +11,13 @@ app.use(helmet({
             scriptSrc: [
                 "'self'", 
                 '192.168.1.118:5173',
+                'localhost:5173',
                 // "cloud.umami.is",
             ],
             connectSrc: [
                 "'self'",
                 '192.168.1.118:5173',
+                'localhost:5173',
                 "api.spoonacular.com",
                 "api.search.brave.com",
                 process.env.CLIENT_URL,
@@ -30,6 +32,12 @@ app.use(helmet({
         }
     }
 }))
+
+app.use('/', (req,res,next)=>{
+    res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+})
 
 app.use(express.json()).use(express.text())
 
@@ -46,22 +54,23 @@ app.listen(process.env.PORT, (error) =>{
 )
 
 async function sendResponse(req, res){
-    // res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL)
-
     let clientRequest = JSON.parse(req.body)
 
-    // console.log(req.socket.remoteAddress)
+    console.log(req.socket.remoteAddress)
 
     // clientRequest.client.location.ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    // await fetch(`http://ip-api.com/json/${clientRequest.client.location.ip.slice(7)}`)
-    // .then(resp => {clientRequest.client.location.location = resp.body})
+    // await fetch(`http://ip-api.com/json/${clientRequest.client.location.ip}`)
+    // .then(resp => {
+    //     console.log(resp)
+    //     clientRequest.client.location.location = resp.body
+    // })
 
     let searchQuery = ''
     let braveURL = ''
     let spoonacularQuery = ''
     let spoonacularURL = ''
     let extractorURL = ''
-    let scraper = ''
+    let scraper
 
     switch (clientRequest.request.mode) {
         case 'pantry':
@@ -88,36 +97,46 @@ async function sendResponse(req, res){
             spoonacularURL = `https://api.spoonacular.com/recipes/extract?url=${searchQuery}`
             extractorURL = searchQuery.includes('https://') ? searchQuery : 'https://' + searchQuery
 
-            scrapeURL(extractorURL)
-            // scraper = await cheerio.fromURL(searchQuery)
-
             break
     }
 
 
-    // console.log(scraper.extract({
-    //     releases: [
+    // await fetch(extractorURL, {
+    //     method: 'GET',
+    //     headers: {
+    //         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:132.0) Gecko/20100101 Firefox/132.0',
+    //         Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    //     }
+    // })
+    // .then(response => response.text())
+    // .then(data =>{
+    //     let $ = cheerio.load(data)
+    //     let $ingredients = $('ul[class*="ingredients"]').contents()
+
+    //     // for(let item of $ingredients){
+    //     //     console.log(item.children)
+    //     // }
+
+    //     console.log($ingredients)
+    //     // console.log(data)
+    // })
+
+
+    
+    // scraper.extract({
+    //     ingredients:
     //         {
-    //           // First, we select individual release sections.
-    //           selector: 'section',
-    //           // Then, we extract the release date, name, and notes from each section.
-    //           value: {
-    //             // Selectors are executed within the context of the selected element.
-    //             name: 'h2',
-    //             date: {
-    //               selector: 'relative-time',
-    //               // The actual release date is stored in the `datetime` attribute.
-    //               value: 'datetime',
+    //             selector: 'ul[class*="ingredients"]',
+    //             value: {
+    //                 list: ['li'],
     //             },
-    //             notes: {
-    //               selector: '.markdown-body',
-    //               // We are looking for the HTML content of the element.
-    //               value: 'innerHTML',
-    //             },
-    //           },
     //         },
-    //       ],
-    // }))
+    // })
+
+    // console.log(scrapedRecipeInformation)
+    // scrapedRecipeInformation.ingredients.list.forEach(item => {
+    //     console.log(item)
+    // })
 
     // braveSearch = await fetch(`https://api.search.brave.com/res/v1/web/search?q${searchQuery}`, {
     //     headers: {
