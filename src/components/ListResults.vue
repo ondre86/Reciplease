@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center relative">
-        <h1 class="text-6xl font-semibold text-center">Search Results</h1>
+        <h1 class="text-4xl font-semibold text-center">Search Results</h1>
         <span 
             class="text-center mt-8"
             v-if="searchStore.getSearchMode == 'pantry'"
@@ -9,18 +9,12 @@
         </span>
         <span 
             class="text-center mt-8"
-            v-else-if="searchStore.getSearchMode == 'recipe'"
+            v-else
         >
             You searched for recipes with this title:
         </span>
-        <span 
-            class="text-center mt-8"
-            v-else
-        >
-            You searched for a recipe at the following link:
-        </span>
         <div 
-            class="flex mt-4 gap-4 justify-center"
+            class="flex mt-4 gap-4 justify-center flex-wrap"
         >
             <span
                 v-if="searchStore.getSearchMode !== 'pantry'"

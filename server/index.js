@@ -1,8 +1,10 @@
 import express from "express"
 import helmet from "helmet"
-import * as cheerio from "cheerio"
 import OpenAI from "openai"
+import detailedOpenAIResponseFormat from './detailedResponseSchema.json' assert {type: 'json'}
+import simpleOpenAIResponseFormat from './simpleResponseSchema.json' assert {type: 'json'}
 
+const openai = new OpenAI( {apiKey: process.env.OPEN_AI_API_KEY})
 const app = express()
 
 app.use(helmet({
@@ -56,100 +58,59 @@ app.listen(process.env.PORT, (error) =>{
 async function sendResponse(req, res){
     let clientRequest = JSON.parse(req.body)
 
-    console.log(req.socket.remoteAddress)
-
-    // clientRequest.client.location.ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    // await fetch(`http://ip-api.com/json/${clientRequest.client.location.ip}`)
-    // .then(resp => {
-    //     console.log(resp)
-    //     clientRequest.client.location.location = resp.body
-    // })
-
-    let searchQuery = ''
-    let braveURL = ''
-    let spoonacularQuery = ''
-    let spoonacularURL = ''
-    let extractorURL = ''
-    let scraper
+    let openAISearchQuery = ''
+    let openAIPrompt = ''
+    let imageSearchQuery = ''
+    let braveImageSearchURL = `https://api.search.brave.com/res/v1/images/search?q=${imageSearchQuery}`
 
     switch (clientRequest.request.mode) {
         case 'pantry':
             clientRequest.request.message.forEach(term => {
-                spoonacularQuery += `${term},+`
-                searchQuery += `"${term}"` + '+'
+                openAISearchQuery += `${term}, `
             })
-            searchQuery = `recipes+with+` + searchQuery.slice(0, searchQuery.length-1)
-            braveURL = `https://api.search.brave.com/res/v1/web/search?q=${searchQuery}`
-            spoonacularQuery = spoonacularQuery.slice(0, spoonacularQuery.length-2)
-            spoonacularURL = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${spoonacularQuery}&number=20`
-
+            openAISearchQuery = openAISearchQuery.slice(0, openAISearchQuery.length-2)
+            openAIPrompt = `Provide me with 5 recipes that contain the following ingredients: ${openAISearchQuery}`
+            
             break
     
         case 'recipe':
-            searchQuery = `${clientRequest.request.message[0]}+recipes`
-            braveURL = `https://api.search.brave.com/res/v1/web/search?q=${searchQuery}`
-            spoonacularQuery = clientRequest.request.message[0]
-            spoonacularURL = `https://api.spoonacular.com/recipes/complexSearch?query=${spoonacularQuery}&addRecipeInstructions&fillIngredients&number=20`
+            openAISearchQuery = clientRequest.request.message[0]
+            openAIPrompt = `Provide me with 5 recipes for ${openAISearchQuery}`
 
             break
-        case 'extractor':
-            searchQuery = clientRequest.request.message[0]
-            spoonacularURL = `https://api.spoonacular.com/recipes/extract?url=${searchQuery}`
-            extractorURL = searchQuery.includes('https://') ? searchQuery : 'https://' + searchQuery
+
+        case 'random':
+            openAISearchQuery = 'random recipe'
+            openAIPrompt = `Provide me with a random recipe that contains ingredients I would be able to easily procure within the United States.`
 
             break
     }
 
-
-    // await fetch(extractorURL, {
-    //     method: 'GET',
-    //     headers: {
-    //         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:132.0) Gecko/20100101 Firefox/132.0',
-    //         Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
-    //     }
-    // })
-    // .then(response => response.text())
-    // .then(data =>{
-    //     let $ = cheerio.load(data)
-    //     let $ingredients = $('ul[class*="ingredients"]').contents()
-
-    //     // for(let item of $ingredients){
-    //     //     console.log(item.children)
-    //     // }
-
-    //     console.log($ingredients)
-    //     // console.log(data)
-    // })
-
-
-    
-    // scraper.extract({
-    //     ingredients:
-    //         {
-    //             selector: 'ul[class*="ingredients"]',
-    //             value: {
-    //                 list: ['li'],
-    //             },
+    // const completion = await openai.chat.completions.create({
+    //     model: "gpt-4o-mini-2024-07-18",
+    //     messages: [
+    //         { 
+    //             role: "system", 
+    //             content: `
+    //                 You are a helpful assistant with decades of culinary experience and expert cooking knowledge here to provide delicious recipes based on users' queries. 
+    //                 You should utilize spellcheck to help users match with their intended queries.
+    //                 If a provided ingredient does not match a known food ingredient, try your best to build a recipe from any of the remaining valid ingredients you have been provided.
+    //                 If you are provided with no valid food ingredients, "isValidRequest" should be false.
+    //                 If you cannot generate any recipes from the provided recipe name, "isValidRequest" should be false.
+    //             `
     //         },
+    //         {
+    //             role: "user",
+    //             content: openAIPrompt,
+    //         },
+    //     ],
+    //     response_format: openAIResponseFormat
+
     // })
 
-    // console.log(scrapedRecipeInformation)
-    // scrapedRecipeInformation.ingredients.list.forEach(item => {
-    //     console.log(item)
-    // })
+    // console.log(completion.choices[0].message)
 
-    // braveSearch = await fetch(`https://api.search.brave.com/res/v1/web/search?q${searchQuery}`, {
-    //     headers: {
-    //         "X-Subscription-Token": process.env.BRAVE_SEARCH_API_KEY
-    //     }
-    // })
-    // spoonSearch = await fetch(``, {
-    //     headers: {
-    //         "x-api-key": process.env.SPOONACULAR_API_KEY
-    //     }
-    // })
-
-    // console.log(search)
+    clientRequest.aiQuery = openAISearchQuery
 
     res.send(
         JSON.stringify(clientRequest)

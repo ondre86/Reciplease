@@ -47,7 +47,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		shoppingList.value.clear()
 	}
 
-	async function sendSearchTerms(mode){
+	async function sendSearchTerms(){
 		submittedRequest.value = true
 		const searchTermArray = Array.from(searchTermsForServer.value)
 		const shoppingListArray = Array.from(shoppingList.value)

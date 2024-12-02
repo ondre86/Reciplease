@@ -48,11 +48,11 @@
                     @click="toggleSearchMode($event)"
                     @keyup.space="toggleSearchMode($event)"
                     @keyup.enter="toggleSearchMode($event)"
-                    data-searchmode="extractor"
-                    :class="{ toggled: searchStore.getSearchMode == 'extractor' }"
-                    :aria-pressed="searchStore.getSearchMode == 'extractor'"
+                    data-searchmode="random"
+                    :class="{ toggled: searchStore.getSearchMode == 'random' }"
+                    :aria-pressed="searchStore.getSearchMode == 'random'"
                 >
-                    Link to Recipe
+                    Surprise Me
                 </ButtonPrimary>
             </li>
         </ul>
@@ -73,7 +73,7 @@ const searchStore = useSearchModeStore()
 const modeDescriptors = {
     pantry: 'Search for recipes with your ingredients.',
     recipe: 'Search for a recipe by name.',
-    extractor: 'Paste or type in a recipe link.',
+    random: 'Get inspiration from a random recipe.',
 }
 
 let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
@@ -82,6 +82,10 @@ function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
     searchStore.clearSearchTerms()
     searchStore.clearServerSearchTerms()
+
+    if (searchStore.getSearchMode == 'random'){
+        searchStore.sendSearchTerms()
+    }
 
     const descriptorTL = gsap.timeline()
     .to('#mode-descriptor', {
@@ -100,6 +104,7 @@ function toggleSearchMode(event) {
 
 	event.target.classList.add('toggled')
 	event.target.setAttribute('aria-pressed', true)
+    console.log(searchStore.getSearchMode)
 
 	setTimeout(() => {
 		event.target.blur()
