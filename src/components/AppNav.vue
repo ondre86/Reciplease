@@ -84,11 +84,14 @@ const isSmallScreen = useMediaQuery('(max-width: 700px)')
 const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontSize))
 
 const mobileMenuOpen = ref(false)
-const mobileMenuTL = gsap.timeline()
+const mobileMenuTL = gsap.timeline({
+    defaults: {
+        ease: 'power2.inOut'
+    }
+})
 const isDark = useDark()
 
 function mobileMenuTransition($event){
-    console.log($event.target.id)
     if (($event.target.id == 'logo-img' || $event.target.id == 'logo-link') && mobileMenuOpen.value == false){}
     else {
         if (mobileMenuOpen.value == false) {

@@ -13,9 +13,6 @@
             @focus="hidePlaceholder"
             @blur="showPlaceholder"
         />
-        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0 placeholder-wrap">
-            <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
-        </div>
         <Transition name="fade" mode="out-in">
             <ButtonSearch
                 :svg-width="'12px'"
@@ -28,7 +25,7 @@
             >
             </ButtonSearch>
         </Transition>
-        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0">
+        <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0 placeholder-wrap text-nowrap overflow-hidden">
             <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
         </div>
     </div>
@@ -101,10 +98,10 @@ watch(searchMode, async (newMode, oldMode) =>{
             recipeTL.play()
             startRecipePlaceholderAnimation()
         }
-        if (newMode == 'extractor'){
+        if (newMode == 'random'){
             ingredientTL.pause()
             recipeTL.pause()
-            placeholderEl.value.textContent = 'Link to Recipe'
+            placeholderEl.value.textContent = 'Search'
         }
     }, 500)
 
@@ -402,36 +399,17 @@ function addToSearchTerms(event) {
             searchInput.value = ''
         }
     }
-    if (searchMode.value == 'extractor'){
-        setTimeout(() => {
-            if(isURL(searchInput.value)){
-                search.value.style.outlineColor = outlineColor
-                validURL.value = true
-                if (event.key === 'Enter' && !isSearchEmpty() && validURL.value){
-                    sendSearchtoServer()
-                    searchInput.value = ''
-                }
-            }
-            else {
-                search.value.style.outlineColor = 'red'
-            }
-        }, 100)
-    }
 }
 
-async function sendSearchtoServer(){
+async function sendSearchtoServer(modifier){
     if (searchMode.value == 'recipe' && !isSearchEmpty()){
         searchStore.addServerSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9\s]/g, ''))
-        searchInput.value = ''
-    }
-    if (searchMode.value == 'extractor' && !isSearchEmpty() && validURL){
-        searchStore.addServerSearchTerm(searchInput.value)
         searchInput.value = ''
     }
 
     // emit event to change screen?
 
-    await searchStore.sendSearchTerms()
+    await searchStore.sendSearchTerms(modifier)
 }
 
 </script>
@@ -447,8 +425,11 @@ input
 
 .placeholder-wrap
     opacity: .7
+    max-width: 70%
+
 #placeholder
     color: g.$tan-acc3
+    word-wrap: nowrap
 
 @media (prefers-color-scheme: dark)
     input

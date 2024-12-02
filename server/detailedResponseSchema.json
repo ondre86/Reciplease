@@ -1,0 +1,169 @@
+{
+    "type": "json_schema",
+    "json_schema": {
+        "name": "detailed_recipe_schema",
+        "strict": true,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "isValidRequest": { 
+                    "type": "boolean",
+                    "description": "Whether or not the request was supplied with valid parameters sufficient enough to return a full-fledged recipe."
+                },
+                "recipes": {
+                    "type": "array",
+                    "description": "List of recipes.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "recipeName": {  "type": "string" },
+                            "description": {  "type": "string", "description": "A brief description of the recipe and its background." },
+                            "servingSize": {  
+                                "type": "object",
+                                "properties": {
+                                    "minServings": { "type": "number" },
+                                    "maxServings": { "type": "number" }
+                                },
+                                "required": ["minServings", "maxServings"],
+                                "additionalProperties": false
+                            },
+                            "ingredients": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ingredient": { "type": "string" },
+                                        "measurement": { "type": "string", "description": "The measurement of the ingredient, followed the state of the ingredient if necessary, such as 'cracked', 'sliced', 'diced', etc." },
+                                        "quantity": { "type": "number" }
+                                    },
+                                    "required": ["ingredient", "measurement", "quantity"],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "optionalIngredients": {
+                                "type": "array",
+                                "description": "Optional ingredients that will enhance the dish or add a unique flavor. They may be added to a dish while cooking or as a topping.",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ingredient": { "type": "string" },
+                                        "measurement": { "type": "string" },
+                                        "quantity": { "type": "number" }
+                                    },
+                                    "required": ["ingredient", "measurement", "quantity"],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "instructions": {
+                                "type": "array",
+                                "description": "An ordered list of directions detailing the execution and technique of the recipe and the usage of any of its optional ingredients.",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "nutrition": {
+                                "type": "object",
+                                "description": "A detailed insight of the nutritional information per serving of the dish.",
+                                "properties": {
+                                    "calories": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "sugars": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "totalCarbs": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "fiber": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "totalFat": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "saturatedFat": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "cholesterol": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "sodium": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    },
+                                    "protein": { 
+                                        "type": "object",
+                                        "properties": {
+                                            "amount": { "type": "number" },
+                                            "measurement": { "type": "string" }
+                                        },
+                                        "required": ["amount", "measurement"],
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": ["calories", "sugars", "totalCarbs", "fiber", "totalFat", "saturatedFat", "cholesterol", "sodium", "protein"],
+                                "additionalProperties": false
+                            },
+                            "isVegetarian": {
+                                "type": "boolean"
+                            },
+                            "isVegan": {
+                                "type": "boolean"
+                            }
+                        },
+                        "required": ["recipeName", "description", "servingSize", "ingredients", "optionalIngredients", "instructions", "nutrition", "isVegetarian", "isVegan"],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": ["isValidRequest", "recipes"],
+            "additionalProperties": false
+        }
+    }
+}

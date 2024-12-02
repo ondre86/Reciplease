@@ -1,0 +1,46 @@
+{
+    "type": "json_schema",
+    "json_schema": {
+        "name": "simple_recipe_schema",
+        "strict": true,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "isValidRequest": { 
+                    "type": "boolean",
+                    "description": "Whether or not the request was supplied with valid parameters sufficient enough to return a full-fledged recipe."
+                },
+                "recipes": {
+                    "type": "array",
+                    "description": "List of recipes matching the required query parameters.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "recipeName": {  "type": "string" },
+                            "description": {  "type": "string", "description": "A brief description of the recipe and its background." },
+                            "servingSize": {  
+                                "type": "object",
+                                "properties": {
+                                    "minServings": { "type": "number" },
+                                    "maxServings": { "type": "number" }
+                                },
+                                "required": ["minServings", "maxServings"],
+                                "additionalProperties": false
+                            },
+                            "isVegetarian": {
+                                "type": "boolean"
+                            },
+                            "isVegan": {
+                                "type": "boolean"
+                            }
+                        },
+                        "required": ["recipeName", "description", "servingSize", "isVegetarian", "isVegan"],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required": ["isValidRequest", "recipes"],
+            "additionalProperties": false
+        }
+    }
+}

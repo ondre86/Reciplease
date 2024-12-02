@@ -5,6 +5,7 @@ import SearchModeWrapper from '@/components/SearchModeWrapper.vue';
 import SearchItemWrapper from '@/components/SearchItemWrapper.vue';
 import LoadingAnimation from '@/components/LoadingAnimation.vue';
 import ListResults from '@/components/ListResults.vue';
+import ButtonSearch from '@/components/ButtonSearch.vue';
 
 import { useSearchModeStore } from '@/stores/search';
 import { useSeoMeta } from '@unhead/vue';
@@ -62,21 +63,23 @@ const isSmallScreen = useMediaQuery('(max-width: 700px)')
 			<!-- Search Results -->
 			<main
 				class="search-results flex flex-col items-center h-full px-8 relative"
+				style="margin-top: calc(69.4px + 2rem);"
 				v-else
 			>
-				<div 
-					class="
-						back absolute left-8 top-0 border-b-2 border-b-transparent cursor-pointer p-1 rounded-md outline outline-1 outline-transparent transition-all duration-200
-						hover:outline-black
-						focus:outline-black
-					"
-					tabindex="0"
-					aria-role="button"
-					@click="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false"
-					@keyup.enter="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false"
+				<div
+					class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
+					@click="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.changeSearchMode('pantry')"
+					@keyup.enter="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.changeSearchMode('pantry')"
 				>
-					<span>Search Again</span>
+					<ButtonSearch
+						:svg-width="'12px'"
+						:svg-height="'12px'"
+						class="rotate-180"
+					>
+					</ButtonSearch>
+					<span>Go Back</span>
 				</div>
+
 				<ListResults></ListResults>
 			</main>
 		</Transition>
@@ -92,6 +95,16 @@ main
 
 .search-results
 	margin-top: calc( 81px + 3rem )
+
+.back-text
+	text-decoration: underline
+	text-decoration-color: transparent
+	text-underline-offset: 8px
+	transition: all .3s
+
+	&:hover, &:focus, &:active
+		color: g.$green-primary
+		text-decoration-color: g.$green-primary
 
 .fade-move,
 .fade-enter-active,
