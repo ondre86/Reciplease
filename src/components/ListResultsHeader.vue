@@ -4,7 +4,7 @@
             <h1 class="text-4xl font-semibold text-center">Search Results</h1>
             <span class="text-center mt-6" v-if="searchStore.getSearchMode == 'pantry'"> You searched for recipes containing the following ingredients: </span>
             <span class="text-center mt-6" v-else> You searched for recipes with this title: </span>
-            <div class="flex mt-2 gap-4 justify-center flex-wrap">
+            <div class="flex mt-3 gap-4 justify-center flex-wrap">
                 <span
                     v-if="searchStore.getSearchMode !== 'pantry'"
                     v-for="term in userSearchTerms"

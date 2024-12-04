@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import PricingView from '@/views/PricingView.vue'
 import AuthView from '@/views/AuthView.vue'
+import ListView from '@/views/ListView.vue'
 
 const router = createRouter({
 	scrollBehavior(to, from, savedPosition) {
@@ -33,6 +34,11 @@ const router = createRouter({
 			path: '/auth',
 			name: 'auth',
 			component: AuthView,
+		},
+		{
+			path: '/list',
+			name: 'list',
+			component: ListView,
 		},
 	],
 })

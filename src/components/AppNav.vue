@@ -18,13 +18,16 @@
                     </picture>
                 </div>
             </RouterLink>
-            <div class="flex gap-12" v-if="!isSmallScreen">
-                <ul class="flex gap-6">
+            <div class="flex gap-6" v-if="!isSmallScreen">
+                <ul class="flex gap-4">
                     <li>
                         <RouterLink to="about">About</RouterLink>
                     </li>
                     <li>
                         <RouterLink to="pricing">Pricing</RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="list">Shopping List</RouterLink>
                     </li>
                 </ul>
                 <ButtonPrimary class="justify-self-end toggled" :link="'auth'">Log In</ButtonPrimary>
@@ -40,7 +43,7 @@
         </nav>
         <div v-if="isSmallScreen" id='mobile-menu' class="absolute top-0 opacity-0 w-full flex justify-center py-1 z-0 pb-4 invisible"> 
             <nav>
-                <ul class="flex gap-6">
+                <ul class="flex gap-5">
                     <li>
                         <RouterLink 
                             to="about"
@@ -66,6 +69,15 @@
                             Log In
                         </RouterLink>
                     </li>
+                    <li>
+                        <RouterLink 
+                            to="list" 
+                            class="text-green-500 inline-block p-1 rounded-md outline outline-1 outline-transparent transition-all duration-300 icon"
+                            @click="mobileMenuTransition"
+                        >
+                            <CartIcon></CartIcon>
+                        </RouterLink>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -75,6 +87,8 @@
 <script setup>
 import ButtonPrimary from './ButtonPrimary.vue';
 import MobileMenuIcon from './MobileMenuIcon.vue';
+import CartIcon from './CartIcon.vue';
+
 import { RouterLink } from 'vue-router';
 import { useDark, useMediaQuery } from '@vueuse/core';
 import gsap from 'gsap';
@@ -171,7 +185,7 @@ header
 li
     align-self: center
 
-    a
+    a:not(.icon)
         color: g.$green-acc2
         padding: .75rem .5rem
         border-radius: .5rem
@@ -197,13 +211,16 @@ li
             outline: 1px solid g.$green-acc2
 
 
+.router-link-exact-active:has(svg), .router-link-active:has(svg)
+    outline-color: g.$green-acc1
+
 @media (prefers-color-scheme:dark)
     header, nav, #mobile-menu
         background-color: g.$green-acc2
         border-color: g.$green-primary
 
     li 
-        a
+        a:not(.icon)
             color: g.$tan-primary
 
             &:hover, &:focus, &.router-link-exact-active, &.router-link-active
