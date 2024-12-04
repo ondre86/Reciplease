@@ -33,12 +33,13 @@ div
         &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
             outline-color: g.$tan-primary
 
-.static
-    // background-color: transparent
-    // color: g.$red-acc2
+.inactive
+    background-color: g.$tan-primary
+    background-color: transparent
+    color: g.$red-acc2
 
     &:hover, &:focus, &:active
-        background-color: g.$red-primary
+        background-color: g.$tan-primary
         
         
 </style>

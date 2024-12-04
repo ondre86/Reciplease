@@ -5,7 +5,7 @@
     >
         <span 
             id="mode-descriptor" 
-            class="w-full text-center" 
+            class="w-full text-center mt-2" 
             :class="{'mb-6': isSmallScreen}"
             v-if="isSmallScreen"
         >
@@ -16,7 +16,8 @@
             class="flex gap-6 justify-center"
             :class="{
                 'flex-col': isSmallScreen,
-                'items-center': isSmallScreen
+                'items-center': isSmallScreen,
+                'mb-6': isSmallScreen
             }"
         >
             <li>

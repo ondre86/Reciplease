@@ -5,9 +5,18 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchMode = ref('pantry')
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
+
+	const recipeListResponse = ref(new Set([]))
+	const specificRecipe = ref(null)
 	const shoppingList = ref(new Set([]))
+
+	const generatedResponse = ref({})
+
 	const submittedRequest = ref(null)
 	const requestFulfilled = ref(null)
+	const viewingSearchItems = ref(null)
+	const viewingRecipeFromSearch = ref(null)
+
 
 	const getSearchMode = computed(()=>{
 		return searchMode.value
@@ -51,9 +60,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		submittedRequest.value = true
 		const searchTermArray = Array.from(searchTermsForServer.value)
 		const shoppingListArray = Array.from(shoppingList.value)
+		const recipeListResponseArray = Array.from(recipeListResponse.value)
 
 		await fetch(import.meta.env.VITE_SERVER_URL, {
             method: "POST",
+			// headers: auth tokens
             body: JSON.stringify({
 				client:{
 					location: {
@@ -97,16 +108,21 @@ export const useSearchModeStore = defineStore('search', ()=>{
 				request:{
 					message: searchTermArray,
 					mode: searchMode.value,
-					shoppingList: shoppingListArray
+					shoppingList: shoppingListArray,
+					responseList: recipeListResponseArray,
+					specificRecipe: specificRecipe.value
 				},
-
             })
         })
         .then(response => response.json())
-        .then(json => console.log(json))
+        .then((json) => {
+			// generatedResponse.value = JSON.parse(json.generation.response.content)
+			console.log(generatedResponse.value)
+		})
 		.then(
 			setTimeout(() => {
 				requestFulfilled.value = true
+				viewingSearchItems.value = true
 			}, 3000)
 		)
 	}
@@ -115,12 +131,17 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		searchMode, 
 		searchTerms, 
 		searchTermsForServer, 
+		recipeListResponse,
+		specificRecipe,
 		shoppingList,
+		generatedResponse,
 		getSearchMode, 
 		getSearchTerms, 
 		getServerSearchTerms, 
 		submittedRequest,
 		requestFulfilled,
+		viewingSearchItems,
+		viewingRecipeFromSearch,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 

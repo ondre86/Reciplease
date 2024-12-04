@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col gap-4 mt-4 w-full items-center z-20 max-w-2xl relative p-1">
+    <div class="flex flex-col gap-4 mt-6 w-full items-center z-20 max-w-2xl relative p-1">
         <input
             type="text"
             ref="search"
@@ -37,8 +37,7 @@ import { ref, onMounted, useTemplateRef, computed, watch } from 'vue';
 import { useSearchModeStore } from '@/stores/search';
 import gsap from 'gsap';
 import TextPlugin from 'gsap/TextPlugin';
-import isURL from 'validator/es/lib/isURL';
-import { useDark, whenever } from '@vueuse/core';
+import { useDark } from '@vueuse/core';
 import { Profanity } from '@2toad/profanity';
 
 const profanity = new Profanity({
