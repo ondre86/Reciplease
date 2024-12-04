@@ -70,6 +70,9 @@ div, a
             outline: 3px solid g.$green-acc2
             outline-offset: 3px
 
+        &:disabled
+            background-color: red
+
     @media (prefers-color-scheme: dark)
         background-color: transparent
         border: 1px solid g.$green-acc1

@@ -27,7 +27,10 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const getServerSearchTerms = computed(()=>{
 		return searchTermsForServer.value
 	})
-
+	const getShoppingList = computed(()=>{
+		return shoppingList.value
+	})
+	
 	function changeSearchMode(mode){
 		searchMode.value = mode
 	}
@@ -137,7 +140,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		generatedResponse,
 		getSearchMode, 
 		getSearchTerms, 
-		getServerSearchTerms, 
+		getServerSearchTerms,
+		getShoppingList,
 		submittedRequest,
 		requestFulfilled,
 		viewingSearchItems,

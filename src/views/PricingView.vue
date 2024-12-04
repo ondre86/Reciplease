@@ -54,6 +54,7 @@ import PricingPlan from '@/components/PricingPlan.vue';
 import gsap from 'gsap';
 import { onMounted } from 'vue';
 import { useSeoMeta } from '@unhead/vue';
+import { annotate } from 'rough-notation';
 
 useSeoMeta({
 	title: 'Pricing - Reciplease',
@@ -65,6 +66,12 @@ useSeoMeta({
 })
 
 onMounted(()=>{
+	const a1 = annotate(document.querySelectorAll('h2')[0], { type: 'underline', animate: false, color: '#687441' })
+	const a2 = annotate(document.querySelectorAll('h2')[1], { type: 'underline', animate: false, color: '#687441' })
+
+	a1.show()
+	a2.show()
+
 	gsap.from("#unlimited", {
 		y:30,
 		opacity: 0,

@@ -1,10 +1,10 @@
 <template>
     <div class="grid py-8 px-12 rounded-lg gap-6 border justify-center justify-items-center auto-rows-min">
-        <h3 class="text-center font-semibold">{{ plan }}</h3>
+        <h2 class="text-center font-semibold">{{ plan }}</h2>
         <span class="text-3xl text-center max-w-sm block">${{ price }}/month</span>
         <span class="text-xl text-center max-w-sm block font-light">{{ subtitle }}</span>
         <div class="grid gap-4 mt-4 border-t py-8 justify-items-center">
-            <h4 class="text-2xl text-center font-medium ">Features</h4>
+            <h3 class="text-2xl text-center font-medium ">Features</h3>
             <ul 
                 class="list-disc text-base">
                 <li 

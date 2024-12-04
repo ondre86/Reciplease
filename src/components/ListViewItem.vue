@@ -1,32 +1,21 @@
 <template>
     <div class="checkbox-wrapper-1 flex items-center">
-        <input 
-            class="substituted" 
-            type="checkbox" 
-            aria-hidden="true" 
-            :id=ingredient.ingredient 
-            :name="ingredient.ingredient" 
-            :value="ingredient.ingredient" 
-            :data-quantity="ingredient.quantity * multiplier" 
-            :data-measurement="ingredient.measurement" 
-            @click="check($event); $emit('checked', $event)"
-        />
-        <label class="text-lg flex w-full" :for="ingredient.ingredient">
+        <input class="substituted" type="checkbox" aria-hidden="true" :id="item.name" @click="check($event); $emit('checked', $event)"/>
+        <label class="text-lg flex w-full" :for="item.name">
             <div class="flex flex-col gap-1">
-                <span>{{ ingredient.ingredient }}</span>
-                <span class="italic text-sm">{{ ingredient.quantity * multiplier }} {{ ingredient.measurement }}</span>
+                <span>{{ item.name }}</span>
+                <span class="italic text-sm">{{ item.quantity }} {{ item.measurement }}</span>
             </div>
         </label>
     </div>
 </template>
 
 <script setup>
+const emit = defineEmits(['checked'])
 
-const props = defineProps({
-    ingredient: Object,
-    multiplier: Number
+defineProps({
+    item: Object
 })
-const emit = defineEmits(['checked', 'checked-info'])
 
 function check($event){
     if ($event.target.tagName == "LABEL"){
