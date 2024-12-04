@@ -1,11 +1,8 @@
 <script setup>
-import AppInput from '@/components/AppInput.vue';
-import MainLogo from '@/components/MainLogo.vue';
-import SearchModeWrapper from '@/components/SearchModeWrapper.vue';
-import SearchItemWrapper from '@/components/SearchItemWrapper.vue';
-import LoadingAnimation from '@/components/LoadingAnimation.vue';
-import ListResults from '@/components/ListResults.vue';
-import ButtonSearch from '@/components/ButtonSearch.vue';
+import DefaultHome from '@/components/DefaultHome.vue';
+import LoadingHome from '@/components/LoadingHome.vue';
+import SearchHome from '@/components/SearchHome.vue';
+import RecipeView from '@/components/RecipeView.vue';
 
 import { useSearchModeStore } from '@/stores/search';
 import { useSeoMeta } from '@unhead/vue';
@@ -22,66 +19,46 @@ useSeoMeta({
 })
 
 const searchStore = useSearchModeStore()
-const windowSize = useWindowSize()
-
-const desktopMainWrapSize = 494
-const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontSize))
-
-const isSmallScreen = useMediaQuery('(max-width: 700px)')
 
 </script>
 
 <template>
 	<div id="app-wrap">
-		<Transition name="fade" mode="out-in">
-			<!-- Default -->
-			<main
-				class="flex flex-col items-center h-full px-8"
-				ref="mainWrap"
-				:style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2.5) - 81) + 'px' }"
-				v-if="!searchStore.submittedRequest && !searchStore.requestFulfilled"
+		<Transition name="fade" mode="out-in" @before-enter="">
+			<DefaultHome 
+				v-if="
+					!searchStore.submittedRequest && 
+					!searchStore.requestFulfilled && 
+					!(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)
+				"
 			>
-				<MainLogo></MainLogo>
-				<div v-if="!isSmallScreen">
-					<SearchModeWrapper></SearchModeWrapper>
-					<AppInput></AppInput>
-					<SearchItemWrapper></SearchItemWrapper>
-				</div>
-				<div v-else>
-					<AppInput></AppInput>
-					<SearchItemWrapper></SearchItemWrapper>
-					<SearchModeWrapper></SearchModeWrapper>
-				</div>
-			</main>
-			<!-- Loading -->
-			<main
-				v-else-if="searchStore.submittedRequest && !searchStore.requestFulfilled"
-				class="loading flex flex-col justify-center items-center h-dvh"
+			</DefaultHome>
+			<LoadingHome 
+				v-else-if="
+					searchStore.submittedRequest && 
+					!searchStore.requestFulfilled && 
+					!(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)
+				"
 			>
-				<LoadingAnimation></LoadingAnimation>
-			</main>
-			<!-- Search Results -->
-			<main
-				class="search-results flex flex-col items-center h-full px-8 relative"
-				style="margin-top: calc(69.4px + 2rem);"
-				v-else
+			</LoadingHome>
+			<SearchHome 
+				v-else-if="
+					searchStore.submittedRequest && 
+					searchStore.requestFulfilled && 
+					searchStore.viewingSearchItems &&
+					!searchStore.viewingRecipeFromSearch
+				"
 			>
-				<div
-					class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
-					@click="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.changeSearchMode('pantry')"
-					@keyup.enter="searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms(); searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.changeSearchMode('pantry')"
-				>
-					<ButtonSearch
-						:svg-width="'12px'"
-						:svg-height="'12px'"
-						class="rotate-180"
-					>
-					</ButtonSearch>
-					<span>Go Back</span>
-				</div>
-
-				<ListResults></ListResults>
-			</main>
+			</SearchHome>
+			<RecipeView 
+				v-else-if="
+					searchStore.submittedRequest && 
+					searchStore.requestFulfilled && 
+					searchStore.viewingSearchItems &&
+					searchStore.viewingRecipeFromSearch
+				"
+			>
+			</RecipeView>
 		</Transition>
 	</div>
 </template>
@@ -89,22 +66,6 @@ const isSmallScreen = useMediaQuery('(max-width: 700px)')
 <style lang="sass" scoped>
 main
 	margin-top: 81px
-
-	&.loading
-		margin-top: 0px
-
-.search-results
-	margin-top: calc( 81px + 3rem )
-
-.back-text
-	text-decoration: underline
-	text-decoration-color: transparent
-	text-underline-offset: 8px
-	transition: all .3s
-
-	&:hover, &:focus, &:active
-		color: g.$green-primary
-		text-decoration-color: g.$green-primary
 
 .fade-move,
 .fade-enter-active,
@@ -114,9 +75,4 @@ main
 .fade-enter-from,
 .fade-leave-to 
 	opacity: 0 !important
-
-@media (prefers-color-scheme:dark)
-	.back
-		&:hover, &:focus
-			outline-color: g.$tan-primary
 </style>

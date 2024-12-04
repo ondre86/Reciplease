@@ -18,6 +18,7 @@
                         "properties": {
                             "recipeName": {  "type": "string" },
                             "description": {  "type": "string", "description": "A brief description of the recipe and its background." },
+                            "cuisine": { "type": "string" },
                             "servingSize": {  
                                 "type": "object",
                                 "properties": {
@@ -66,98 +67,40 @@
                                 "description": "A detailed insight of the nutritional information per serving of the dish.",
                                 "properties": {
                                     "calories": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "sugars": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "totalCarbs": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "fiber": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "totalFat": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "saturatedFat": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "cholesterol": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "sodium": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     },
                                     "protein": { 
-                                        "type": "object",
-                                        "properties": {
-                                            "amount": { "type": "number" },
-                                            "measurement": { "type": "string" }
-                                        },
-                                        "required": ["amount", "measurement"],
-                                        "additionalProperties": false
+                                        "type": "string"
                                     }
                                 },
                                 "required": ["calories", "sugars", "totalCarbs", "fiber", "totalFat", "saturatedFat", "cholesterol", "sodium", "protein"],
                                 "additionalProperties": false
                             },
-                            "isVegetarian": {
-                                "type": "boolean"
-                            },
-                            "isVegan": {
-                                "type": "boolean"
-                            }
+                            "isVegetarian": { "type": "boolean" },
+                            "isVegan": { "type": "boolean" }
                         },
-                        "required": ["recipeName", "description", "servingSize", "ingredients", "optionalIngredients", "instructions", "nutrition", "isVegetarian", "isVegan"],
+                        "required": ["recipeName", "description", "servingSize", "cuisine", "ingredients", "optionalIngredients", "instructions", "nutrition", "isVegetarian", "isVegan"],
                         "additionalProperties": false
                     }
                 }

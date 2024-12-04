@@ -16,8 +16,9 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "recipeName": {  "type": "string" },
-                            "description": {  "type": "string", "description": "A brief description of the recipe and its background." },
+                            "recipeName": { "type": "string" },
+                            "description": { "type": "string", "description": "A brief description of the recipe and its background." },
+                            "cuisine": { "type": "string" },
                             "servingSize": {  
                                 "type": "object",
                                 "properties": {
@@ -27,14 +28,10 @@
                                 "required": ["minServings", "maxServings"],
                                 "additionalProperties": false
                             },
-                            "isVegetarian": {
-                                "type": "boolean"
-                            },
-                            "isVegan": {
-                                "type": "boolean"
-                            }
+                            "isVegetarian": { "type": "boolean" },
+                            "isVegan": { "type": "boolean" }
                         },
-                        "required": ["recipeName", "description", "servingSize", "isVegetarian", "isVegan"],
+                        "required": ["recipeName", "description", "cuisine", "servingSize", "isVegetarian", "isVegan"],
                         "additionalProperties": false
                     }
                 }

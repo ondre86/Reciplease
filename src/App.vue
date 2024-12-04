@@ -25,6 +25,7 @@ import AppFooter from './components/AppFooter.vue';
 		
 *
 	font-family: "Infra"
+	border-color: g.$grey-divider
 
 #app-wrap
 	display: flex
@@ -38,6 +39,9 @@ main
 	html, body
 		background-color: g.$green-acc2
 		color: g.$tan-primary
+
+	*
+		border-color: g.$green-primary
 
 .fade-move,
 .fade-enter-active,
