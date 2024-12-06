@@ -9,34 +9,33 @@
 				<div 
 					class="
 							flex flex-col justify-center gap-12
-							sm:flex-row
+							md:flex-row
 						"
 					>
 					<PricingPlan
 						:plan="'Free'"
 						:price="0"
 						:subtitle="'Try Reciplease for free.'"
+						:extraSubtitle="'No credit card required.'"
 						:features="[
-							'10 Ingredient Recipe Searches/Week',
-							'5 Recipe Extractions/Week',
-							'3 Saved Recipes/Week',
-							'1 Custom Shopping List/Week',
-							'Limited Features'
+							'10 Recipe Searches/Month',
+							'10 Saved Recipes',
+							'10 Shopping List Items',
 						]"
 						class="bg-transparent"
 						id="free"
 					>
 					</PricingPlan>
 					<PricingPlan
-						:plan="'Unlimited'"
-						:price="5"
-						:subtitle="'Unlimited access.'"
+						:plan="'Pro'"
+						:price="7"
+						:subtitle="'Enjoy full access to Reciplease.'"
 						:features="[
-							'Ingredient Recipe Searches',
-							'Recipe Extractions',
-							'Saved Recipes',
-							'Custom Shopping Lists',
-							'Access To ALL New Features',
+							'200 Recipe Searches/Month',
+							'Unlimited Saved Recipes',
+							'Unlimited Shopping List Items',
+							'Shopping List Generator',
+							'Access to Latest Features',
 						]"
 						:darkEmphasis="true"
 						class="shadow-2xl"

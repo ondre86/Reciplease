@@ -46,7 +46,7 @@ import RecipeView from '@/components/RecipeView.vue';
 
 import { useSearchModeStore } from '@/stores/search';
 import { useSeoMeta } from '@unhead/vue';
-import { useScroll } from '@vueuse/core';
+import { useScroll, useWindowScroll } from '@vueuse/core';
 import { ref, onMounted, watch } from 'vue';
 
 useSeoMeta({
@@ -61,7 +61,7 @@ useSeoMeta({
 const searchStore = useSearchModeStore()
 
 const scrollEl = ref(null)
-const { x, y } = useScroll(scrollEl, { behavior: 'smooth' })
+const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 
 

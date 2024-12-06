@@ -1,57 +1,97 @@
 <template>
 	<div id="app-wrap">
 		<main class="flex flex-col justify-start items-center px-4 gap-16 mb-8">
-			<div class="flex flex-col text-4xl justify-center items-center gap-6">
-				<h1 class="text-6xl font-semibold text-center">Shopping List</h1>
-				<span class="w-full text-lg font-light text-center">View, modify, and generate your shopping list.</span>
+			<div class="flex flex-col text-4xl justify-center items-center gap-6 text-center">
+				<h1 class="text-6xl font-semibold">Shopping List</h1>
+				<span class="w-full text-lg font-light">View, modify, and generate your shopping list.</span>
 			</div>
-			<div class="flex gap-24" v-if="searchStore.getShoppingList.size > 1">
-				<ul class="border py-4 px-6 pl-4 rounded-xl shadow-2xl">
-					<li v-for="item in searchStore.getShoppingList" :key="JSON.parse(item).name" class="my-2 border-b pb-2 px-6 last-of-type:border-none">
-						<ListViewItem :item="JSON.parse(item)"></ListViewItem>
-					</li>
-				</ul>
-				<div class="flex flex-col gap-10">
-					<form class="flex flex-col items-center">
-						<fieldset class="flex flex-col gap-4">
-							<legend class="text-2xl font-semibold mb-6 w-full">List Style:</legend>
-							<div>
-								<div class="flex gap-3 text-lg">
+			<div class="flex flex-col gap-16 max-w-96 w-full md:grid md:grid-cols-2 md:gap-12 md:max-w-3xl">
+				<Transition name="fade" mode="out-in">
+					<div class="flex flex-col gap-24 md:flex-row" v-if="searchStore.getShoppingList.size > 0" ref="listWrap">
+						<TransitionGroup 
+							name="shoppinglist" 
+							tag="ul" 
+							class="shopping-list border py-6 px-6 pl-4 rounded-xl shadow-2xl flex flex-col h-fit w-full md:w-96"
+							@before-leave="beforeLeave"
+						>
+							<div class="grid grid-cols-2 justify-items-end pb-4 mb-6" :key="'title'" ref="listTitle">
+								<h2 class="shopping-list-header text-4xl font-semibold text-center inline-flex self-center justify-self-center text-nowrap">My List</h2>
+								<div class="flex justify-end w-fit">
+									<ButtonSecondary
+										class="self-end cursor-pointer text-base"
+										@click="searchStore.clearShoppingList"
+										@keyup.enter="searchStore.clearShoppingList"
+										tabindex="0"
+										:key="'clear'"
+									>
+											Clear
+									</ButtonSecondary>
+								</div>
+							</div>
+							<li v-for="(item, index) in Array.from(searchStore.getShoppingList)" :key="JSON.parse(item).name" ref="listItems" class="my-2 border-b pb-4 pl-6 transition-all duration-300 last-of-type:border-transparent">
+								<ListViewItem :item="JSON.parse(item)"></ListViewItem>
+							</li>
+						</TransitionGroup>
+					</div>
+					<div v-else class="text-start flex flex-col gap-12">
+						<div class="flex flex-col gap-2 text-center md:text-start">
+							<h2 ref="emptyList" class="text-2xl font-semibold w-fit mb-4">Your List is Empty!</h2>
+							<span class="font-light text-start">
+								Add items to your list to manage them here. <br><br>
+								You can add items using this tool or in the recipe viewer, under the "Ingredients" section.
+							</span>
+						</div>
+					</div>
+				</Transition>
+				<ListInput @newItem="scrollToListEnd($event)" class="md:sticky list-input"></ListInput>
+			</div>
+			<Transition name="fade" mode="out-in">
+				<div v-if="searchStore.getShoppingList.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
+					<form class="flex flex-col">
+						<span class="text-2xl font-semibold mb-2 w-full">Generate List &nbsp;✨</span>
+						<span class="text-base font-light mb-8 max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
+						<fieldset class="flex flex-col gap-4 w-full self-center">
+							<legend class="text-lg font-medium mb-4 w-full underline underline-offset-4">List Style:</legend>
+							<div class="flex flex-col items-baseline gap-1">
+								<div class="flex gap-3 text-lg w-full items-center">
 									<input type="radio" id="default" name="list-format" value="Default" selected>
-									<label for="default">Default</label>
+									<label for="default" class="w-full text-start">Default</label>
 								</div>
-								<i class="text-xs">Bullet points</i>
+								<i class="text-xs self-start ml-6">Bullet points</i>
 							</div>
-							<div>
-								<div class="flex gap-3 text-lg">
+							<div class="flex flex-col items-baseline gap-1">
+								<div class="flex gap-3 text-lg w-full items-center">
 									<input type="radio" id="markdown" name="list-format" value="Markdown">
-									<label for="markdown">Markdown</label>
+									<label for="markdown" class="w-full text-start">Markdown</label>
 								</div>
-								<span class="italic text-xs">Great for apps like Notion or Obsidian</span>
+								<i class="text-xs self-start ml-6">Great for apps like Notion or Obsidian</i>
 							</div>
-
 						</fieldset>
 					</form>
 					<ButtonPrimary
 						:class="'toggled'"
+						class="self-center"
 					>
-						Export Shopping List
+						Export List
 					</ButtonPrimary>
 				</div>
-			</div>
-			<div v-else class="text-center flex flex-col gap-6">
-				<h2 class="text-3xl font-semibold">Your List is Empty!</h2>
-				<span>Search for recipes and add items to your list to see them appear here.</span>
-			</div>
+			</Transition>
 		</main>
 	</div>
 </template>
 
 <script setup>
 import ListViewItem from '@/components/ListViewItem.vue';
+import ListInput from '@/components/ListInput.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
+import ButtonSecondary from '@/components/ButtonSecondary.vue';
+
+import { onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useSeoMeta } from '@unhead/vue';
 import { useSearchModeStore } from '@/stores/search';
+import { useWindowScroll, useMediaQuery, useDark } from '@vueuse/core';
+import gsap from 'gsap';
+import { annotate } from 'rough-notation';
 
 useSeoMeta({
 	title: 'Shopping List - Reciplease',
@@ -63,8 +103,81 @@ useSeoMeta({
 })
 
 const searchStore = useSearchModeStore()
+const listItems = useTemplateRef('listItems')
+const listWrap = useTemplateRef('listWrap')
+const { y } = useWindowScroll({ behavior: 'smooth' })
 
+const listTitle = ref(null)
+const emptyList = ref(null)
+
+function beforeLeave(el) {
+    const {paddingLeft, paddingTop, width, height} = window.getComputedStyle(el)
+
+    el.style.left = `${el.offsetLeft - parseFloat(paddingLeft, 10)}px`
+    el.style.top = `${el.offsetTop - parseFloat(paddingTop, 10)}px`
+    el.style.width = width
+    el.style.height = height
+}
+
+function scrollToListEnd($event) {
+	if (!listWrap.value){
+		y.value = emptyList.value.clientHeight - 200
+	}
+	else {
+		y.value = listWrap.value.clientHeight - 200
+	}
+}
+
+watch(listTitle, (cur)=>{
+	if (cur){
+		annotate(cur, { type: 'underline', animate: false, color: '#687441' }).show()
+	}
+})
+watch(emptyList, (cur)=>{
+	if (cur){
+		annotate(cur, { type: 'underline', animate: false, color: '#687441' }).show()
+	}
+})
+
+
+onMounted(()=>{
+	if (listTitle.value){
+		gsap.from('.shopping-list', {
+			y: 30,
+			opacity: 0,
+			duration: .5,
+			delay: 0.15
+		})
+	}
+})
 </script>
 
-<style>
+<style lang="sass" scoped>
+input[type=radio]
+	accent-color: g.$green-primary
+
+	@media (prefers-color-scheme: dark)
+		accent-color: g.$green-light
+
+.shopping-list
+	background-color: g.$grey-fill
+
+	@media (prefers-color-scheme: dark)
+		background-color: g.$green-acc3
+
+.shoppinglist-move,
+.shoppinglist-enter-active,
+.shoppinglist-leave-active 
+	transition: all 0.4s ease
+
+.shoppinglist-enter-from,
+.shoppinglist-leave-to 
+	opacity: 0
+	transform: translate3d(-50px, 0px, 0px)
+
+.shoppinglist-leave-active 
+	position: absolute
+
+.list-input
+	top: 100px
 </style>

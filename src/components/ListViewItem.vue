@@ -4,18 +4,38 @@
         <label class="text-lg flex w-full" :for="item.name">
             <div class="flex flex-col gap-1">
                 <span>{{ item.name }}</span>
-                <span class="italic text-sm">{{ item.quantity }} {{ item.measurement }}</span>
+                <span class="italic text-sm">
+                    {{ item.quantity }} {{ item.measurement }}
+                    <div v-if="item.additionalMeasurements">
+                        <span v-for="(additionalMeasurement, index) in item.additionalMeasurements" :key="index">
+                            + {{ additionalMeasurement }}
+                        </span>
+                    </div>
+                </span>
             </div>
         </label>
+        <ButtonClose 
+            class="ml-6" 
+            :svg-size="'10px'" 
+            :solo="true"
+            @click="searchStore.deleteShoppingListItem(JSON.stringify(item))"
+            @keyup.enter="searchStore.deleteShoppingListItem(JSON.stringify(item))"
+        >
+        </ButtonClose>
     </div>
 </template>
 
 <script setup>
+import ButtonClose from './ButtonClose.vue';
+import { useSearchModeStore } from '@/stores/search';
+
 const emit = defineEmits(['checked'])
 
 defineProps({
     item: Object
 })
+
+const searchStore = useSearchModeStore()
 
 function check($event){
     if ($event.target.tagName == "LABEL"){
@@ -29,12 +49,19 @@ function check($event){
     }
     if ($event.target.tagName == "INPUT"){
         !$event.target.checked
+        if ($event.target.checked){
+            $event.target.nextElementSibling.style.textDecoration = 'line-through'
+            $event.target.nextElementSibling.style.textDecorationThickness = '10%'
+        }
+        else {
+            $event.target.nextElementSibling.style.textDecoration = 'none'
+        }
     }
 }
 </script>
 
   
-<style>
+<style scoped>
     .checkbox-wrapper-1 *,
     .checkbox-wrapper-1 ::after,
     .checkbox-wrapper-1 ::before {
@@ -55,6 +82,7 @@ function check($event){
         vertical-align: top;
         height: 1.15rem;
         width: 1.15rem;
+        min-width: 18.4px;
         margin-right: 0.6em;
         color: rgba(0, 0, 0, 0.275);
         border: solid 0.06em;
@@ -82,7 +110,7 @@ function check($event){
         color: rgba(0, 0, 0, 0.275);
     }
     .checkbox-wrapper-1 [type=checkbox].substituted:focus + label:before {
-        box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(0, 0, 0, 0.1) inset, 0 0 0 3.3px #68744130, 0 0 0 5px #bbcc854c;
+        box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(0, 0, 0, 0.1) inset, 0 0 0 3.3px #68744130, 0 0 0 5px #bbcc85c7;
     }
     .checkbox-wrapper-1 [type=checkbox].substituted:focus:active + label:before,
     .checkbox-wrapper-1 [type=checkbox].substituted:focus + label:active:before {

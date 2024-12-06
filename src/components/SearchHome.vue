@@ -56,7 +56,17 @@ const searchStore = useSearchModeStore()
     text-underline-offset: 8px
     transition: all .3s
 
-    &:hover, &:focus, &:active
+    &:focus, &:active
         color: g.$green-primary
         text-decoration-color: g.$green-primary
+
+@media (hover:hover)
+    .back-text
+        &:hover
+            color: g.$green-primary
+            text-decoration-color: g.$green-primary
+
+            @media (prefers-color-scheme:dark)
+                color: g.$green-light
+                text-decoration-color: g.$green-light
 </style>

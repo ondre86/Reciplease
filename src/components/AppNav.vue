@@ -62,20 +62,20 @@
                     </li>
                     <li>
                         <RouterLink 
+                            to="list" 
+                            class="text-green-500"
+                            @click="mobileMenuTransition"
+                        >
+                            List
+                        </RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink 
                             to="auth" 
                             class="text-green-500"
                             @click="mobileMenuTransition"
                         >
                             Log In
-                        </RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink 
-                            to="list" 
-                            class="text-green-500 inline-block p-1 rounded-md outline outline-1 outline-transparent transition-all duration-300 icon"
-                            @click="mobileMenuTransition"
-                        >
-                            <CartIcon></CartIcon>
                         </RouterLink>
                     </li>
                 </ul>
@@ -212,7 +212,7 @@ li
 
 
 .router-link-exact-active:has(svg), .router-link-active:has(svg)
-    outline-color: g.$green-acc1
+    outline-color: g.$green-light
 
 @media (prefers-color-scheme:dark)
     header, nav, #mobile-menu

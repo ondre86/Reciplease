@@ -49,6 +49,9 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	function deleteServerSearchTerm(term){
 		searchTermsForServer.value.delete(term)
 	}
+	function deleteShoppingListItem(item){
+		shoppingList.value.delete(item)
+	}
 	function clearSearchTerms(){
 		searchTerms.value.clear()
 	}
@@ -152,6 +155,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		addItemToShoppingList,
 		deleteSearchTerm, 
 		deleteServerSearchTerm, 
+		deleteShoppingListItem,
 		clearSearchTerms,
 		clearServerSearchTerms,
 		clearShoppingList,

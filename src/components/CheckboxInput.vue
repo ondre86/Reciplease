@@ -3,7 +3,6 @@
         <input 
             class="substituted" 
             type="checkbox" 
-            aria-hidden="true" 
             :id=ingredient.ingredient 
             :name="ingredient.ingredient" 
             :value="ingredient.ingredient" 
@@ -40,12 +39,19 @@ function check($event){
     }
     if ($event.target.tagName == "INPUT"){
         !$event.target.checked
+        if ($event.target.checked){
+            $event.target.nextElementSibling.style.textDecoration = 'line-through'
+            $event.target.nextElementSibling.style.textDecorationThickness = '3px'
+        }
+        else {
+            $event.target.nextElementSibling.style.textDecoration = 'none'
+        }
     }
 }
 </script>
 
   
-<style>
+<style scoped>
     .checkbox-wrapper-1 *,
     .checkbox-wrapper-1 ::after,
     .checkbox-wrapper-1 ::before {
