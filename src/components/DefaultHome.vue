@@ -2,7 +2,7 @@
     <main
         class="flex flex-col items-center h-full px-8"
         ref="mainWrap"
-        :style="{ paddingTop: ((windowSize.height.value / 2) - (desktopMainWrapSize / 2.5) - 81) + 'px' }"
+        :style="{ paddingTop: ((constWindowSize / 2) - (desktopMainWrapSize / 2.5) - 81) + 'px' }"
     >
         <MainLogo></MainLogo>
         <div v-if="!isSmallScreen">
@@ -29,6 +29,7 @@ import AppInput from '@/components/AppInput.vue';
 
 
 const windowSize = useWindowSize()
+const constWindowSize = windowSize.height.value
 
 const desktopMainWrapSize = 494
 const fontSize = ref(parseFloat(getComputedStyle(document.documentElement).fontSize))

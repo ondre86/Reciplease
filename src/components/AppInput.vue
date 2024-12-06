@@ -423,20 +423,24 @@ input
         outline: 6px solid g.$green-primary
 
 .placeholder-wrap
-    opacity: .7
+    opacity: 1
     max-width: 70%
 
 #placeholder
-    color: g.$tan-acc3
+    color: g.$grey-divider
     word-wrap: nowrap
 
 @media (prefers-color-scheme: dark)
     input
-        border-color: g.$tan-acc1
+        border-color: g.$green-primary
         color: g.$tan-primary
 
         &:focus, &:focus-visible, &:focus-within
             outline: 6px solid g.$tan-primary
+
+    #placeholder
+        color: g.$green-acc1
+        word-wrap: nowrap
 
 
 </style>

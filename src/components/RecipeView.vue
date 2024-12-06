@@ -23,7 +23,7 @@
                 md:flex-row md:items-start md:gap-24
             "
         >
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-8 md:sticky md:top-28">
                 <div class="overflow-hidden rounded-full max-w-fit self-center">
                     <img src="/src/assets/img/salmon.jpg" alt="" width="200px">
                 </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ingredients py-6 px-8 rounded-xl border shadow-2xl">
+            <div class="ingredients py-6 px-8 rounded-xl border shadow-2xl w-80">
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2 text-center mb-4">
                         <h2 class="text-4xl font-semibold annotate w-fit self-center">Ingredients</h2>
@@ -45,33 +45,45 @@
                             <span class="font-semibold text-xl">{{ servingSizes.minServings }} to {{ servingSizes.maxServings }} servings</span>
                             <div class="flex gap-2">
                                 <ButtonPrimary 
-                                    class="text-xs p-1"
-                                    @click="servingSizeCalculator(1)"
-                                    @keyup.enter="servingSizeCalculator(1)"
+                                    class="text-xs p-1 servings-btn"
+                                    :data-mult="1"
+                                    @click="servingSizeCalculator($event, 1)"
+                                    @keyup.enter="servingSizeCalculator($event, 1)"
+                                    :class="'toggled'"
                                 >
                                     <span style="font-size: .7rem;">x </span>
                                     1
                                 </ButtonPrimary>
                                 <ButtonPrimary 
-                                    class="text-xs p-1"
-                                    @click="servingSizeCalculator(2)"
-                                    @keyup.enter="servingSizeCalculator(2)"
+                                    class="text-xs p-1 servings-btn"
+                                    :data-mult="2"
+                                    @click="servingSizeCalculator($event, 2)"
+                                    @keyup.enter="servingSizeCalculator($event, 2)"
                                 >
                                     <span style="font-size: .7rem;">x </span>
                                     2
                                 </ButtonPrimary>
                                 <ButtonPrimary 
-                                    class="text-xs p-1"
-                                    @click="servingSizeCalculator(4)"
-                                    @keyup.enter="servingSizeCalculator(4)"
+                                    class="text-xs p-1 servings-btn"
+                                    :data-mult="4"
+                                    @click="servingSizeCalculator($event, 4)"
+                                    @keyup.enter="servingSizeCalculator($event, 4)"
                                 >
                                     <span style="font-size: .7rem;">x </span>
                                     4
                                 </ButtonPrimary>
                             </div>
                         </div>
+                    <span class="italic text-xs text-center mb-2">
+                        Check items that you currently have. <br>
+                        Unchecked items will be added to shopping list.
+                    </span>
+
                     <ul>
                         <li v-for="ingredient in x.recipes[0].ingredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
+                            <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
+                        </li>
+                        <li v-for="ingredient in x.recipes[0].optionalIngredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
                             <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
                         </li>
                     </ul>
@@ -85,7 +97,9 @@
                     >
                         {{ shoppingListButtonText }}
                     </ButtonPrimary>
-                    <span class="italic text-xs text-center">Unchecked items will be added to shopping list.</span>
+                    <RouterLink to="list" class="underline self-center">
+                        View Shopping List
+                    </RouterLink>
                 </div>
             </div>
         </div>
@@ -120,12 +134,36 @@ const minServingSize = x.recipes[0].servingSize.minServings
 const maxServingSize = x.recipes[0].servingSize.maxServings
 const servingSizes = ref(x.recipes[0].servingSize)
 const mult = ref(1)
-const shoppingListButtonText = ref('Add to Shopping List')
+const shoppingListButtonText = ref('Add Unchecked to List')
 
-function servingSizeCalculator(multiplier){
+function servingSizeCalculator($event, multiplier){
     mult.value = multiplier
     servingSizes.value.minServings = minServingSize * multiplier
     servingSizes.value.maxServings = maxServingSize * multiplier
+
+    console.log($event.target)
+    console.log(mult.value)
+
+    if ($event.target.nodeName == "SPAN"){
+        $event.target.parentElement.classList.add('toggled')
+    	$event.target.parentElement.setAttribute('aria-pressed', true)
+    }
+    else {
+        $event.target.classList.add('toggled')
+    	$event.target.setAttribute('aria-pressed', true)
+    }
+
+	setTimeout(() => {
+		$event.target.blur()
+	}, 200)
+
+	const servingsButtons = document.querySelectorAll('.servings-btn')
+	for (let button of servingsButtons){
+		if (button.getAttribute('data-mult') !== mult.value.toString()){
+			button.classList.remove('toggled')
+            button.setAttribute('aria-pressed', false)
+		}
+	}
 }
 
 const tempShoppingList = ref([])
@@ -138,12 +176,30 @@ function addToShoppingList(){
                 let listItem = {
                     name: item.name, 
                     quantity: item.attributes[5].value,
-                    measurement: item.attributes[6].value
+                    measurement: item.attributes[6].value.split(',')[0]
                 }
+
+                searchStore.getShoppingList.forEach((item)=>{
+                    let currentStoredShoppingListItem = JSON.parse(item)
+                    
+                    if (currentStoredShoppingListItem.name == listItem.name){
+                        if(currentStoredShoppingListItem.measurement == listItem.measurement){
+                            listItem.quantity = Number(listItem.quantity) + Number(currentStoredShoppingListItem.quantity)
+                            if (currentStoredShoppingListItem.additionalMeasurements){
+                                listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements
+                            }
+                        }
+                        else {
+                            listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements ? currentStoredShoppingListItem.additionalMeasurements : []
+                            listItem.additionalMeasurements.push(`${currentStoredShoppingListItem.quantity} ${currentStoredShoppingListItem.measurement}`)
+                        }
+                        searchStore.deleteShoppingListItem(item)
+                    }
+                })
+
                 searchStore.addItemToShoppingList(JSON.stringify(listItem))
             }
         }
-        console.log(searchStore.getShoppingList)
         shoppingListButtonText.value = 'Added!'
     }
 
@@ -189,13 +245,23 @@ onMounted(()=>{
     text-underline-offset: 8px
     transition: all .3s
 
-    &:hover, &:focus, &:active
+    &:focus, &:active
         color: g.$green-primary
         text-decoration-color: g.$green-primary
 
         @media (prefers-color-scheme:dark)
             color: g.$green-light
             text-decoration-color: g.$green-light
+
+@media (hover:hover)
+    .back-text
+        &:hover
+            color: g.$green-primary
+            text-decoration-color: g.$green-primary
+
+            @media (prefers-color-scheme:dark)
+                color: g.$green-light
+                text-decoration-color: g.$green-light
 
 ul, ol
     li

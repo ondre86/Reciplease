@@ -32,9 +32,10 @@ div
     --tw-ring-color: #8a514c
     cursor: pointer
 
-    &:hover
-        background-color: g.$green-acc1
-        --tw-ring-color: #502520
+    @media (hover:hover)
+        &:hover
+            background-color: g.$green-acc1
+            --tw-ring-color: #502520
 
     &:active
         background-color: g.$green-acc2

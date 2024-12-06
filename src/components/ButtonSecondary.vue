@@ -41,5 +41,10 @@ div
     &:hover, &:focus, &:active
         background-color: g.$tan-primary
         
+    @media (prefers-color-scheme:dark)
+        color: g.$tan-primary
+
+        &:hover, &:focus, &:active
+            background-color: transparent
         
 </style>

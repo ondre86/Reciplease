@@ -53,7 +53,7 @@
                     :class="{ toggled: searchStore.getSearchMode == 'random' }"
                     :aria-pressed="searchStore.getSearchMode == 'random'"
                 >
-                    Surprise Me
+                    Surprise Me!
                 </ButtonPrimary>
             </li>
         </ul>
@@ -105,7 +105,6 @@ function toggleSearchMode(event) {
 
 	event.target.classList.add('toggled')
 	event.target.setAttribute('aria-pressed', true)
-    console.log(searchStore.getSearchMode)
 
 	setTimeout(() => {
 		event.target.blur()
