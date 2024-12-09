@@ -50,8 +50,11 @@ app.use('/', (req,res,next)=>{
 })
 // auth headers somewhere
 
-app.use(express.json()).use(express.text())
+app.use(express.static('dist')).use(express.json()).use(express.text())
 
+app.get('/', (req, res)=>{
+    res.status(200).send()
+})
 app.post('/', (req, res)=>{
     sendRecipeResponse(req, res)
 })
