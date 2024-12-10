@@ -1,11 +1,11 @@
-import express from "express"
-import helmet from "helmet"
 import OpenAI from "openai"
-import detailedOpenAIResponseFormat from './detailedResponseSchema.json' assert {type: 'json'}
-import simpleOpenAIResponseFormat from './simpleResponseSchema.json' assert {type: 'json'}
+import detailedOpenAIResponseFormat from '~/server/api/detailedResponseSchema.json' assert {type: 'json'}
+import simpleOpenAIResponseFormat from '~/server/api/simpleResponseSchema.json' assert {type: 'json'}
 
-const openai = new OpenAI( {apiKey: process.env.OPEN_AI_API_KEY})
-const assistantDirection = `
+const config = useRuntimeConfig()
+
+const openai = new OpenAI( {apiKey: config.openAIKey})
+const recipeSearchDirection = `
     You are a helpful assistant with decades of culinary experience and expert cooking knowledge here to provide delicious recipes based on users' queries. 
     You should utilize spellcheck to help users match with their intended queries.
     If a provided ingredient does not match a known food ingredient, try your best to build a recipe from any of the remaining valid ingredients you have been provided.
@@ -13,59 +13,6 @@ const assistantDirection = `
     If you cannot generate any recipes from the provided recipe name, "isValidRequest" should be false.
     Recipe responses should strive to be authentic and interesting. Trendy recipes are welcome.
 `
-const app = express()
-
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            scriptSrc: [
-                "'self'", 
-                '192.168.1.118:5173',
-                'localhost:5173',
-                // "cloud.umami.is",
-            ],
-            connectSrc: [
-                "'self'",
-                '192.168.1.118:5173',
-                'localhost:5173',
-                "api.spoonacular.com",
-                "api.search.brave.com",
-                process.env.CLIENT_URL,
-                // "https://api-gateway.umami.dev/api/send",
-                // "challenges.cloudflare.com"
-            ],
-            frameSrc: [
-                "'self'",
-                '192.168.1.118:5173',
-                // "challenges.cloudflare.com"
-            ]
-        }
-    }
-}))
-
-app.use('/', (req,res,next)=>{
-    res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})
-// auth headers somewhere
-
-app.use(express.static('dist')).use(express.json()).use(express.text())
-
-app.get('/', (req, res)=>{
-    res.status(200).send()
-})
-app.post('/', (req, res)=>{
-    sendRecipeResponse(req, res)
-})
-
-app.listen(process.env.PORT, (error) =>{
-    if(!error)
-        console.log("Server is Successfully Running, and App is listening on port "+ process.env.PORT)
-    else 
-        console.log("Error occurred, server can't start", error);
-    }
-)
 
 async function sendRecipeResponse(req, res){
     let clientRequest = JSON.parse(req.body)
@@ -109,7 +56,7 @@ async function sendRecipeResponse(req, res){
         //     messages: [
         //         { 
         //             role: "system", 
-        //             content: assistantDirection
+        //             content: recipeSearchDirection
         //         },
         //         {
         //             role: "user",
