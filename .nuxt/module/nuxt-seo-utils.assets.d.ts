@@ -10,7 +10,7 @@ declare module '#app' {
 }
 declare module '@unhead/schema' {
 
-  type PublicFiles = '/_robots.txt' | '/favicon.ico' | '/og-img.jpg' | '/fonts/Infra-Bold.woff' | '/fonts/Infra-ExtraBold.woff' | '/fonts/Infra-Medium.woff' | '/fonts/Infra-Regular.woff' | '/fonts/Infra-SemiBold.woff' | '/svg/arrow-right-tan.svg' | '/svg/fork-knife.svg' | '/svg/logo-icon-green-dark.svg' | '/svg/money.svg' | '/svg/smile.svg' | '/svg/stars.svg' | '/svg/time.svg' | '/svg/x-tan.svg' | (string & Record<never, never>)
+  type PublicFiles = '/_robots.txt' | '/favicon.ico' | '/og-img.jpg' | '/svg/arrow-right-tan.svg' | '/svg/fork-knife.svg' | '/svg/logo-icon-green-dark.svg' | '/svg/money.svg' | '/svg/smile.svg' | '/svg/stars.svg' | '/svg/time.svg' | '/svg/x-tan.svg' | '/fonts/Infra-Bold.woff' | '/fonts/Infra-ExtraBold.woff' | '/fonts/Infra-Medium.woff' | '/fonts/Infra-Regular.woff' | '/fonts/Infra-SemiBold.woff' | (string & Record<never, never>)
   type JsFiles = (string & Record<never, never>)
 
   interface SchemaAugmentations {
