@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 	}
 
 	// Redirect to login if no user is authenticated
-	if (!userStore.user) {
+	if (!userStore.user && to.meta.requiresAuth) {
 		console.log('User not authenticated, redirecting to login...');
 		return navigateTo({ name: 'auth' });
 	}

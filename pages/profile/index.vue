@@ -68,7 +68,7 @@ onMounted(()=>{
 	const a1 = annotate(document.querySelectorAll('.annotate')[0], { type: 'underline', color: '#687441' })
 	setTimeout(() => {
 		a1.show()
-	}, 2000)
+	}, 300)
 })
 
 const tier = ref('')
