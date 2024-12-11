@@ -61,6 +61,7 @@ watch(isDark, (cur, prev)=>{
 })
 
 const searchStore = useSearchModeStore()
+const userStore = useAuthStore()
 
 const searchInput = defineModel('searchInput')
 const search = ref(null)
@@ -394,9 +395,12 @@ async function sendSearchtoServer(modifier){
         searchInput.value = ''
     }
 
-    // emit event to change screen?
-
-    await searchStore.sendSearchTerms(modifier)
+    if(!userStore.user){
+        await navigateTo('/auth')
+    }
+    else {
+        await searchStore.sendSearchTerms(modifier)
+    }
 }
 
 </script>

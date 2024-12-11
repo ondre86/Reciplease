@@ -725,6 +725,13 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
+    "apiKey": "AIzaSyDfUQcOtjLhKzLd3pfajvt540Vj1P_V_kw",
+    "authDomain": "reciplease-odj.firebaseapp.com",
+    "projectId": "reciplease-odj",
+    "storageBucket": "reciplease-odj.firebasestorage.app",
+    "messagingSenderId": "475461309423",
+    "appId": "1:475461309423:web:502f80206a6bf58d3f9c1a",
+    "measurementId": "G-JSGN02EEZM",
     "device": {
       "defaultUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36",
       "enabled": true,
@@ -766,6 +773,7 @@ const _inlineRuntimeConfig = {
   "braveSearchKey": "BSAJESLpgtmMTFdy3gfxpieYnC54EcC",
   "stripePublishableKey": "pk_live_51QTuyfGCYIbAcVzQGSD9cqeYtHsAr2r9MUApWOAPnXFSnlsa4VavIVxMHAGWPU9gORv7otoijX1HX2T1iHw4AmwQ00rkfChM6e",
   "stripeSecretKey": "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",
+  "googleApplicationCredentials": "service-account.json",
   "private": {
     "basicAuth": false
   },
@@ -2528,7 +2536,7 @@ const _Vj4dsc3tFh = defineNitroPlugin(async (nitroApp) => {
   await nitroApp.hooks.callHook("nuxt-security:ready");
 });
 
-const sriHashes = {"/_nuxt/builds/meta/dev.json":"sha384-aAkqTLyLINVamsAc81IZVoN2jUpJpEcIRxMIppzwLXVM77TWFFym1thUd9lwRb4g","/_nuxt/builds/latest.json":"sha384-A5/UQ/sFs7+mHZ7eH77asMaxTVCii5B/KChadYd4N6YIIGmqaOkYhqnVdnZZoTNT","/_robots.txt":"sha384-7QzLcXJHLKmmjPq92C8VAf/JJVMPygySUPdfJryF5BHlJSkEBJP3kG6y29f0ZL1T","/favicon.ico":"sha384-lQUGBZjnRkYaNUwv/A9a4wIegDBvunqIQTr3qjcjsR0ljzDcFR9dEgNVbQQpFTXy","/og-img.jpg":"sha384-icRmpR4nhGKsqwBkvHrtgYDd2wqpNAP+84+9df9KpfWfEhWNwml3vIa4lJNMyoLy"};
+const sriHashes = {"/_nuxt/builds/meta/dev.json":"sha384-cQAsLIn5dTLtA+23KKaXD7ZUXFJHXqnQv3uDAGj+fb87DLbSYenseSGmGga0ATaP","/_nuxt/builds/latest.json":"sha384-SUNc20xqndYbt4POXt8RctXZ/qCfleVxVhrWwmaI/jhClcgt895gjqeWO4ctQ/Es","/_robots.txt":"sha384-7QzLcXJHLKmmjPq92C8VAf/JJVMPygySUPdfJryF5BHlJSkEBJP3kG6y29f0ZL1T","/favicon.ico":"sha384-lQUGBZjnRkYaNUwv/A9a4wIegDBvunqIQTr3qjcjsR0ljzDcFR9dEgNVbQQpFTXy","/og-img.jpg":"sha384-icRmpR4nhGKsqwBkvHrtgYDd2wqpNAP+84+9df9KpfWfEhWNwml3vIa4lJNMyoLy"};
 
 const SCRIPT_RE$1 = /<script((?=[^>]+\bsrc="([^"]+)")(?![^>]+\bintegrity="[^"]+")[^>]+)(?:\/>|><\/script>)/g;
 const LINK_RE$1 = /<link((?=[^>]+\brel="(?:stylesheet|preload|modulepreload)")(?=[^>]+\bhref="([^"]+)")(?![^>]+\bintegrity="[\w\-+/=]+")[^>]+)>/g;

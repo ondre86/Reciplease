@@ -26,11 +26,14 @@
                     <li>
                         <NuxtLink to="/pricing">Pricing</NuxtLink>
                     </li>
-                    <li>
+                    <li v-if="userStore.user">
                         <NuxtLink to="/list">Shopping List</NuxtLink>
                     </li>
                 </ul>
-                <ButtonPrimary class="justify-self-end toggled" :link="'/auth'">Sign In</ButtonPrimary>
+                <Transition name="fade" mode="out-in">
+                    <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!userStore.user">Sign In</ButtonPrimary>
+                    <ButtonPrimary class="justify-self-end toggled" :link="'/profile'" v-else>Profile</ButtonPrimary>
+                </Transition>
             </div>
             <div 
                 class="flex gap-12 h-full w-8 items-center justify-center" 
@@ -39,7 +42,6 @@
             >
                 <MobileMenuIcon class="overflow-visible flex flex-col items-center justify-center"></MobileMenuIcon>
             </div>
-
         </nav>
         <div v-show="!isLargeScreen" id='mobile-menu' class="absolute top-0 opacity-0 w-full flex justify-center py-1 z-0 pb-4 invisible"> 
             <nav>
@@ -60,7 +62,7 @@
                             Pricing
                         </NuxtLink>
                     </li>
-                    <li>
+                    <li v-if="userStore.user">
                         <NuxtLink 
                             to="/list" 
                             class="text-green-500"
@@ -74,8 +76,17 @@
                             to="/auth" 
                             class="text-green-500"
                             @click="mobileMenuTransition"
+                            v-if="!userStore.user"
                         >
-                            Sign in
+                            Sign In
+                        </NuxtLink>
+                        <NuxtLink 
+                            to="/profile" 
+                            class="text-green-500"
+                            @click="mobileMenuTransition"
+                            v-else
+                        >
+                            Profile
                         </NuxtLink>
                     </li>
                 </ul>
@@ -85,6 +96,7 @@
 </template>
 
 <script setup>
+const userStore = useAuthStore()
 const { $gsap } = useNuxtApp()
 const isDark = useDark()
 

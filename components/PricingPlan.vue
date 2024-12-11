@@ -32,6 +32,7 @@
 import { annotate, annotationGroup } from 'rough-notation'
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
+const userStore = useAuthStore()
 
 const props = defineProps({
     plan: String,

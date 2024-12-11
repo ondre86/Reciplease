@@ -391,6 +391,8 @@ declare module 'nuxt/schema' {
 
    stripeSecretKey: string,
 
+   googleApplicationCredentials: string,
+
    nitro: {
       envPrefix: string,
    },
@@ -678,6 +680,20 @@ declare module 'nuxt/schema' {
    },
   }
   interface PublicRuntimeConfig {
+   apiKey: string,
+
+   authDomain: string,
+
+   projectId: string,
+
+   storageBucket: string,
+
+   messagingSenderId: string,
+
+   appId: string,
+
+   measurementId: string,
+
    device: {
       defaultUserAgent: string,
 
