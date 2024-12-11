@@ -118,4 +118,16 @@ div, a
                 --tw-ring-color: #141B0C
 
 
+        .disabled
+            opacity: 0.35
+            cursor: not-allowed
+
+            @media (hover:hover)
+                &:hover, &:focus-visible
+                    color: g.$green-acc2
+                    background-color: g.$green-light
+                    --tw-ring-color: #BBCC85
+                    border-color: #283618
+
+
 </style>

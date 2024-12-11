@@ -9,6 +9,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  requiresAuth: true,
+})
 useHead({
   title: 'Settings',
   meta: [

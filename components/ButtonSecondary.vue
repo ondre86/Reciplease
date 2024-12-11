@@ -1,5 +1,5 @@
 <template>
-    <div class="w-fit px-3 py-2 rounded-lg ring-1 transition duration-300 cursor-not-allowed">
+    <div class="w-fit px-3 py-2 rounded-lg ring-1 transition duration-300">
         <slot></slot>
     </div>
 </template>

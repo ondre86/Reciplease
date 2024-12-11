@@ -84,6 +84,10 @@
 import { annotate } from 'rough-notation';
 const { $gsap } = useNuxtApp()
 
+definePageMeta({
+  requiresAuth: true,
+})
+
 useHead({
   title: 'Shopping List',
   meta: [
