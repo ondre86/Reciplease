@@ -24,17 +24,21 @@ export const useAuthStore = defineStore('auth', ()=>{
 
     const monitorAuthState = () => {
         auth.value = getFirebaseAuth()
-        if (auth.value) {
+
+        return new Promise((resolve) => {
             onAuthStateChanged(auth.value, (currentUser) => {
                 user.value = currentUser
+                isInitialized.value = true
 
                 displayName.value = user.value ? (user.value.displayName ? user.value.displayName : user.value.email) : ''
                 dateCreated.value = user.value ? new Date(Number(user.value.metadata.createdAt)).toLocaleString() : ''
 
                 console.log(user.value)
                 console.log(auth.value)
+
+                resolve()
             })
-        }
+        })
     }
     
 
