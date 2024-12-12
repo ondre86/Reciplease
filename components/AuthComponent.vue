@@ -3,13 +3,24 @@
         <div class="flex flex-col gap-6">
             <h2 class="opacity-45 text-center text-md font-light mb-2">{{authMode}} with External Provider</h2>
             <div class="flex justify-evenly gap-4">
-                <ButtonPrimary id="appleAuth" class="shadow-md flex justify-center">
+                <ButtonPrimary 
+					id="appleAuth" 
+					class="shadow-md flex justify-center"
+				>
                     <img src="~/assets/other-logo/apple.svg" alt="" height="33px" width="30px">
                 </ButtonPrimary>
-                <ButtonPrimary id="googleAuth" class="shadow-lg flex justify-center">
+                <ButtonPrimary 
+					id="googleAuth" 
+					class="shadow-lg flex justify-center" 
+					@click="authStore.signInWithGoogle"
+					@keyup.enter="authStore.signInWithGoogle"
+				>
                     <img src="~/assets/other-logo/google.svg" alt="" height="24px" width="24px">
                 </ButtonPrimary>
-                <ButtonPrimary id="facebookAuth" class="shadow-md flex justify-center">
+                <ButtonPrimary 
+					id="facebookAuth" 
+					class="shadow-md flex justify-center"
+				>
                     <img src="~/assets/other-logo/facebook.svg" alt="" height="30px" width="30px">
                 </ButtonPrimary>
             </div>
@@ -29,7 +40,7 @@
                         email-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                         focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                     "
-					:class="{'red-border': userStore.authError}"
+					:class="{'red-border': authStore.authError}"
                 />
                 <Transition name="fade" mode="out-in"><span id="error-email" ref="error-email">{{ errorEmail }}</span></Transition>
             </div>
@@ -58,7 +69,7 @@
                             pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                             focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                         "
-                        :class="{'red-border': userStore.authError}"
+                        :class="{'red-border': authStore.authError}"
                     />
                     <Transition name="fade" mode="out-in">
                         <div class="flex flex-col gap-2" v-show="authMode == 'Sign Up'" :key="1">
@@ -72,14 +83,14 @@
                                     cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                                     focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                                 "
-                                :class="{'red-border': userStore.authError}"
+                                :class="{'red-border': authStore.authError}"
                             />
                             <Transition name="fade" mode="out-in"><span id="error-password" ref="error-password">{{ confirmErrorPassword }}</span></Transition>
                         </div>
                     </Transition>
                     <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-900'} }" />
                     <Transition name="fade" mode="out-in">
-                        <span class="w-full text-center mt-2" id="error-password" ref="error-password" v-if="userStore.authError">Invalid Email or Password</span>
+                        <span class="w-full text-center mt-2" id="error-password" ref="error-password" v-if="authStore.authError">Invalid Email or Password</span>
                     </Transition>
                 </div>
             </div>
@@ -111,7 +122,7 @@
 <script setup>
 import validator from 'validator'
 
-const userStore = useAuthStore()
+const authStore = useAuthStore()
 
 const emit = defineEmits(['authModeSwitch'])
 
@@ -175,9 +186,9 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 		}
     }
 
-	if (userStore.authError){
+	if (authStore.authError){
 		if (currentEmail !== oldEmail || currentPass !== oldPass){
-			userStore.authError = null
+			authStore.authError = null
 			console.log(currentEmail !== oldEmail)
 			console.log(currentPass !== oldPass)
 		}
@@ -186,8 +197,6 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 
 // firebase
 
-console.log(userStore)
-
 async function submitCredentials(){
     if (invalid.value) {
         console.log('invalid')
@@ -195,10 +204,10 @@ async function submitCredentials(){
     }
 
     if (authMode.value == "Sign In"){
-        userStore.loginUser(emailInput.value, passwordInput.value)
+        authStore.loginUser(emailInput.value, passwordInput.value)
     }
     else {
-        userStore.createUser(emailInput.value, passwordInput.value)
+        authStore.createUser(emailInput.value, passwordInput.value)
     }
 }
 
