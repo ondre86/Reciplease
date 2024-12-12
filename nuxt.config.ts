@@ -15,11 +15,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
-    stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
     googleApplicationCredentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 
     public: {
+      stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
       apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
       authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
       projectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,

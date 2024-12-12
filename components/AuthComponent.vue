@@ -1,6 +1,6 @@
 <template>
     <div class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 mb-8 rounded-xl p-4 py-8 md:p-8">
-        <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-6 hidden">
             <h2 class="opacity-45 text-center text-md font-light mb-2">{{authMode}} with External Provider</h2>
             <div class="flex justify-evenly gap-4">
                 <ButtonPrimary 
@@ -25,9 +25,9 @@
                 </ButtonPrimary>
             </div>
         </div>
-        <div class="w-2/4 h-px self-center divide-x-8 divider"></div>
+        <div class="w-2/4 h-px self-center divide-x-8 divider hidden"></div>
         <div class="flex flex-col gap-4">
-            <h2 class="opacity-45 text-center text-md font-light mb-4">{{authMode}} with Email</h2>
+            <h2 class="opacity-45 text-center text-md font-light mb-4 hidden">{{authMode}} with Email</h2>
             <div class="flex flex-col gap-2">
                 <label for="email">Email Address</label>
                 <input

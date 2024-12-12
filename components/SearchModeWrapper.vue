@@ -4,7 +4,7 @@
     >
         <span 
             id="mode-descriptor" 
-            class="w-full text-center mt-2 mb-6" 
+            class="w-full text-center my-6" 
         >
             {{modeDescriptor}}
         </span>

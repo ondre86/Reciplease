@@ -6,11 +6,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
 
-	const recipeListResponse = ref(new Set([]))
+	const recipeResponseList = ref(new Set([]))
 	const specificRecipe = ref(null)
 	const shoppingList = ref(new Set([]))
 
-	const generatedResponse = ref({})
+	const serverResponse = ref()
 
 	const submittedRequest = ref(null)
 	const requestFulfilled = ref(null)
@@ -66,12 +66,12 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		submittedRequest.value = true
 		const searchTermArray = Array.from(searchTermsForServer.value)
 		const shoppingListArray = Array.from(shoppingList.value)
-		const recipeListResponseArray = Array.from(recipeListResponse.value)
+		const recipeResponseListArray = Array.from(recipeResponseList.value)
 
-		await fetch(import.meta.env.VITE_SERVER_URL, {
+		const data = await $fetch("/api/recipe-results", {
             method: "POST",
 			// headers: auth tokens
-            body: JSON.stringify({
+            body: {
 				client:{
 					location: {
 						ip: '',
@@ -114,16 +114,19 @@ export const useSearchModeStore = defineStore('search', ()=>{
 				request:{
 					message: searchTermArray,
 					mode: searchMode.value,
-					shoppingList: shoppingListArray,
-					responseList: recipeListResponseArray,
-					specificRecipe: specificRecipe.value
+					responseList: recipeResponseListArray,
 				},
-            })
+            }
         })
-        .then(response => response.json())
         .then((json) => {
-			// generatedResponse.value = JSON.parse(json.generation.response.content)
-			console.log(generatedResponse.value)
+			serverResponse.value = json
+			console.log(serverResponse.value)
+
+			if (serverResponse.value.generation.response.content.isValidRequest){
+				serverResponse.value = JSON.parse(serverResponse.value.generation.response.content)
+			}
+
+
 		})
 		.then(
 			setTimeout(() => {
@@ -137,10 +140,10 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		searchMode, 
 		searchTerms, 
 		searchTermsForServer, 
-		recipeListResponse,
+		recipeResponseList,
 		specificRecipe,
 		shoppingList,
-		generatedResponse,
+		serverResponse,
 		getSearchMode, 
 		getSearchTerms, 
 		getServerSearchTerms,
