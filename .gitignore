@@ -26,4 +26,5 @@ logs
 # git ignore
 .gitignore
 
-/service-account.json
+# service acct
+service-account.json
