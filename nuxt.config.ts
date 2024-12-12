@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/fonts',
     '@nuxtjs/device',
-    'nuxt-security',
+    // 'nuxt-security',
     '@nuxtjs/seo',
     '@nuxt/ui'
   ],

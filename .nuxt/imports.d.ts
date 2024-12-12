@@ -34,7 +34,6 @@ export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerS
 export { useAuthStore } from '../stores/auth';
 export { useSearchModeStore } from '../stores/search';
 export { useDevice } from '../node_modules/@nuxtjs/device/dist/runtime/composables/useDevice';
-export { useNonce } from '../node_modules/nuxt-security/dist/runtime/composables/nonce';
 export { updateSiteConfig } from '../node_modules/nuxt-site-config/dist/runtime/app/composables/updateSiteConfig';
 export { useNitroOrigin } from '../node_modules/nuxt-site-config/dist/runtime/app/composables/useNitroOrigin';
 export { useSiteConfig } from '../node_modules/nuxt-site-config/dist/runtime/app/composables/useSiteConfig';

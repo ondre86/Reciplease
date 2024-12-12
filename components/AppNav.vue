@@ -26,12 +26,12 @@
                     <li>
                         <NuxtLink to="/pricing">Pricing</NuxtLink>
                     </li>
-                    <li v-if="userStore.user">
+                    <li v-if="authStore.user">
                         <NuxtLink to="/list">Shopping List</NuxtLink>
                     </li>
                 </ul>
                 <Transition name="fade" mode="out-in">
-                    <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!userStore.user">Sign In</ButtonPrimary>
+                    <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!authStore.user">Sign In</ButtonPrimary>
                     <ButtonPrimary class="justify-self-end toggled" :link="'/profile'" v-else>Profile</ButtonPrimary>
                 </Transition>
             </div>
@@ -62,7 +62,7 @@
                             Pricing
                         </NuxtLink>
                     </li>
-                    <li v-if="userStore.user">
+                    <li v-if="authStore.user">
                         <NuxtLink 
                             to="/list" 
                             class="text-green-500"
@@ -76,7 +76,7 @@
                             to="/auth" 
                             class="text-green-500"
                             @click="mobileMenuTransition"
-                            v-if="!userStore.user"
+                            v-if="!authStore.user"
                         >
                             Sign In
                         </NuxtLink>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-const userStore = useAuthStore()
+const authStore = useAuthStore()
 const { $gsap } = useNuxtApp()
 const isDark = useDark()
 

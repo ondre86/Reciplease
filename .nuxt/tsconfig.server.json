@@ -229,7 +229,6 @@
     "../node_modules/@vueuse/nuxt/runtime/server",
     "../node_modules/@nuxt/fonts/runtime/server",
     "../node_modules/@nuxtjs/device/runtime/server",
-    "../node_modules/nuxt-security/runtime/server",
     "../node_modules/nuxt-site-config/dist/module.mjs/runtime/server",
     "../node_modules/@nuxtjs/robots/dist/module.mjs/runtime/server",
     "../node_modules/@nuxtjs/sitemap/dist/module.mjs/runtime/server",

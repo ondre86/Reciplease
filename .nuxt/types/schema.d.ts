@@ -22,10 +22,6 @@ declare module '@nuxt/schema' {
      */
     ["device"]: typeof import("@nuxtjs/device").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
-     * Configuration for `nuxt-security`
-     */
-    ["security"]: typeof import("nuxt-security").default extends NuxtModule<infer O> ? O : Record<string, any>
-    /**
      * Configuration for `/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module`
      */
     ["site"]: typeof import("/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? O : Record<string, any>
@@ -104,10 +100,6 @@ declare module '@nuxt/schema' {
      */
     ["device"]?: typeof import("@nuxtjs/device").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
-     * Configuration for `nuxt-security`
-     */
-    ["security"]?: typeof import("nuxt-security").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    /**
      * Configuration for `/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module`
      */
     ["site"]?: typeof import("/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
@@ -163,7 +155,7 @@ declare module '@nuxt/schema' {
      * Configuration for `@nuxt/telemetry`
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@hypernym/nuxt-gsap", Exclude<NuxtConfig["gsap"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@vueuse/nuxt", Exclude<NuxtConfig["vueuse"], boolean>] | ["@nuxt/fonts", Exclude<NuxtConfig["fonts"], boolean>] | ["@nuxtjs/device", Exclude<NuxtConfig["device"], boolean>] | ["nuxt-security", Exclude<NuxtConfig["security"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/robots/dist/module", Exclude<NuxtConfig["robots"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/sitemap/dist/module", Exclude<NuxtConfig["sitemap"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-og-image/dist/module", Exclude<NuxtConfig["ogImage"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-schema-org/dist/module", Exclude<NuxtConfig["schemaOrg"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-link-checker/dist/module", Exclude<NuxtConfig["linkChecker"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-seo-utils/dist/module", Exclude<NuxtConfig["seo"], boolean>] | ["@nuxtjs/seo", Exclude<NuxtConfig["nuxtseo"], boolean>] | ["@nuxt/icon", Exclude<NuxtConfig["icon"], boolean>] | ["@nuxtjs/color-mode", Exclude<NuxtConfig["colorMode"], boolean>] | ["@nuxtjs/tailwindcss", Exclude<NuxtConfig["tailwindcss"], boolean>] | ["@nuxt/ui", Exclude<NuxtConfig["ui"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@hypernym/nuxt-gsap", Exclude<NuxtConfig["gsap"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@vueuse/nuxt", Exclude<NuxtConfig["vueuse"], boolean>] | ["@nuxt/fonts", Exclude<NuxtConfig["fonts"], boolean>] | ["@nuxtjs/device", Exclude<NuxtConfig["device"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/robots/dist/module", Exclude<NuxtConfig["robots"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/sitemap/dist/module", Exclude<NuxtConfig["sitemap"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-og-image/dist/module", Exclude<NuxtConfig["ogImage"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-schema-org/dist/module", Exclude<NuxtConfig["schemaOrg"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-link-checker/dist/module", Exclude<NuxtConfig["linkChecker"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-seo-utils/dist/module", Exclude<NuxtConfig["seo"], boolean>] | ["@nuxtjs/seo", Exclude<NuxtConfig["nuxtseo"], boolean>] | ["@nuxt/icon", Exclude<NuxtConfig["icon"], boolean>] | ["@nuxtjs/color-mode", Exclude<NuxtConfig["colorMode"], boolean>] | ["@nuxtjs/tailwindcss", Exclude<NuxtConfig["tailwindcss"], boolean>] | ["@nuxt/ui", Exclude<NuxtConfig["ui"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
 }
 declare module 'nuxt/schema' {
@@ -194,11 +186,6 @@ declare module 'nuxt/schema' {
      */
     ["device"]: typeof import("@nuxtjs/device").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
-     * Configuration for `nuxt-security`
-     * @see https://www.npmjs.com/package/nuxt-security
-     */
-    ["security"]: typeof import("nuxt-security").default extends NuxtModule<infer O> ? O : Record<string, any>
-    /**
      * Configuration for `/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module`
      * @see https://www.npmjs.com/package//Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module
      */
@@ -296,11 +283,6 @@ declare module 'nuxt/schema' {
      */
     ["device"]?: typeof import("@nuxtjs/device").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
-     * Configuration for `nuxt-security`
-     * @see https://www.npmjs.com/package/nuxt-security
-     */
-    ["security"]?: typeof import("nuxt-security").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    /**
      * Configuration for `/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module`
      * @see https://www.npmjs.com/package//Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module
      */
@@ -370,7 +352,7 @@ declare module 'nuxt/schema' {
      * @see https://www.npmjs.com/package/@nuxt/telemetry
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@hypernym/nuxt-gsap", Exclude<NuxtConfig["gsap"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@vueuse/nuxt", Exclude<NuxtConfig["vueuse"], boolean>] | ["@nuxt/fonts", Exclude<NuxtConfig["fonts"], boolean>] | ["@nuxtjs/device", Exclude<NuxtConfig["device"], boolean>] | ["nuxt-security", Exclude<NuxtConfig["security"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/robots/dist/module", Exclude<NuxtConfig["robots"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/sitemap/dist/module", Exclude<NuxtConfig["sitemap"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-og-image/dist/module", Exclude<NuxtConfig["ogImage"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-schema-org/dist/module", Exclude<NuxtConfig["schemaOrg"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-link-checker/dist/module", Exclude<NuxtConfig["linkChecker"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-seo-utils/dist/module", Exclude<NuxtConfig["seo"], boolean>] | ["@nuxtjs/seo", Exclude<NuxtConfig["nuxtseo"], boolean>] | ["@nuxt/icon", Exclude<NuxtConfig["icon"], boolean>] | ["@nuxtjs/color-mode", Exclude<NuxtConfig["colorMode"], boolean>] | ["@nuxtjs/tailwindcss", Exclude<NuxtConfig["tailwindcss"], boolean>] | ["@nuxt/ui", Exclude<NuxtConfig["ui"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["@hypernym/nuxt-gsap", Exclude<NuxtConfig["gsap"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["@vueuse/nuxt", Exclude<NuxtConfig["vueuse"], boolean>] | ["@nuxt/fonts", Exclude<NuxtConfig["fonts"], boolean>] | ["@nuxtjs/device", Exclude<NuxtConfig["device"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-site-config/dist/module", Exclude<NuxtConfig["site"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/robots/dist/module", Exclude<NuxtConfig["robots"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/@nuxtjs/sitemap/dist/module", Exclude<NuxtConfig["sitemap"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-og-image/dist/module", Exclude<NuxtConfig["ogImage"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-schema-org/dist/module", Exclude<NuxtConfig["schemaOrg"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-link-checker/dist/module", Exclude<NuxtConfig["linkChecker"], boolean>] | ["/Users/dre/Code/Reciplease/node_modules/nuxt-seo-utils/dist/module", Exclude<NuxtConfig["seo"], boolean>] | ["@nuxtjs/seo", Exclude<NuxtConfig["nuxtseo"], boolean>] | ["@nuxt/icon", Exclude<NuxtConfig["icon"], boolean>] | ["@nuxtjs/color-mode", Exclude<NuxtConfig["colorMode"], boolean>] | ["@nuxtjs/tailwindcss", Exclude<NuxtConfig["tailwindcss"], boolean>] | ["@nuxt/ui", Exclude<NuxtConfig["ui"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
   interface RuntimeConfig {
    app: {
@@ -395,146 +377,6 @@ declare module 'nuxt/schema' {
 
    nitro: {
       envPrefix: string,
-   },
-
-   private: {
-      basicAuth: boolean,
-   },
-
-   security: {
-      strict: boolean,
-
-      headers: {
-         crossOriginResourcePolicy: string,
-
-         crossOriginOpenerPolicy: string,
-
-         crossOriginEmbedderPolicy: string,
-
-         contentSecurityPolicy: {
-            "base-uri": Array<string>,
-
-            "font-src": Array<string>,
-
-            "form-action": Array<string>,
-
-            "frame-ancestors": Array<string>,
-
-            "img-src": Array<string>,
-
-            "object-src": Array<string>,
-
-            "script-src-attr": Array<string>,
-
-            "style-src": Array<string>,
-
-            "script-src": Array<string>,
-
-            "upgrade-insecure-requests": boolean,
-         },
-
-         originAgentCluster: string,
-
-         referrerPolicy: string,
-
-         strictTransportSecurity: {
-            maxAge: number,
-
-            includeSubdomains: boolean,
-         },
-
-         xContentTypeOptions: string,
-
-         xDNSPrefetchControl: string,
-
-         xDownloadOptions: string,
-
-         xFrameOptions: string,
-
-         xPermittedCrossDomainPolicies: string,
-
-         xXSSProtection: string,
-
-         permissionsPolicy: {
-            camera: Array<any>,
-
-            "display-capture": Array<any>,
-
-            fullscreen: Array<any>,
-
-            geolocation: Array<any>,
-
-            microphone: Array<any>,
-         },
-      },
-
-      requestSizeLimiter: {
-         maxRequestSizeInBytes: number,
-
-         maxUploadFileRequestInBytes: number,
-
-         throwError: boolean,
-      },
-
-      rateLimiter: {
-         tokensPerInterval: number,
-
-         interval: number,
-
-         headers: boolean,
-
-         driver: {
-            name: string,
-         },
-
-         throwError: boolean,
-      },
-
-      xssValidator: {
-         methods: Array<string>,
-
-         throwError: boolean,
-      },
-
-      corsHandler: {
-         origin: string,
-
-         methods: Array<string>,
-
-         preflight: {
-            statusCode: number,
-         },
-      },
-
-      allowedMethodsRestricter: {
-         methods: string,
-
-         throwError: boolean,
-      },
-
-      hidePoweredBy: boolean,
-
-      enabled: boolean,
-
-      csrf: boolean,
-
-      nonce: boolean,
-
-      removeLoggers: boolean,
-
-      ssg: {
-         meta: boolean,
-
-         hashScripts: boolean,
-
-         hashStyles: boolean,
-
-         nitroHeaders: boolean,
-
-         exportToPresets: boolean,
-      },
-
-      sri: boolean,
    },
 
    sitemap: {
