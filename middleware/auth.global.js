@@ -11,6 +11,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		console.log('Waiting for Firebase Auth initialization...');
 		await userStore.monitorAuthState(); // Wait for the auth state to load
 
+		if (userStore.user && to.path == '/auth'){
+			return navigateTo('/profile')
+		}
+
 		if (!to.meta.requiresAuth) return
 
 	}
@@ -18,9 +22,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 	// Redirect to login if no user is authenticated
 	if (!userStore.user && to.meta.requiresAuth) {
 		console.log('User not authenticated, redirecting to login...');
-		return navigateTo({ name: 'auth' });
+		return navigateTo('/auth');
 	}
 
-	console.log('User authenticated, proceeding to route.');
+	if (userStore.user && to.path == '/auth'){
+		return navigateTo('/profile')
+	}
+
+	console.log(to)
+
+	console.log('Route settled');
   })
   
