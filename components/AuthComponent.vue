@@ -1,5 +1,5 @@
 <template>
-    <div class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-12 rounded-xl p-4 py-8 md:p-12">
+    <div class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 mb-8 rounded-xl p-4 py-8 md:p-8">
         <div class="flex flex-col gap-6">
             <h2 class="opacity-45 text-center text-md font-light mb-2">{{authMode}} with External Provider</h2>
             <div class="flex justify-evenly gap-4">
@@ -37,7 +37,7 @@
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center gap-3">
                         <label for="password">Password</label>
-                        <UPopover class="w-fit self-center">
+                        <UPopover class="w-fit self-center" :ui="{ ring: 'ring-0 border border-gmain-500' }">
                             <UButton id="pop-btn" color="white" label="?" class="rounded-full p-1 px-2 text-xs text-gray-500 flex self-center" />
                             <template #panel>
                                 <div id="pop-modal" class="p-4 flex flex-col gap-2">

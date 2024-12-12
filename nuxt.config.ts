@@ -47,6 +47,19 @@ export default defineNuxtConfig({
       scrollTrigger: true,
       text: true
     }
-  }
+  },
+  routeRules: {
+		"/": { ssr: false },
+    "/list": { ssr: false },
+		"/auth": { ssr: false },
+    "/profile": { ssr: false },
+    "/profile/settings": { ssr: false },
+    "/profile/history": { ssr: false },
+    "/profile/saved": { ssr: false },
+    "/profile/billing": { ssr: false },
+  },
+	ui: {
+		safelistColors: ['gmain']
+	}
 })
 
