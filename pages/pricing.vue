@@ -13,6 +13,8 @@
 						"
 					>
 					<PricingPlan
+						:text="'Sign Up Now'"
+						:link="'/auth'"
 						:plan="'Free'"
 						:price="0"
 						:subtitle="'Try Reciplease for free.'"
@@ -21,12 +23,16 @@
 							'10 Recipe Searches/Month',
 							'10 Saved Recipes',
 							'10 Shopping List Items',
+							'3 Generated Shopping Lists/Month'
 						]"
+						:darkEmphasis="true"
+						:disabled="false"
 						class="bg-transparent"
 						id="free"
 					>
 					</PricingPlan>
 					<PricingPlan
+						:text="'Coming Soon'"
 						:plan="'Pro'"
 						:price="7"
 						:subtitle="'Enjoy full access to Reciplease.'"
@@ -34,10 +40,11 @@
 							'200 Recipe Searches/Month',
 							'Unlimited Saved Recipes',
 							'Unlimited Shopping List Items',
-							'Shopping List Generator',
+							'Unlimited Shopping List Generations',
 							'Access to Latest Features',
 						]"
-						:darkEmphasis="true"
+						:darkEmphasis="false"
+						:disabled="true"
 						class="shadow-2xl"
 						id="unlimited"
 					>

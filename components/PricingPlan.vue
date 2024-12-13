@@ -8,10 +8,11 @@
         </div>
         <ButtonPrimary 
             class="mt-4" 
-            :link="'auth'"
+            :class="{'disabled': disabled}"
+            :link="link"
             :darkEmphasis="darkEmphasis"
         >
-            Sign Up Now
+            {{text}}
         </ButtonPrimary>
         <div class="grid gap-4 mt-4 border-t py-4 pt-8 justify-items-start">
             <h3 class="text-2xl font-medium ">Features</h3>
@@ -40,7 +41,10 @@ const props = defineProps({
     subtitle: String,
     extraSubtitle: String,
     features: Array,
-    darkEmphasis: Boolean
+    darkEmphasis: Boolean,
+    disabled: Boolean,
+    link: String,
+    text: String
 })
 
 onMounted(()=>{

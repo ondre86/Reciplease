@@ -3,17 +3,20 @@
         <input 
             class="substituted" 
             type="checkbox" 
-            :id=ingredient.ingredient 
-            :name="ingredient.ingredient" 
-            :value="ingredient.ingredient" 
+            :id=ingredient.ingredient.toLowerCase() 
+            :name="ingredient.ingredient.toLowerCase()" 
+            :value="ingredient.ingredient.toLowerCase()" 
             :data-quantity="ingredient.quantity * multiplier" 
             :data-measurement="ingredient.measurement" 
             @click="check($event); $emit('checked', $event)"
         />
         <label class="text-lg flex w-full" :for="ingredient.ingredient">
             <div class="flex flex-col gap-1">
-                <span>{{ ingredient.ingredient }}</span>
-                <span class="italic text-sm">{{ ingredient.quantity * multiplier }} {{ ingredient.measurement }}</span>
+                <span>{{ ingredient.ingredient.toLowerCase() }}</span>
+                <span class="italic text-sm">
+                    <span v-if="ingredient.quantity !== 0">{{ ingredient.quantity * multiplier }}&nbsp;</span>
+                    <span>{{ ingredient.measurement }}</span>
+                </span>
             </div>
         </label>
     </div>

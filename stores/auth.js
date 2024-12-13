@@ -1,9 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useSearchModeStore } from './search'
 import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, getRedirectResult } from "firebase/auth"
 
 
 export const useAuthStore = defineStore('auth', ()=>{
+    const searchStore = useSearchModeStore()
+
     const isInitialized = ref(false)
     const auth = ref(null)
     const googleProvider = ref(null)
@@ -114,6 +117,12 @@ export const useAuthStore = defineStore('auth', ()=>{
             await signOut(auth.value)
             console.log('User signed out')
             monitorAuthState()
+
+            searchStore.viewingRecipeFromSearch = false
+            searchStore.viewingSearchItems = false
+            searchStore.submittedRequest = false
+            searchStore.requestFulfilled = false
+            
             await navigateTo('/')
             authError.value = null
         } 

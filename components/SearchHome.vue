@@ -3,41 +3,49 @@
         class="search-results flex flex-col items-center h-full px-8 relative"
         style="margin-top: calc(69.4px + 2rem);"
     >
-        <div class="p-3 self-start back-btn">
-            <div
-                class="flex items-center gap-3 cursor-pointer back-text"
-                @click="
-                    searchStore.clearSearchTerms(); 
-                    searchStore.clearServerSearchTerms(); 
-                    searchStore.submittedRequest = false; 
-                    searchStore.requestFulfilled = false; 
-                    searchStore.viewingSearchItems = false;
-                    searchStore.changeSearchMode('pantry')
-                "
-                @keyup.enter="
-                    searchStore.clearSearchTerms(); 
-                    searchStore.clearServerSearchTerms(); 
-                    searchStore.submittedRequest = false; 
-                    searchStore.requestFulfilled = false; 
-                    searchStore.viewingSearchItems = false;
-                    searchStore.changeSearchMode('pantry')
-                "
+        <div
+            class="flex items-center gap-3 self-start mb-6 cursor-pointer back-text"
+            @click="
+                searchStore.clearSearchTerms(); 
+                searchStore.clearServerSearchTerms(); 
+                searchStore.submittedRequest = false; 
+                searchStore.requestFulfilled = false; 
+                searchStore.viewingSearchItems = false;
+                searchStore.changeSearchMode('pantry');
+                searchStore.clearRecipeResponseList()
+            "
+            @keyup.enter="
+                searchStore.clearSearchTerms(); 
+                searchStore.clearServerSearchTerms(); 
+                searchStore.submittedRequest = false; 
+                searchStore.requestFulfilled = false; 
+                searchStore.viewingSearchItems = false;
+                searchStore.changeSearchMode('pantry');
+                searchStore.clearRecipeResponseList()
+            "
+        >
+            <ButtonSearch
+                :svg-width="'12px'"
+                :svg-height="'12px'"
+                class="rotate-180"
             >
-                <ButtonSearch
-                    :svg-width="'12px'"
-                    :svg-height="'12px'"
-                    class="rotate-180"
-                >
-                </ButtonSearch>
-                <span>Go Back</span>
-            </div>
+            </ButtonSearch>
+            <span>Go Back</span>
         </div>
 
         <SearchResultsHeader></SearchResultsHeader>
 		<SearchResults></SearchResults>
-		<ButtonPrimary class="my-8">
-			View More
-		</ButtonPrimary>
+		<Transition name="fade" mode="out-in">
+            <ButtonPrimary 
+                class="my-8"
+                @click="searchStore.sendSearchTerms"
+                @keyup.enter="searchStore.sendSearchTerms"
+                v-if="searchStore.additionalRequestFulfilled"
+            >
+                View More
+            </ButtonPrimary>
+            <LoadingAnimation class="my-8" v-else></LoadingAnimation>
+        </Transition>
     </main>
 </template>
 
@@ -46,15 +54,6 @@ const searchStore = useSearchModeStore()
 </script>
 
 <style lang="sass" scoped>
-.back-btn
-    top: calc(69.4px + 2rem)
-    background-color: white
-
-    @media (prefers-color-scheme:dark)
-        background-color: g.$green-acc2
-
-
-
 .back-text
     text-decoration: underline
     text-decoration-color: transparent

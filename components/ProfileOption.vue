@@ -3,10 +3,10 @@
         <div 
             class="flex flex-col p-6 border rounded-xl justify-between items-center gap-12 md:gap-12">
             <div class="flex flex-col gap-3 max-w-xl md:max-w-half">
-                <h2 class="text-3xl font-bold text-center">{{optionTitle}}</h2>
+                <h2 class="text-3xl font-bold text-center">{{ optionTitle }}</h2>
             </div>
             <div class="flex flex-col gap-4 items-center self-center">
-                <ButtonPrimary class="toggled" :link="link">View</ButtonPrimary>
+                <ButtonPrimary class="toggled" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : "View" }}</ButtonPrimary>
             </div>
         </div>
     </div>
@@ -15,7 +15,8 @@
 <script setup>
 defineProps({
     optionTitle: String,
-    link: String
+    link: String,
+    disabled: Boolean
 })
 </script>
 

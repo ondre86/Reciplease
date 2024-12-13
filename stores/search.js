@@ -7,13 +7,15 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchTermsForServer = ref(new Set([]))
 
 	const recipeResponseList = ref(new Set([]))
-	const specificRecipe = ref(null)
 	const shoppingList = ref(new Set([]))
 
-	const serverResponse = ref()
+	const serverResponseList = ref({})
+	const serverResponseRecipe = ref({})
 
 	const submittedRequest = ref(null)
 	const requestFulfilled = ref(null)
+	const additionalRequestFulfilled = ref(null)
+
 	const viewingSearchItems = ref(null)
 	const viewingRecipeFromSearch = ref(null)
 
@@ -61,11 +63,18 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	function clearShoppingList(){
 		shoppingList.value.clear()
 	}
+	function clearRecipeResponseList(){
+		recipeResponseList.value.clear()
+	}
 
 	async function sendSearchTerms(){
 		submittedRequest.value = true
+
+		if (recipeResponseList.value.size > 0){
+			additionalRequestFulfilled.value = false
+		}
+
 		const searchTermArray = Array.from(searchTermsForServer.value)
-		const shoppingListArray = Array.from(shoppingList.value)
 		const recipeResponseListArray = Array.from(recipeResponseList.value)
 
 		const data = await $fetch("/api/recipe-results", {
@@ -119,21 +128,85 @@ export const useSearchModeStore = defineStore('search', ()=>{
             }
         })
         .then((json) => {
-			serverResponse.value = json
-			console.log(serverResponse.value)
+			if (recipeResponseList.value.size > 0){
+				JSON.parse(json.generation.response.content).recipes.forEach((item)=>{
+					serverResponseList.value.recipes.push(item)
+				}) 
+			}
+			else {
+				serverResponseList.value = JSON.parse(json.generation.response.content)
 
-			if (serverResponse.value.generation.response.content.isValidRequest){
-				serverResponse.value = JSON.parse(serverResponse.value.generation.response.content)
 			}
 
+			JSON.parse(json.generation.response.content).recipes.forEach((recipe)=>{
+				recipeResponseList.value.add(recipe.recipeName)
+			})
 
+			console.log(serverResponseList.value)
+			requestFulfilled.value = true
+			viewingSearchItems.value = true
+			additionalRequestFulfilled.value = true
 		})
-		.then(
-			setTimeout(() => {
-				requestFulfilled.value = true
-				viewingSearchItems.value = true
-			}, 3000)
-		)
+	}
+	async function getRecipeDetails(recipe) {
+		submittedRequest.value = true
+		requestFulfilled.value = false
+
+		const recipeDetails = await $fetch("/api/recipe-details", {
+            method: "POST",
+			// headers: auth tokens
+            body: {
+				client:{
+					location: {
+						ip: '',
+						location: ''
+					},
+
+					time: {
+						requestTimestamp: new Date().toUTCString(),
+						requestDate: new Date().toLocaleDateString(),
+						requestTime: new Date().toLocaleTimeString(),
+					},
+				
+					browser: {
+						browserVersion: navigator.userAgent,
+						browserLanguage: navigator.language,
+						browserOnline: navigator.onLine,
+						page: window.location.origin,
+						referrer: document.referrer,
+						previousSitesAmount: history.length,
+					},
+
+					storage: {
+						cookiesEnabled: navigator.cookieEnabled,
+						cookies: document.cookie.split(';'),
+						localStorage: localStorage
+					},
+
+					device: {
+						sizeScreenW: screen.width,
+						sizeScreenH: screen.height,
+						sizeDocW: document.width,
+						sizeDocH: document.height,
+						sizeInW: innerWidth,
+						sizeInH: innerHeight,
+						sizeAvailW: screen.availWidth,
+						sizeAvailH: screen.availHeight
+					}
+			
+				},
+				request:{
+					message: recipe,
+					mode: searchMode.value,
+				},
+            }
+        })
+        .then((json) => {
+			serverResponseRecipe.value = JSON.parse(json.generation.response.content)
+			console.log(serverResponseRecipe.value)
+			requestFulfilled.value = true
+			viewingRecipeFromSearch.value = true
+		})
 	}
 
 	return { 
@@ -141,15 +214,16 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		searchTerms, 
 		searchTermsForServer, 
 		recipeResponseList,
-		specificRecipe,
 		shoppingList,
-		serverResponse,
+		serverResponseList,
+		serverResponseRecipe,
 		getSearchMode, 
 		getSearchTerms, 
 		getServerSearchTerms,
 		getShoppingList,
 		submittedRequest,
 		requestFulfilled,
+		additionalRequestFulfilled,
 		viewingSearchItems,
 		viewingRecipeFromSearch,
 		changeSearchMode, 
@@ -162,6 +236,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		clearSearchTerms,
 		clearServerSearchTerms,
 		clearShoppingList,
-		sendSearchTerms 
+		clearRecipeResponseList,
+		sendSearchTerms,
+		getRecipeDetails
 	}
 })

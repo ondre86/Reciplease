@@ -106,7 +106,7 @@ function sanitizeInput(event, canHaveNumbers) {
 }
 
 function findDuplicate(item1, item2) {
-    if (item1.name == item2.name && item1.quantity == item2.quantity && item1.measurement == item2.measurement){
+    if (item1.name.toLowerCase() == item2.name.toLowerCase() && item1.quantity == item2.quantity && item1.measurement == item2.measurement){
         isDuplicate.value = true
         return
     }
@@ -123,7 +123,7 @@ function addToList(){
         !profanity.exists(listItemInput.value) && !profanity.exists(listQuantityInput.value)
     ){
         let listItem = {
-            name: listItemInput.value.trimEnd(),
+            name: listItemInput.value.toLowerCase().trimEnd(),
             quantity: listQuantityInput.value.split(' ')[0],
             measurement: listQuantityInput.value.split(' ')[1].trimEnd()
         }

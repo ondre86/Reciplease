@@ -75,6 +75,10 @@ div, a
             &:hover, &:focus-visible
                 background-color: g.$green-primary
 
+                &:not(.toggled)
+                    background-color: g.$tan-primary
+                    color: g.$green-acc2
+
     @media (prefers-color-scheme: dark)
         background-color: transparent
         border: 1px solid g.$green-acc1

@@ -59,6 +59,7 @@ const windowSize = useWindowSize()
 const isSmallScreen = useMediaQuery('(max-width: 700px)')
 
 const searchStore = useSearchModeStore()
+const authStore = useAuthStore()
 
 const modeDescriptors = {
     pantry: 'Search for recipes with your ingredients.',
@@ -68,14 +69,10 @@ const modeDescriptors = {
 
 let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
 
-function toggleSearchMode(event) {
+async function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
     searchStore.clearSearchTerms()
     searchStore.clearServerSearchTerms()
-
-    if (searchStore.getSearchMode == 'random'){
-        searchStore.sendSearchTerms()
-    }
 
     const descriptorTL = $gsap.timeline()
     .to('#mode-descriptor', {
@@ -106,6 +103,12 @@ function toggleSearchMode(event) {
             button.setAttribute('aria-pressed', false)
 		}
 	}
+
+    if (searchStore.getSearchMode == 'random'){
+        if (!authStore.user) return await navigateTo('/auth')
+
+        searchStore.getRecipeDetails()
+    }
 }
 </script>
 

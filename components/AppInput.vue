@@ -61,13 +61,12 @@ watch(isDark, (cur, prev)=>{
 })
 
 const searchStore = useSearchModeStore()
-const userStore = useAuthStore()
+const authStore = useAuthStore()
 
 const searchInput = defineModel('searchInput')
 const search = ref(null)
 const placeholder = ref('')
 const placeholderEl = useTemplateRef('placeholderEl')
-const validURL = ref(false)
 
 const searchMode = computed(()=>searchStore.searchMode)
 watch(searchMode, async (newMode, oldMode) =>{
@@ -89,7 +88,6 @@ watch(searchMode, async (newMode, oldMode) =>{
         if (newMode == 'random'){
             ingredientTL.pause()
             recipeTL.pause()
-            placeholderEl.value.textContent = 'Search'
         }
     }, 500)
 
@@ -395,7 +393,7 @@ async function sendSearchtoServer(modifier){
         searchInput.value = ''
     }
 
-    if(!userStore.user){
+    if(!authStore.user){
         await navigateTo('/auth')
     }
     else {

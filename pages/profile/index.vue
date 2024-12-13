@@ -7,33 +7,24 @@
 			</div>
 			<div id="acctMeta" class="flex flex-col gap-16 mt-8">
 				<div class="meta-wrap flex flex-col text-xl p-4 rounded-xl border items-start">
-					<h2 class="mb-8 text-2xl font-medium annotate"> Your Info:</h2>
-					<div class="flex flex-col gap-12">
-						<div class="flex w-full justify-between gap-6">
-							<div class="flex flex-col gap-2 flex-wrap">
-								<Transition name="fade" mode="out-in">
-									<span v-if="userStore.user" class="text-3xl font-semibold text-center">{{ userStore.displayName }}</span>
-								</Transition>
-							</div>
-							<ButtonSecondary
-								class="cursor-pointer w-full text-center md:w-fit"
-								@click="userStore.signOutUser()"
-								@keyup.enter="userStore.signOutUser()"
-							>
-								Sign Out
-							</ButtonSecondary>
+					<div class="flex flex-col gap-6">
+						<div class="flex flex-col gap-2 flex-wrap">
+							<Transition name="fade" mode="out-in">
+								<span v-if="authStore.user" class="text-3xl font-semibold text-center">{{ authStore.displayName }}</span>
+							</Transition>
 						</div>
-						<div class="flex gap-6">
-							<div class="flex gap-4 items-center">
-								<span class="max-w-20 md:max-w-none">Account Tier: </span>
-								<span class="tier-badge border p-2 rounded-lg w-fit">Free{{ tier }}</span>
-							</div>
-							<div class="flex gap-4 items-center">
-								<span class="max-w-20 md:max-w-none">Date Joined: </span>
-								<span class="tier-badge border p-2 rounded-lg w-fit">{{ userStore.dateCreated }}</span>
-							</div>
+						<div class="flex gap-4 w-full justify-center items-center">
+							<span>Account Tier: </span>
+							<span class="tier-badge border p-2 rounded-lg w-fit">Free{{ tier }}</span>
 						</div>
 					</div>
+					<ButtonSecondary
+						class="cursor-pointer text-center w-fit mt-8 self-center"
+						@click="authStore.signOutUser()"
+						@keyup.enter="authStore.signOutUser()"
+					>
+						Sign Out
+					</ButtonSecondary>
 				</div>
 			</div>
 			<ul class="mt-12 w-full flex flex-col justify-center items-center gap-12 md:flex-row md:flex-wrap">
@@ -47,7 +38,7 @@
 					<ProfileOption :optionTitle="'Account Settings'" :link="'/profile/settings'"></ProfileOption>
 				</li>
 				<li class="w-full md:w-fit">
-					<ProfileOption :optionTitle="'Billing & Plans'" :link="'/profile/billing'"></ProfileOption>
+					<ProfileOption :optionTitle="'Billing & Plans'" :disabled="true"></ProfileOption>
 				</li>
 
 			</ul>
@@ -62,14 +53,14 @@ definePageMeta({
   requiresAuth: true,
 })
 
-const userStore = useAuthStore()
+const authStore = useAuthStore()
 
-onMounted(()=>{
-	const a1 = annotate(document.querySelectorAll('.annotate')[0], { type: 'underline', color: '#687441' })
-	setTimeout(() => {
-		a1.show()
-	}, 300)
-})
+// onMounted(()=>{
+// 	const a1 = annotate(document.querySelectorAll('.annotate')[0], { type: 'underline', color: '#687441' })
+// 	setTimeout(() => {
+// 		a1.show()
+// 	}, 300)
+// })
 
 const tier = ref('')
 

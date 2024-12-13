@@ -1,5 +1,5 @@
 import OpenAI from "openai"
-import simpleOpenAIResponseFormat from '~/server/api/simpleResponseSchema.json' assert {type: 'json'}
+import detailedOpenAIResponseFormat from '~/server/api/detailedResponseSchema.json' assert {type: 'json'}
 
 export default defineEventHandler(async (event)=>{
     const clientRequest = await readBody(event)
@@ -19,22 +19,14 @@ export default defineEventHandler(async (event)=>{
     let openAIPrompt = ''
     let completion
     let imageSearchQuery = ''
+    let braveImageSearchURL = `https://api.search.brave.com/res/v1/images/search?q=${imageSearchQuery}`
 
-    switch (clientRequest.request.mode) {
-        case 'pantry':
-            clientRequest.request.message.forEach(term => {
-                openAISearchQuery += `${term}, `
-            })
-            openAISearchQuery = openAISearchQuery.slice(0, openAISearchQuery.length-2)
-            openAIPrompt = clientRequest.request.responseList.length > 0 ? `Provide me with 5 additional different recipes that contain the following ingredients: ${openAISearchQuery}` : `Provide me with 5 recipes that contain the following ingredients: ${openAISearchQuery}`
-            
-            break
-    
-        case 'recipe':
-            openAISearchQuery = clientRequest.request.message[0]
-            openAIPrompt = clientRequest.request.responseList.length > 0 ? `Provide me with 5 additional recipes for ${openAISearchQuery} that are different from these previous recipes: ${clientRequest.request.responseList}` : `Provide me with 5 recipes for ${openAISearchQuery}`
-
-            break
+    if (clientRequest.request.mode == 'random') {
+        openAISearchQuery = 'random recipe'
+        openAIPrompt = `Provide me with a random recipe that contains ingredients I would be able to easily procure within the United States. It does not have to be a simple dish.`
+    }
+    else {
+        openAIPrompt = `Provide me a recipe for ${clientRequest.request.message}`
     }
 
     completion = await openai.chat.completions.create({
@@ -49,7 +41,7 @@ export default defineEventHandler(async (event)=>{
                 content: openAIPrompt,
             },
         ],
-        response_format: simpleOpenAIResponseFormat
+        response_format: detailedOpenAIResponseFormat
     })
     
 
