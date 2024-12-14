@@ -1,5 +1,5 @@
 <template>
-    <svg width="100px" height="50px" viewBox="0 0 93 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <svg height="50px" viewBox="0 0 93 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>Reciplease Icon Logo</title>
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g 
@@ -17,6 +17,10 @@
 </template>
 
 <script setup>
+const props = defineProps({
+    svgWidth: String
+})
+
 const { $gsap } = useNuxtApp()
 
 const isDark = useDark()
@@ -60,6 +64,8 @@ onMounted(()=>{
 </script>
 
 <style lang="sass" scoped>
+svg
+    width: v-bind('svgWidth')
 g
     fill: v-bind('color')
 </style>

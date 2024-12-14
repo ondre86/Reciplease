@@ -173,7 +173,7 @@ onMounted(() => {
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 main
 	margin-top: calc( 81px + 3rem )
 a

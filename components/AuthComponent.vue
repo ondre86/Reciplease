@@ -1,6 +1,9 @@
 <template>
-    <div class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 mb-8 rounded-xl p-4 py-8 md:p-8">
-        <div class="flex flex-col gap-6 hidden">
+    <div 
+		class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 mb-8 rounded-xl p-4 py-8 md:p-8"
+		:class="{'gap-2': forgotPassword}"
+	>
+        <!-- <div class="flex flex-col gap-6">
             <h2 class="opacity-45 text-center text-md font-light mb-2">{{authMode}} with External Provider</h2>
             <div class="flex justify-evenly gap-4">
                 <ButtonPrimary 
@@ -12,8 +15,6 @@
                 <ButtonPrimary 
 					id="googleAuth" 
 					class="shadow-lg flex justify-center" 
-					@click="authStore.signInWithGoogle"
-					@keyup.enter="authStore.signInWithGoogle"
 				>
                     <img src="~/assets/other-logo/google.svg" alt="" height="24px" width="24px">
                 </ButtonPrimary>
@@ -24,7 +25,7 @@
                     <img src="~/assets/other-logo/facebook.svg" alt="" height="30px" width="30px">
                 </ButtonPrimary>
             </div>
-        </div>
+        </div> -->
         <div class="w-2/4 h-px self-center divide-x-8 divider hidden"></div>
         <div class="flex flex-col gap-4">
             <h2 class="opacity-45 text-center text-md font-light mb-4 hidden">{{authMode}} with Email</h2>
@@ -40,11 +41,11 @@
                         email-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                         focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                     "
-					:class="{'red-border': authStore.authError}"
+					:class="{'red-border': forgotPassword ? false : authStore.authMsg}"
                 />
                 <Transition name="fade" mode="out-in"><span id="error-email" ref="error-email">{{ errorEmail }}</span></Transition>
             </div>
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4" v-if="!forgotPassword">
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center gap-3">
                         <label for="password">Password</label>
@@ -69,7 +70,7 @@
                             pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                             focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                         "
-                        :class="{'red-border': authStore.authError}"
+                        :class="{'red-border': authStore.authMsg}"
                     />
                     <Transition name="fade" mode="out-in">
                         <div class="flex flex-col gap-2" v-show="authMode == 'Sign Up'" :key="1">
@@ -83,38 +84,56 @@
                                     cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
                                     focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
                                 "
-                                :class="{'red-border': authStore.authError}"
+                                :class="{'red-border': authStore.authMsg}"
                             />
                             <Transition name="fade" mode="out-in"><span id="error-password" ref="error-password">{{ confirmErrorPassword }}</span></Transition>
                         </div>
                     </Transition>
-                    <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-900'} }" />
+                    <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
                     <Transition name="fade" mode="out-in">
-                        <span class="w-full text-center mt-2" id="error-password" ref="error-password" v-if="authStore.authError">Invalid Email or Password</span>
+                        <span class="w-full text-center mt-2" id="error-password" ref="error-password" v-if="authStore.authMsg">Invalid Email or Password</span>
                     </Transition>
                 </div>
             </div>
         </div>
         <div class="flex flex-col gap-6 mt-2">
             <div class="flex justify-center mb-4">
-                <NuxtLink to="/" class="forgot underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md">Forgot your Password?</NuxtLink>
+				<span v-if="authStore.authMsg && forgotPassword">{{ authStore.authMsg }}</span>
+				<span v-else-if="!forgotPassword" @click="forgotPassword = true" class="forgot underline cursor-pointer underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md">Forgot your Password?</span>
             </div>
-            <ButtonPrimary 
-                class="toggled" 
-                style="width: 100%" 
-                :class="{'disabled': invalid}" 
-                :tabIndex="{0: invalid}"
-                @click.prevent="submitCredentials()"
-                @keyup.enter="submitCredentials()"
-            >
-                    {{ authMode }}
-            </ButtonPrimary>
+            <div class="flex justify-center">
+				<Transition name="fade" mode="out-in">
+					<ButtonPrimary
+						class="toggled"
+						style="width: 100%"
+						:class="{'disabled': invalid}"
+						:tabIndex="{0: invalid}"
+						@click.prevent="submitCredentials()"
+						@keyup.enter="submitCredentials()"
+						v-if="!authStore.loadingState"
+					>
+							{{ forgotPassword ? "Send Reset Link" : authMode }}
+					</ButtonPrimary>
+					<LoadingAnimation v-else :svgWidth="'50px'"></LoadingAnimation>
+				</Transition>
+			</div>
             <span 
                 @click.prevent="switchAuthMode()"
                 @keyup.enter="switchAuthMode()"
-                class="auth-switch text-lg self-center underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 cursor-pointer rounded-md" tabindex="0">
+                class="auth-switch text-lg self-center underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 cursor-pointer rounded-md" 
+				tabindex="0"
+			>
                 {{authSwitchLink}}
             </span>
+			<span
+				class="auth-switch text-lg self-center underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 cursor-pointer rounded-md" 
+				tabindex="0"
+				v-if="forgotPassword"
+				@click="forgotPassword = false"
+				@keyup.enter="forgotPassword = false"
+			>
+				Log in
+			</span>
         </div>
     </div>
 </template>
@@ -139,10 +158,13 @@ const errorEmail = ref('')
 const errorPassword = ref('')
 const confirmErrorPassword = ref('')
 
+const forgotPassword = ref(false)
+
 const authMode = ref('Sign In')
 const authSwitchLink = ref('Create an Account')
 
 function switchAuthMode(){
+	forgotPassword.value = false
 	authMode.value == "Sign In" ? authMode.value = 'Sign Up' : authMode.value = "Sign In"
     authMode.value == "Sign In" && (emailInput.value && passwordInput.value) ? invalid.value = false : invalid.value = true
 	authSwitchLink.value == "Create an Account" ? authSwitchLink.value = 'Use Existing Account' : authSwitchLink.value = "Create an Account"
@@ -150,7 +172,7 @@ function switchAuthMode(){
     emit('authModeSwitch', authMode.value)
 }
 
-watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMode], ([currentEmail, currentPass, currentCPass, currentPasswordStrength, currentAuthMode], [oldEmail, oldPass, oldCPass, oldPasswordStrength, oldAuthMode])=>{
+watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMode, forgotPassword], ([currentEmail, currentPass, currentCPass, currentPasswordStrength, currentAuthMode, forgotPasswordStatus], [oldEmail, oldPass, oldCPass, oldPasswordStrength, oldAuthMode])=>{
 	console.log(currentEmail, currentPass, currentCPass, currentAuthMode)
 	if (currentPass || currentPass == ''){
 		passwordStrength.value = validator.isStrongPassword(passwordInput.value, {returnScore: true})
@@ -167,9 +189,10 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 
 	if (currentAuthMode == "Sign Up"){
         if (
-            (currentEmail && validator.isEmail(currentEmail)) && 
+			((currentEmail && validator.isEmail(currentEmail)) && 
             (currentPass && validator.isStrongPassword(currentPass)) && 
-            (currentCPass == currentPass)
+            (currentCPass == currentPass)) ||
+			(currentEmail && validator.isEmail(currentEmail)) && (forgotPasswordStatus == true)
         ){
             invalid.value = false
         }
@@ -178,7 +201,7 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 		}
     }
     else {
-        if ((currentEmail && validator.isEmail(currentEmail)) && (currentPass)){
+        if ((currentEmail && validator.isEmail(currentEmail)) && (currentPass || forgotPasswordStatus == true)){
             invalid.value = false
         }
 		else {
@@ -186,9 +209,9 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 		}
     }
 
-	if (authStore.authError){
+	if (authStore.authMsg){
 		if (currentEmail !== oldEmail || currentPass !== oldPass){
-			authStore.authError = null
+			authStore.authMsg = null
 			console.log(currentEmail !== oldEmail)
 			console.log(currentPass !== oldPass)
 		}
@@ -198,10 +221,16 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 // firebase
 
 async function submitCredentials(){
-    if (invalid.value) {
-        console.log('invalid')
-        return
-    }
+    if (invalid.value) return
+
+	if (forgotPassword.value){
+		authStore.resetPassword(emailInput.value)
+		setTimeout(() => {
+			forgotPassword.value = false
+			authMode.value = "Sign In"
+		}, 1000)
+		return
+	}
 
     if (authMode.value == "Sign In"){
         authStore.loginUser(emailInput.value, passwordInput.value)
@@ -327,11 +356,8 @@ a, span
 	.meter-bg
 		background-color: g.$green-acc3
 
-	.red-border
-		border: 2px solid g.$red-primary
-		
-		&:focus, &:focus-visible, &:focus-within
-			outline: 6px solid g.$red-primary
+	#error-password
+		color: g.$tan-primary
 
 	.auth-wrap
 		background-color: g.$green-acc3
@@ -366,5 +392,11 @@ a, span
 		&:focus-visible
 			outline: 3px solid #ffffff
 			outline-offset: 3px
+
+	.red-border
+		border: 2px solid g.$red-primary
+		
+		&:focus, &:focus-visible, &:focus-within
+			outline: 6px solid g.$red-primary
 
 </style>

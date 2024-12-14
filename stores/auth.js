@@ -1,21 +1,20 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useSearchModeStore } from './search'
-import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, getRedirectResult } from "firebase/auth"
-
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, sendEmailVerification, updateEmail, updatePassword, verifyBeforeUpdateEmail, sendPasswordResetEmail } from "firebase/auth"
 
 export const useAuthStore = defineStore('auth', ()=>{
     const searchStore = useSearchModeStore()
 
     const isInitialized = ref(false)
     const auth = ref(null)
-    const googleProvider = ref(null)
 	const user = ref(null)
 
     const displayName = ref(null)
     const dateCreated = ref(null)
 
-    const authError = ref(null)
+    const authMsg = ref(null)
+    const loadingState = ref(null)
 
     const initializeAuth = async () => {
         const { $firebase } = useNuxtApp()
@@ -25,17 +24,6 @@ export const useAuthStore = defineStore('auth', ()=>{
         }
 
         auth.value = $firebase.auth
-
-        getRedirectResult(auth.value)
-            .then((result)=>{
-                if (result?.user) {
-                    user.value = result.user
-                    console.log('User signed in via redirect:', result.user)
-                }
-            })
-            .catch((error) => {
-                console.error('Error getting redirect result:', error)
-            })
 
         return new Promise((resolve) => {
             onAuthStateChanged(auth.value, async (currentUser) => {
@@ -68,47 +56,38 @@ export const useAuthStore = defineStore('auth', ()=>{
             })
         })
     }
-    
-    const signInWithGoogle = async () => {
-        const { $firebase } = useNuxtApp()
-        auth.value = $firebase.auth
-        const googleProvider = new GoogleAuthProvider()
 
-        try {
-            await signInWithRedirect(auth.value, googleProvider)
-            await navigateTo('/profile')
-            console.log('Google Sign-In successful:', userCredential)
-        } 
-        catch (error) {
-            console.error('Error during Google Sign-In:', error)
-            throw error
-        }
-      }
 
     async function loginUser(email, password){
         try {
+            loadingState.value = true
             user.value = await signInWithEmailAndPassword(auth.value, email, password)
+            loadingState.value = false
             console.log('User logged in:', user.value.user)
             monitorAuthState()
             await navigateTo('/')
-            authError.value = null
+            authMsg.value = null
         } 
         catch (error) {
+            loadingState.value = false
             console.error('Login failed:', error.code)
-            authError.value = error
+            authMsg.value = error
         }
     }
     async function createUser(email, password){
         try {
+            loadingState.value = true
             user.value = await createUserWithEmailAndPassword(auth.value, email, password)
+            loadingState.value = false
             console.log('User created:', user.value.user)
             monitorAuthState()
+            sendEmailVerification(auth.value.currentUser)
             await navigateTo('/')
-            authError.value = null
+            authMsg.value = null
         } 
         catch (error) {
             console.error('Login failed:', error)
-            authError.value = error
+            authMsg.value = error
 
         }
     }
@@ -122,55 +101,91 @@ export const useAuthStore = defineStore('auth', ()=>{
             searchStore.viewingSearchItems = false
             searchStore.submittedRequest = false
             searchStore.requestFulfilled = false
+            searchStore.clearRecipeResponseList()
             
             await navigateTo('/')
-            authError.value = null
+            authMsg.value = null
         } 
         catch (error) {
             console.error('Error signing out:', error)
-            authError.value = error
+            authMsg.value = error
 
         }
     }
     async function deleteCurrentUser() {
-        if (auth.currentUser) {
-            try {
-                await deleteUser(auth.currentUser)
-                console.log('User deleted')
-                monitorAuthState()
-                await navigateTo('/')
-                authError.value = null
-            } 
-            catch (error) {
-                console.error('Error deleting user:', error)
-                authError.value = error
-
-            }
+        try {
+            await deleteUser(auth.value.currentUser)
+            console.log('User deleted')
+            monitorAuthState()
+            await navigateTo('/')
+            authMsg.value = null
         } 
-        else {
-            console.error('No user is currently signed in')
+        catch (error) {
+            console.error('Error deleting user:', error)
+            authMsg.value = error
+
         }
     }
-    async function returnAuth() {
-        return auth.value
+    async function changeEmail(newEmail) {
+        try {
+            verifyBeforeUpdateEmail(auth.value.currentUser, newEmail)
+            authMsg.value = "Verification email sent. Signing out..."
+            loadingState.value = true
+            setTimeout(() => {
+                signOutUser()
+                loadingState.value = false
+            }, 5000)
+        } 
+        catch (error) {
+            authMsg.value = error
+        }
     }
+    async function changePassword(newPassword) {
+        try {
+            loadingState.value = true
+            updatePassword(auth.value.currentUser, newPassword)
+            loadingState.value = false
+            authMsg.value = "Successfully changed password."
+        } 
+        catch (error) {
+            loadingState.value = false
+            authMsg.value = error
+        }
+    }
+    async function resetPassword(email) {
+        try {
+            loadingState.value = true
+            sendPasswordResetEmail(auth.value, email)
+            authMsg.value = "Password reset email sent."
+			loadingState.value = false
+        } 
+        catch (error) {
+            authMsg.value = error
+        }
+    }
+
+
+
+
 
 
 
 	return { 
         isInitialized,
-        authError,
-		user,
         auth,
+		user,
+        authMsg,
+        loadingState,
         displayName,
         dateCreated,
         initializeAuth,
         monitorAuthState,
-        returnAuth,
         createUser,
         loginUser,
         signOutUser,
         deleteCurrentUser,
-        signInWithGoogle
+        changeEmail,
+        changePassword,
+        resetPassword
 	}
 })

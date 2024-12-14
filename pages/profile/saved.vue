@@ -1,17 +1,10 @@
 <template>
-	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-4 gap-8">
-			<div class="flex flex-col text-4xl justify-center items-center gap-6">
-				<h1 class="text-6xl font-semibold">Saved Recipes</h1>
-			</div>
-		</main>
-	</div>
+    <div>
+        <NuxtPage />
+    </div>
 </template>
 
 <script setup>
-definePageMeta({
-  requiresAuth: true,
-})
 useHead({
   title: 'Saved Recipes',
   meta: [
@@ -44,6 +37,13 @@ useHead({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
+.fade-move,
+.fade-enter-active,
+.fade-leave-active 
+	transition: all .25s ease
 
+.fade-enter-from,
+.fade-leave-to 
+	opacity: 0 !important
 </style>
