@@ -62,6 +62,9 @@
 <script setup>
 import { Profanity } from '@2toad/profanity';
 
+const db = useFirestoreStore()
+console.log(db.shoppingListItems)
+
 const profanity = new Profanity({
     wholeWord: false
 })
@@ -110,14 +113,9 @@ function findDuplicate(item1, item2) {
         isDuplicate.value = true
         return
     }
-    else {
-        isDuplicate.value = false
-        return
-    }
 }
 
 function addToList(){
-    isDuplicate.value = false
     if (
         (listItemInputElement.value.validity.valid && listQuantityInputElement.value.validity.valid) &&
         !profanity.exists(listItemInput.value) && !profanity.exists(listQuantityInput.value)
@@ -125,43 +123,40 @@ function addToList(){
         let listItem = {
             name: listItemInput.value.toLowerCase().trimEnd(),
             quantity: listQuantityInput.value.split(' ')[0],
-            measurement: listQuantityInput.value.split(' ')[1].trimEnd()
+            measurement: listQuantityInput.value.split(' ')[1].trimEnd(),
+            time: Date.now()
         }
 
-        searchStore.getShoppingList.forEach((item)=>{
-            let currentStoredShoppingListItem = JSON.parse(item)
+        db.shoppingListItems.forEach((item)=>{
+            let currentStoredShoppingListItem = item
 
-            findDuplicate(listItem, currentStoredShoppingListItem)
+            findDuplicate(listItem, toRaw(currentStoredShoppingListItem))
 
-            if (!isDuplicate.value){
-                if (currentStoredShoppingListItem.name == listItem.name){
-                    if(currentStoredShoppingListItem.measurement == listItem.measurement){
-                        listItem.quantity = Number(listItem.quantity) + Number(currentStoredShoppingListItem.quantity)
-                        if (currentStoredShoppingListItem.additionalMeasurements){
-                            listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements
-                        }
+            if (currentStoredShoppingListItem.name == listItem.name){
+                if(currentStoredShoppingListItem.measurement == listItem.measurement){
+                    listItem.quantity = Number(listItem.quantity) + Number(currentStoredShoppingListItem.quantity)
+                    if (currentStoredShoppingListItem.additionalMeasurements){
+                        listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements
                     }
-                    else {
-                        listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements ? currentStoredShoppingListItem.additionalMeasurements : []
-                        listItem.additionalMeasurements.push(`${currentStoredShoppingListItem.quantity} ${currentStoredShoppingListItem.measurement}`)
-                    }
-                    searchStore.deleteShoppingListItem(item)
                 }
+                else {
+                    listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements ? currentStoredShoppingListItem.additionalMeasurements : []
+                    listItem.additionalMeasurements.push(`${currentStoredShoppingListItem.quantity} ${currentStoredShoppingListItem.measurement}`)
+                }
+                db.deleteListItem(item.id)
             }
         })
-        if (!isDuplicate.value){
-            searchStore.addItemToShoppingList(JSON.stringify(listItem))
+        db.addListItem(listItem)
 
-            emit('newItem')
+        emit('newItem')
 
-            listItemInput.value = ''
-            listQuantityInput.value = ''
+        listItemInput.value = ''
+        listQuantityInput.value = ''
 
-            if (!isTouch) listItemInputElement.value.focus()
-            else {
-                listItemInputElement.value.blur()
-                listQuantityInputElement.value.blur()
-            }
+        if (!isTouch) listItemInputElement.value.focus()
+        else {
+            listItemInputElement.value.blur()
+            listQuantityInputElement.value.blur()
         }
     }
 

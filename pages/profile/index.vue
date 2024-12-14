@@ -18,8 +18,8 @@
 							<span class="tier-badge border p-2 rounded-lg w-fit">Free{{ tier }}</span>
 						</div>
 						<div class="flex gap-4 justify-center self-center tier-badge border p-2 rounded-lg w-fit">
-							<span v-if="authStore.user && authStore.user.emailVerified">Verified &nbsp;✅</span>
-							<span v-else>Not Verified &nbsp;❌</span>
+							<span v-if="authStore.user && authStore.user.emailVerified">Verified</span>
+							<span v-else>Not Verified</span>
 						</div>
 					</div>
 					<ButtonSecondary

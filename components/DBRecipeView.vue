@@ -101,7 +101,7 @@
                     >
                         {{ shoppingListButtonText }}
                     </ButtonPrimary>
-                    <RouterLink to="list" class="underline self-center">
+                    <RouterLink to="/list" class="underline self-center">
                         View Shopping List
                     </RouterLink>
                 </div>
@@ -181,11 +181,12 @@ function addToShoppingList(){
                 let listItem = {
                     name: item.name, 
                     quantity: item.attributes[5].value,
-                    measurement: item.attributes[6].value.split(',')[0]
+                    measurement: item.attributes[6].value.split(',')[0],
+                    time: Date.now()
                 }
 
-                searchStore.getShoppingList.forEach((item)=>{
-                    let currentStoredShoppingListItem = JSON.parse(item)
+                db.shoppingListItems.forEach((item)=>{
+                    let currentStoredShoppingListItem = item
                     
                     if (currentStoredShoppingListItem.name == listItem.name){
                         if(currentStoredShoppingListItem.measurement == listItem.measurement){
@@ -198,23 +199,21 @@ function addToShoppingList(){
                             listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements ? currentStoredShoppingListItem.additionalMeasurements : []
                             listItem.additionalMeasurements.push(`${currentStoredShoppingListItem.quantity} ${currentStoredShoppingListItem.measurement}`)
                         }
-                        searchStore.deleteShoppingListItem(item)
+                        db.deleteListItem(item.id)
                     }
                 })
 
-                searchStore.addItemToShoppingList(JSON.stringify(listItem))
+                db.addListItem(listItem)
             }
         }
+
         shoppingListButtonText.value = 'Added!'
     }
 
 }
 
-function addToDB() {
-    dbResult.value = db.addRecipe(props.recipe.recipes[0])
-}
 
-console.log(searchStore)
+
 
 
 

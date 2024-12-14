@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useFirestoreStore } from './firestore'
 
 export const useSearchModeStore = defineStore('search', ()=>{
 	const searchMode = ref('pantry')
@@ -19,6 +20,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const viewingSearchItems = ref(null)
 	const viewingRecipeFromSearch = ref(null)
 
+	const db = useFirestoreStore()
 
 	const getSearchMode = computed(()=>{
 		return searchMode.value

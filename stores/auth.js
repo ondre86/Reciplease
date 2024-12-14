@@ -88,7 +88,7 @@ export const useAuthStore = defineStore('auth', ()=>{
         catch (error) {
             console.error('Login failed:', error)
             authMsg.value = error
-
+            loadingState.value = false
         }
     }
     async function signOutUser() {
@@ -109,7 +109,7 @@ export const useAuthStore = defineStore('auth', ()=>{
         catch (error) {
             console.error('Error signing out:', error)
             authMsg.value = error
-
+            loadingState.value = false
         }
     }
     async function deleteCurrentUser() {
@@ -123,7 +123,7 @@ export const useAuthStore = defineStore('auth', ()=>{
         catch (error) {
             console.error('Error deleting user:', error)
             authMsg.value = error
-
+            loadingState.value = false
         }
     }
     async function changeEmail(newEmail) {

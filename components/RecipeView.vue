@@ -39,6 +39,7 @@
                         class="flex items-center gap-2 cursor-pointer"
                         @click="addToDB()"
                         @keyup.enter="addToDB()"
+                        :class="{'disabled': dbResult}"
                     >
                         {{ dbResult ? 'Saved' : 'Save' }}
                         <UIcon name="i-heroicons-heart"></UIcon>
@@ -136,7 +137,15 @@ const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const searchStore = useSearchModeStore()
 const db = useFirestoreStore()
+await db.fetchRecipes()
+
 const dbResult = ref(null)
+
+db.recipes.forEach((recipe)=>{
+    if (recipe.recipeName == searchStore.serverResponseRecipe.recipes[0].recipeName){
+        dbResult.value = recipe
+    }
+})
 
 // let x = JSON.parse(`{"isValidRequest":true,"recipes":[{"recipeName":"Salmon Fried Rice","description":"This colorful and nutritious fried rice recipe combines flaky salmon with vibrant vegetables and fluffy rice, all stir-fried together with a hint of soy sauce for an easy and delicious meal. It's a fantastic way to use up leftover rice and salmon, while packing in protein and veggies.","cuisine":"Asian","servingSize":{"minServings":2,"maxServings":4},"ingredients":[{"ingredient":"cooked rice","measurement":"cups","quantity":3},{"ingredient":"cooked salmon","measurement":"cups","quantity":1},{"ingredient":"carrot","measurement":"medium, diced","quantity":1},{"ingredient":"green peas","measurement":"cups","quantity":1},{"ingredient":"green onions","measurement":"stalks, chopped","quantity":2},{"ingredient":"soy sauce","measurement":"tablespoons","quantity":2},{"ingredient":"egg","measurement":"large, beaten","quantity":2},{"ingredient":"garlic","measurement":"cloves, minced","quantity":2},{"ingredient":"ginger","measurement":"teaspoon, minced","quantity":1},{"ingredient":"vegetable oil","measurement":"tablespoons","quantity":2},{"ingredient":"sesame oil","measurement":"teaspoons","quantity":1}],"optionalIngredients":[{"ingredient":"bell pepper","measurement":"medium, diced","quantity":1},{"ingredient":"cilantro","measurement":"cups, chopped","quantity":1}],"instructions":["Heat the vegetable oil in a large skillet or wok over medium heat.","Add the minced garlic and ginger, sauté for 1-2 minutes until fragrant.","Stir in the diced carrot and bell pepper (if using) and cook for 3-4 minutes, or until the vegetables start to soften.","Push the vegetables to the side of the skillet and pour the beaten eggs into the skillet. Scramble until fully cooked, then mix with the vegetables.","Add the cooked rice, cooked salmon, green peas, and soy sauce, stirring to combine everything evenly.","Stir-fry for about 5 minutes, until everything is heated through and the rice is slightly crispy.","Drizzle sesame oil over the rice and toss in the chopped green onions. Stir well to combine and serve hot."],"nutrition":{"calories":"450 kcal","sugars":"3 g","totalCarbs":"50 g","fiber":"3 g","totalFat":"15 g","saturatedFat":"2 g","cholesterol":"210 mg","sodium":"800 mg","protein":"25 g"},"isVegetarian":false,"isVegan":false}]}`)
 
@@ -186,11 +195,12 @@ function addToShoppingList(){
                 let listItem = {
                     name: item.name, 
                     quantity: item.attributes[5].value,
-                    measurement: item.attributes[6].value.split(',')[0]
+                    measurement: item.attributes[6].value.split(',')[0],
+                    time: Date.now()
                 }
 
-                searchStore.getShoppingList.forEach((item)=>{
-                    let currentStoredShoppingListItem = JSON.parse(item)
+                db.shoppingListItems.forEach((item)=>{
+                    let currentStoredShoppingListItem = item
                     
                     if (currentStoredShoppingListItem.name == listItem.name){
                         if(currentStoredShoppingListItem.measurement == listItem.measurement){
@@ -203,11 +213,11 @@ function addToShoppingList(){
                             listItem.additionalMeasurements = currentStoredShoppingListItem.additionalMeasurements ? currentStoredShoppingListItem.additionalMeasurements : []
                             listItem.additionalMeasurements.push(`${currentStoredShoppingListItem.quantity} ${currentStoredShoppingListItem.measurement}`)
                         }
-                        searchStore.deleteShoppingListItem(item)
+                        db.deleteListItem(item.id)
                     }
                 })
 
-                searchStore.addItemToShoppingList(JSON.stringify(listItem))
+                db.addListItem(listItem)
             }
         }
         shoppingListButtonText.value = 'Added!'
@@ -216,7 +226,11 @@ function addToShoppingList(){
 }
 
 function addToDB() {
-    dbResult.value = db.addRecipe(searchStore.serverResponseRecipe.recipes[0])
+    if (!dbResult.value){
+        let addedRecipe = searchStore.serverResponseRecipe.recipes[0]
+        addedRecipe.time = Date.now()
+        dbResult.value = db.addRecipe(addedRecipe)
+    }
 }
 
 console.log(searchStore)

@@ -1,5 +1,7 @@
 <template>
-    <DBRecipeView :recipe="db.currentRecipe"></DBRecipeView>
+    <div class="flex flex-col items-center">
+      <DBRecipeView :recipe="db.currentRecipe"></DBRecipeView>
+    </div>
 </template>
 
 <script setup>

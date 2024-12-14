@@ -7,7 +7,7 @@
 			</div>
 			<div class="flex flex-col gap-16 max-w-96 w-full md:grid md:grid-cols-2 md:gap-12 md:max-w-3xl">
 				<Transition name="fade" mode="out-in">
-					<div class="flex flex-col gap-24 md:flex-row" v-if="searchStore.getShoppingList.size > 0" ref="listWrap">
+					<div class="flex flex-col gap-24 md:flex-row" v-if="db.shoppingListItems.size > 0" ref="listWrap">
 						<TransitionGroup 
 							name="shoppinglist" 
 							tag="ul" 
@@ -19,8 +19,8 @@
 								<div class="flex justify-end w-fit">
 									<ButtonSecondary
 										class="self-end cursor-pointer text-base"
-										@click="searchStore.clearShoppingList"
-										@keyup.enter="searchStore.clearShoppingList"
+										@click="clearShoppingList"
+										@keyup.enter="clearShoppingList"
 										tabindex="0"
 										:key="'clear'"
 									>
@@ -28,8 +28,8 @@
 									</ButtonSecondary>
 								</div>
 							</div>
-							<li v-for="(item, index) in Array.from(searchStore.getShoppingList)" :key="JSON.parse(item).name" ref="listItems" class="my-2 border-b pb-4 pl-6 transition-all duration-300 last-of-type:border-transparent">
-								<ListViewItem :item="JSON.parse(item)"></ListViewItem>
+							<li v-for="(item, index) in Array.from(db.shoppingListItems).sort((a,b)=>{return a.time - b.time})" :key="item.name" ref="listItems" class="my-2 border-b pb-4 pl-6 transition-all duration-300 last-of-type:border-transparent">
+								<ListViewItem :item="item"></ListViewItem>
 							</li>
 						</TransitionGroup>
 					</div>
@@ -46,7 +46,7 @@
 				<ListInput @newItem="scrollToListEnd($event)" class="md:sticky list-input"></ListInput>
 			</div>
 			<Transition name="fade" mode="out-in">
-				<div v-if="searchStore.getShoppingList.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
+				<div v-if="db.shoppingListItems.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
 					<form class="flex flex-col">
 						<span class="text-2xl font-semibold mb-2 w-full">Generate List &nbsp;✨</span>
 						<span class="text-base font-light mb-8 max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
@@ -82,6 +82,12 @@
 
 <script setup>
 import { annotate } from 'rough-notation';
+
+const searchStore = useSearchModeStore()
+const db = useFirestoreStore()
+await db.fetchListItems()
+await db.subscribeToShoppingList()
+
 const { $gsap } = useNuxtApp()
 
 definePageMeta({
@@ -119,7 +125,13 @@ useHead({
   }
 })
 
-const searchStore = useSearchModeStore()
+function clearShoppingList() {
+	searchStore.clearShoppingList()
+	db.shoppingListItems.forEach((item)=>{
+		db.deleteListItem(item.id)
+	})
+}
+
 const listItems = useTemplateRef('listItems')
 const listWrap = useTemplateRef('listWrap')
 const { y } = useWindowScroll({ behavior: 'smooth' })

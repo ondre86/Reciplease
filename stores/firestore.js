@@ -1,18 +1,22 @@
 import { ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
+import { useSearchModeStore } from './search'
 import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from 'firebase/firestore'
 
 export const useFirestoreStore = defineStore('firestoreStore', () => {
-    const recipes = ref([]) // Reactive state for user recipes
-    const unsubscribe = ref(null) // For cleaning up listeners
+    const recipes = ref([])
+    const currentRecipe = ref({})
+
+    const unsubscribe = ref(null)
+
+    const shoppingListItems = ref(new Set([]))
 
     const resultMsg = ref(null)
 
     const addRecipe = async (recipe) => {
         try {
             const { $firebase } = useNuxtApp()
-            console.log($firebase.firestore)
             const authStore = useAuthStore()
             const userId = authStore.user?.uid
 
@@ -50,34 +54,6 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
         }
     }
 
-    const subscribeToRecipes = () => {
-        try {
-            const { $firebase } = useNuxtApp()
-            const authStore = useAuthStore()
-            const userId = authStore.user?.uid
-
-            if (!userId) throw new Error('User is not authenticated.')
-
-            const userCollection = collection($firebase.firestore, `users/${userId}/recipes`)
-
-            unsubscribe.value = onSnapshot(userCollection, (snapshot) => {
-                recipes.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-                console.log('Real-time update received:', recipes.value)
-            })
-        } 
-        catch (error) {
-            console.error('Error setting up subscription:', error.message)
-        }
-    }
-
-    const unsubscribeFromRecipes = () => {
-        if (unsubscribe.value) {
-        unsubscribe.value()
-        unsubscribe.value = null
-        console.log('Unsubscribed from real-time updates.')
-        }
-    }
-
     const deleteRecipe = async (recipeId) => {
         try {
             const { $firebase } = useNuxtApp()
@@ -96,15 +72,114 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
             console.error('Error deleting recipe:', error.message)
         }
     }
-    const currentRecipe = ref({})
+
+
+
+
+    // Shopping List
+
+    const addListItem = async (listItem) => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users/${userId}/shoppingList`)
+            const shoppingListDoc = doc(userCollection)
+            await setDoc(shoppingListDoc, listItem)
+
+            console.log('shoppingListItem added successfully:', shoppingListDoc.id)
+            return true
+        } 
+        catch (error) {
+            console.error('Error adding listItem:', error.message)
+            return false
+        }
+    }
+
+    const fetchListItems = async () => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users/${userId}/shoppingList`)
+            const snapshot = await getDocs(userCollection)
+
+            shoppingListItems.value = new Set(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+            console.log('Shopping List Items fetched successfully:', shoppingListItems.value)
+        } 
+        catch (error) {
+            console.error('Error fetching shoppingListItems:', error.message)
+        }
+    }
+    const deleteListItem = async (shoppingListItemId) => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const shoppingListDoc = doc($firebase.firestore, `users/${userId}/shoppingList/${shoppingListItemId}`)
+            await deleteDoc(shoppingListDoc)
+
+
+            shoppingListItems.value.forEach((item)=>{
+                if (item.id == shoppingListItemId) shoppingListItems.value.delete(item)
+            })
+
+            console.log('shoppingListItem deleted successfully:', shoppingListItemId)
+
+        } 
+        catch (error) {
+            console.error('Error deleting shoppingListItem:', error.message)
+        }
+    }
+
+    const subscribeToShoppingList = () => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users/${userId}/shoppingList`)
+
+            unsubscribe.value = onSnapshot(userCollection, (snapshot) => {
+                shoppingListItems.value = new Set(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+                console.log('Real-time update received:', shoppingListItems.value)
+            })
+        } 
+        catch (error) {
+            console.error('Error setting up subscription:', error.message)
+        }
+    }
+
+    const unsubscribeFromShoppingList = () => {
+        if (unsubscribe.value) {
+        unsubscribe.value()
+        unsubscribe.value = null
+        console.log('Unsubscribed from real-time updates.')
+        }
+    }
 
     return {
         recipes,
         currentRecipe,
+        shoppingListItems,
         addRecipe,
         fetchRecipes,
-        subscribeToRecipes,
-        unsubscribeFromRecipes,
+        subscribeToShoppingList,
+        unsubscribeFromShoppingList,
         deleteRecipe,
+        addListItem,
+        fetchListItems,
+        deleteListItem
     }
 })

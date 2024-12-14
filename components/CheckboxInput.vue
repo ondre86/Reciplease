@@ -10,7 +10,7 @@
             :data-measurement="ingredient.measurement" 
             @click="check($event); $emit('checked', $event)"
         />
-        <label class="text-lg flex w-full" :for="ingredient.ingredient">
+        <label class="text-lg flex w-full" :for="ingredient.ingredient.toLowerCase()">
             <div class="flex flex-col gap-1">
                 <span>{{ ingredient.ingredient.toLowerCase() }}</span>
                 <span class="italic text-sm">

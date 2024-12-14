@@ -23,7 +23,7 @@
 					v-if="db.recipes && db.recipes.length > 0"
 				>
 					<li
-						v-for="recipe in db.recipes" :key="recipe.recipeName"
+						v-for="recipe in db.recipes.sort((a,b)=>{a.time - b.time})" :key="recipe.recipeName"
 						class="mb-6 max-w-4xl w-full"
 					>
 						<div
@@ -48,8 +48,8 @@
 								</ButtonPrimary>
 								<ButtonSecondary
 									class="cursor-pointer"
-									@click="modalOpen = true"
-									@keyup.enter="modalOpen = true"
+									@click="modalOpen = true; db.currentRecipe = recipe;"
+									@keyup.enter="modalOpen = true; db.currentRecipe = recipe;"
 								>
 									Delete Recipe
 								</ButtonSecondary>
@@ -62,8 +62,8 @@
 									</p>
 									<ButtonSecondary
 										class="toggled cursor-pointer mt-4"
-										@click="db.deleteRecipe(recipe.id)"
-										@keyup.enter="db.deleteRecipe(recipe.id)"
+										@click="db.deleteRecipe(db.currentRecipe.id)"
+										@keyup.enter="db.deleteRecipe(db.currentRecipe.id)"
 									>
 										Yes, I'm Sure
 									</ButtonSecondary>

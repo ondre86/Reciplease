@@ -19,8 +19,8 @@
             class="ml-6" 
             :svg-size="'10px'" 
             :solo="true"
-            @click="searchStore.deleteShoppingListItem(JSON.stringify(item))"
-            @keyup.enter="searchStore.deleteShoppingListItem(JSON.stringify(item))"
+            @click="db.deleteListItem(item.id); searchStore.deleteShoppingListItem(JSON.stringify(item))"
+            @keyup.enter="db.deleteListItem(item.id); searchStore.deleteShoppingListItem(JSON.stringify(item))"
         >
         </ButtonClose>
     </div>
@@ -34,6 +34,8 @@ defineProps({
 })
 
 const searchStore = useSearchModeStore()
+const db = useFirestoreStore()
+await db.fetchListItems()
 
 function check($event){
     if ($event.target.tagName == "LABEL"){
