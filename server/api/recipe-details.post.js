@@ -18,8 +18,8 @@ export default defineEventHandler(async (event)=>{
     let openAISearchQuery = ''
     let openAIPrompt = ''
     let completion
-    let imageSearchQuery = ''
-    let braveImageSearchURL = `https://api.search.brave.com/res/v1/images/search?q=${imageSearchQuery}`
+    let braveImageSearchURL = `https://api.search.brave.com/res/v1/images/search?q=${clientRequest.request.message}`
+    let imageSearchResult
 
     if (clientRequest.request.mode == 'random') {
         openAISearchQuery = 'random recipe'
@@ -43,11 +43,28 @@ export default defineEventHandler(async (event)=>{
         ],
         response_format: detailedOpenAIResponseFormat
     })
+
+    await fetch(braveImageSearchURL, {
+        method: 'POST',
+        headers: {
+            "Accept": 'application/json',
+            "Accept-Encoding": 'gzip',
+            "X-Subscription-Token": config.braveSearchKey
+        }
+    })
+    .then((res)=>{
+        console.log(res)
+        // res.json()
+    })
+    // .then((json)=>{
+    //     imageSearchResult = json
+    // })
     
 
     clientRequest.generation = {
         query: openAIPrompt,
-        response: completion.choices[0].message
+        response: completion.choices[0].message,
+        image: imageSearchResult
     }
 
     return clientRequest

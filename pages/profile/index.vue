@@ -31,7 +31,7 @@
 					</ButtonSecondary>
 				</div>
 			</div>
-			<ul class="mt-12 w-full flex flex-col justify-center items-center gap-8 md:flex-row md:flex-wrap">
+			<ul class="mt-12 w-full flex flex-col justify-center items-center gap-4 md:flex-row md:flex-wrap">
 				<li class="w-full md:w-fit">
 					<ProfileOption :optionTitle="'Saved Recipes'" :link="'/profile/saved'"></ProfileOption>
 				</li>

@@ -12,6 +12,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 
 	const serverResponseList = ref({})
 	const serverResponseRecipe = ref({})
+	const serverResponseImage = ref({})
 
 	const submittedRequest = ref(null)
 	const requestFulfilled = ref(null)
@@ -205,7 +206,9 @@ export const useSearchModeStore = defineStore('search', ()=>{
         })
         .then((json) => {
 			serverResponseRecipe.value = JSON.parse(json.generation.response.content)
+			serverResponseImage.value = json.generation.image
 			console.log(serverResponseRecipe.value)
+			console.log(serverResponseImage.value)
 			requestFulfilled.value = true
 			viewingRecipeFromSearch.value = true
 		})
@@ -219,6 +222,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		shoppingList,
 		serverResponseList,
 		serverResponseRecipe,
+		serverResponseImage,
 		getSearchMode, 
 		getSearchTerms, 
 		getServerSearchTerms,

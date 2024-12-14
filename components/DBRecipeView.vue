@@ -20,7 +20,7 @@
         <div 
             class="
                 flex flex-col max-w-4xl justify-between items-center gap-12
-                md:flex-row md:items-start md:gap-24
+                md:flex-row md:items-start md:gap-36
             "
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">

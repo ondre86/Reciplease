@@ -20,7 +20,7 @@
         <div 
             class="
                 flex flex-col max-w-4xl justify-between items-center gap-12
-                md:flex-row md:items-start md:gap-24
+                md:flex-row md:items-start md:gap-36
             "
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">
@@ -98,6 +98,9 @@
                         <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].ingredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
                             <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
                         </li>
+                    </ul>
+                    <ul>
+                        <li class="text-xl text-center my-6 mt-4 pb-2 font-semibold border-b"><span>Optional Ingredients</span></li>
                         <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].optionalIngredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
                             <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
                         </li>
