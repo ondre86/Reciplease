@@ -1,5 +1,5 @@
 <template>
-    <div class="grid py-8 px-12 rounded-lg gap-6 border justify-items-start auto-rows-min">
+    <div class="grid p-8 px-9 rounded-lg gap-6 border justify-items-start auto-rows-min">
         <h2 class="font-semibold">{{ plan }}</h2>
         <span class="text-3xl max-w-sm block">${{ price }}/month</span>
         <div class="flex flex-col gap-2">
@@ -20,7 +20,7 @@
                 class="list-disc text-base">
                 <li 
                     v-for="(feature, index) in features" :key="feature"
-                    class="list-item items-center h-fit mt-2 font-light pl-4"
+                    class="list-item items-center h-fit mt-2 font-light pl-3"
                 >
                     <span class="text-base leading-8">{{ feature }}</span>
                 </li>

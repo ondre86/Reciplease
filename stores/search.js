@@ -20,6 +20,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 
 	const viewingSearchItems = ref(null)
 	const viewingRecipeFromSearch = ref(null)
+	const generatingRecipe = ref(null)
 
 	const db = useFirestoreStore()
 
@@ -154,6 +155,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	async function getRecipeDetails(recipe) {
 		submittedRequest.value = true
 		requestFulfilled.value = false
+		generatingRecipe.value = true
 
 		const recipeDetails = await $fetch("/api/recipe-details", {
             method: "POST",
@@ -209,6 +211,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			serverResponseImage.value = json.generation.image
 			requestFulfilled.value = true
 			viewingRecipeFromSearch.value = true
+			generatingRecipe.value = false
 		})
 	}
 
@@ -230,6 +233,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		additionalRequestFulfilled,
 		viewingSearchItems,
 		viewingRecipeFromSearch,
+		generatingRecipe,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 

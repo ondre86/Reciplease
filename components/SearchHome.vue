@@ -4,7 +4,7 @@
         style="margin-top: calc(69.4px + 2rem);"
     >
         <div
-            class="flex items-center gap-3 self-start mb-6 cursor-pointer back-text"
+            class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
             @click="
                 searchStore.clearSearchTerms(); 
                 searchStore.clearServerSearchTerms(); 

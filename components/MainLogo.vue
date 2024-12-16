@@ -4,6 +4,6 @@
             <source media="(prefers-color-scheme:dark)" srcset="@/assets/logo/logo-full-green-light.svg">
             <img src="@/assets/logo/logo-full-green-dark.svg" alt="">
         </picture>
-        <span class="text-center">Find recipes and get personalized shopping lists in minutes.</span>
+        <span class="text-center">Find new recipes and create shopping lists.</span>
     </div>
 </template>

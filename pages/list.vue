@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-4 gap-16 mb-8">
+		<main class="flex flex-col justify-start items-center px-6 gap-16 mb-8">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6 text-center">
 				<h1 class="text-6xl font-semibold">Shopping List</h1>
 				<span class="w-full text-lg font-light">View, modify, and generate your shopping list.</span>

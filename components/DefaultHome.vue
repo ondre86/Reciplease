@@ -1,6 +1,6 @@
 <template>
     <main
-        class="flex flex-col items-center h-full self-center"
+        class="flex flex-col items-center h-full self-center px-6"
         ref="mainWrap"
     >
         <MainLogo></MainLogo>
@@ -22,6 +22,4 @@ const windowSize = useWindowSize()
 </script>
 
 <style lang="sass" scoped>
-main
-    padding: 0 5%
 </style>

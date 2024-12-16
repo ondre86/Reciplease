@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-4 gap-16 mb-16">
+		<main class="flex flex-col justify-start items-center px-6 gap-16 mb-16">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-6xl font-semibold">Pricing</h1>
 				<span class="w-full text-lg font-light text-center">Save time and take your cooking to the next level.</span>
@@ -20,10 +20,10 @@
 						:subtitle="'Try Reciplease for free.'"
 						:extraSubtitle="'No credit card required.'"
 						:features="[
-							'10 Recipe Searches/Month',
+							'10 Recipe Generations/Month',
 							'10 Saved Recipes',
 							'10 Shopping List Items',
-							'3 Generated Shopping Lists/Month'
+							'3 Shopping List Generations/Month'
 						]"
 						:darkEmphasis="true"
 						:disabled="false"
@@ -34,10 +34,10 @@
 					<PricingPlan
 						:text="'Coming Soon'"
 						:plan="'Pro'"
-						:price="7"
+						:price="10"
 						:subtitle="'Enjoy full access to Reciplease.'"
 						:features="[
-							'200 Recipe Searches/Month',
+							'Unlimited Recipe Generations',
 							'Unlimited Saved Recipes',
 							'Unlimited Shopping List Items',
 							'Unlimited Shopping List Generations',

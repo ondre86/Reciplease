@@ -3,10 +3,10 @@
         class="loading flex flex-col justify-center items-center h-dvh"
     >
         <LoadingAnimation></LoadingAnimation>
-        <div v-if="searchStore.viewingRecipeFromSearch && !searchStore.requestFulfilled">
+        <div v-if="searchStore.generatingRecipe" class="mt-6 text-center">
             <span class="text-md italic">
-                Generating recipe... <br><br>
-                Please be patient!
+                Generating recipe... <br>
+                Please don't refresh the page!
             </span>
         </div>
     </main>

@@ -1,12 +1,12 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-4 gap-8">
+		<main class="flex flex-col justify-start items-center px-6 gap-8">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-6xl font-semibold">About</h1>
 				<span class="w-full text-lg font-light text-center">What is Reciplease and how can it help you?</span>
-				<span class="text-3xl font-semibold mt-12">Reciplease is a...</span>
+				<span class="text-3xl font-semibold mt-6">Reciplease is a...</span>
 			</div>
-			<div class="grid grid-rows-4 gap-16">
+			<div class="flex flex-col gap-16 h-fit">
 				<AboutGridItem
 					:image="'/svg/time.svg'"
 					:alt="''"
@@ -14,7 +14,6 @@
 					:subline="`No more staring in the fridge, stressing about tonight's dinner.`"
 					:desc="`Reciplease takes the guesswork out of cooking by finding recipes based on ingredients you already have in your pantry. Then, once you find recipes that you like, you can create one organized shopping list with everything you need.`"
 					:lastLine="`Spend less time in recipe books or at the grocery store and more time with family and friends.`"
-					id="first-about"
 				>
 				</AboutGridItem>
 				<AboutGridItem
@@ -45,7 +44,7 @@
 				>
 				</AboutGridItem>
 			</div>
-			<div class="about-cta flex flex-col my-24 gap-6 border p-16 rounded-xl shadow-2xl">
+			<div class="about-cta flex flex-col my-12 gap-6 border p-16 rounded-xl shadow-2xl">
 				<h2 class="font-semibold text-4xl text-center">Ready to Level Up?</h2>
 				<span class="font-normal text-base text-center">Start using Reciplease today!</span>
 				<div 
@@ -176,7 +175,7 @@ onMounted(() => {
 <style lang="sass" scoped>
 main
 	margin-top: calc( 81px + 3rem )
-a
+span > a
 	color: g.$green-primary
 	transition: all .15s
 
@@ -186,9 +185,6 @@ a
 	&:focus-visible
 		outline: 2px solid g.$green-primary
 		outline-offset: 3px
-
-#first-about
-	gap: 3rem
 
 @media (prefers-color-scheme:dark)
 	div

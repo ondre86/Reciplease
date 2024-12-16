@@ -2,7 +2,7 @@
     <header class="flex justify-center w-full py-4 z-50 fixed top-0">
         <nav 
             class="
-                flex justify-between px-8 w-full max-w-screen-xl items-center relative z-10
+                flex justify-between px-6 w-full max-w-screen-xl items-center relative z-10
             "
         >
             <NuxtLink 

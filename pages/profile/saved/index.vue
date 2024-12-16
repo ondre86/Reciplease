@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-8 gap-12" style="margin-top: calc(69.4px + 2rem);">
+		<main class="flex flex-col justify-start items-center gap-8 px-6" style="margin-top: calc(69.4px + 2rem);">
 			<div
 				class="flex items-center gap-3 self-start cursor-pointer back-text"
 				@click="navigateTo('/profile')"
@@ -15,11 +15,11 @@
 				<span>Go Back</span>
 			</div>
 			<div class="flex flex-col text-4xl justify-center items-center text-center gap-6">
-				<h1 class="text-6xl font-semibold">Saved Recipes</h1>
+				<h1 class="text-4xl font-semibold">Saved Recipes</h1>
 			</div>
 			<Transition name="fade" mode="out-in">
 				<ul
-					class="mt-8 w-full flex flex-col items-center"
+					class="w-full flex flex-col items-center"
 					v-if="db.recipes && db.recipes.length > 0"
 				>
 					<li
@@ -41,7 +41,7 @@
 									<div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegan">Vegan</div>
 								</div>
 							</div>
-							<div class="flex flex-col gap-4">
+							<div class="flex flex-wrap gap-4 items-center md:flex-col md:justify-center ">
 								<ButtonPrimary
 									class="toggled"
 									:link="`/profile/saved/${recipe.id}`"
@@ -76,10 +76,12 @@
 						</div>
 					</li>
 				</ul>
-				<span class="text-center" v-else>
-					No saved recipes. <br><br>
-					Find a recipe and click the "Save" button to see it here.
-				</span>
+				<div class="flex flex-col gap-2 mt-6 text-center" v-else>
+					<span class="text-lg font-semibold">
+						No saved recipes. <br>
+					</span>
+					<span>Find a recipe and click the "Save" button to see it here.</span>
+				</div>
 			</Transition>
 		</main>
 	</div>

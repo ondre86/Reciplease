@@ -268,6 +268,7 @@ onMounted(()=>{
 img
     height: 200px
     width: 200px
+    object-fit: cover
 
 .back-text
     text-decoration: underline

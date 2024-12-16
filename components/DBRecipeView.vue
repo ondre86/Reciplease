@@ -244,6 +244,11 @@ onMounted(()=>{
 </script>
 
 <style lang="sass" scoped>
+img
+    width: 200px
+    height: 200px
+    object-fit: cover
+    
 .back-text
     text-decoration: underline
     text-decoration-color: transparent

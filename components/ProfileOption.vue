@@ -1,12 +1,13 @@
 <template>
-    <div class="mb-6 max-w-4xl w-full min-w-48 profile-option">
+    <div class="mb-6 max-w-4xl w-full min-w-48 profile-option border rounded-xl overflow-hidden">
         <div 
-            class="flex flex-col p-6 border rounded-xl justify-between items-center gap-12 md:gap-12">
-            <div class="flex flex-col gap-3 max-w-xl md:max-w-half">
-                <h2 class="text-3xl font-bold text-center">{{ optionTitle }}</h2>
+            class="flex flex-col p-6 justify-between items-center gap-12  md:gap-12">
+            <div class="flex flex-col gap-3 text-center max-w-xl md:max-w-half">
+                <h2 class="text-3xl font-bold">{{ optionTitle }}</h2>
+                <span class="text-base">{{ subtitle }}</span>
             </div>
-            <div class="flex flex-col gap-4 items-center self-center">
-                <ButtonPrimary class="toggled" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : "View" }}</ButtonPrimary>
+            <div class="flex flex-col gap-4 items-center self-center w-full md:w-fit">
+                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : `View ${optionTitle}` }}</ButtonPrimary>
             </div>
         </div>
     </div>
@@ -15,6 +16,7 @@
 <script setup>
 defineProps({
     optionTitle: String,
+    subtitle: String,
     link: String,
     disabled: Boolean
 })

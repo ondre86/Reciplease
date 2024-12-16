@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-8 gap-12 mb-12" style="margin-top: calc(69.4px + 2rem);">
+		<main class="flex flex-col justify-start items-center px-6 gap-8 mb-12" style="margin-top: calc(69.4px + 2rem);">
 			<div
 				class="flex items-center gap-3 self-start cursor-pointer back-text"
 				@click="navigateTo('/profile')"
@@ -14,41 +14,15 @@
 				</ButtonSearch>
 				<span>Go Back</span>
 			</div>
-			<div class="flex flex-col text-4xl justify-center items-center gap-6">
-				<h1 class="text-6xl font-semibold">Settings</h1>
-			</div>
-			<div class="flex flex-col gap-16 mt-8">
-				<div class="meta-wrap flex flex-col text-xl p-4 rounded-xl border items-start px-8">
-					<div class="flex flex-col gap-6">
-						<div class="flex flex-col gap-2 flex-wrap">
-							<Transition name="fade" mode="out-in">
-								<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
-							</Transition>
-						</div>
-						<div class="flex gap-4 w-full justify-center items-center">
-							<span>Account Tier: </span>
-							<span class="tier-badge border p-2 rounded-lg w-fit">Free</span>
-						</div>
-						<div class="flex gap-4 justify-center self-center tier-badge border p-2 rounded-lg w-fit">
-							<span v-if="authStore.user && authStore.user.emailVerified">Verified</span>
-							<span v-else>Not Verified</span>
-						</div>
-					</div>
-					<ButtonSecondary
-						class="cursor-pointer text-center w-fit mt-8 self-center"
-						@click="authStore.signOutUser()"
-						@keyup.enter="authStore.signOutUser()"
-					>
-						Sign Out
-					</ButtonSecondary>
-				</div>
+			<div class="flex flex-col text-4xl justify-center items-center">
+				<h1 class="text-4xl font-semibold">Settings</h1>
 			</div>
 			<div class="flex flex-col gap-6 md:flex-row">
 				<div class="flex flex-col gap-4 justify-between">
 					<div
 						class="flex flex-col p-6 border rounded-xl justify-between items-center gap-8 h-fit md:gap-12"
 					>
-						<h3 class="text-3xl font-semibold">Change Email</h3>
+						<h3 class="text-2xl font-semibold">Change Email</h3>
 						<div class="flex flex-col gap-4 items-center">
 							<div class="flex flex-col gap-2">
 								<label for="email" class="self-start">New Email Address</label>
@@ -83,7 +57,7 @@
 					<div
 						class="flex-col p-6 border rounded-xl justify-between items-center gap-8 hidden md:gap-12 md:flex"
 					>
-						<h3 class="text-3xl font-semibold">Delete Account</h3>
+						<h3 class="text-2xl font-semibold">Delete Account</h3>
 						<ButtonSecondary 
 							class="toggled cursor-pointer"
 							@click="openDeleteModal()"
@@ -96,7 +70,7 @@
 				<div
 					class="flex flex-col p-6 border rounded-xl justify-between items-center gap-8 md:gap-12"
 				>
-					<h3 class="text-3xl font-semibold text-center">Change Password</h3>
+					<h3 class="text-2xl font-semibold text-center">Change Password</h3>
 					<div class="flex flex-col gap-2">
 						<label for="password">New Password</label>
 						<input
@@ -143,7 +117,7 @@
 			<div
 				class="flex flex-col p-6 border rounded-xl justify-between items-center gap-8 md:gap-12 md:hidden"
 			>
-				<h3 class="text-3xl font-semibold text-center">Delete Account</h3>
+				<h3 class="text-2xl font-semibold text-center">Delete Account</h3>
 				<ButtonSecondary 
 					class="toggled cursor-pointer" 
 					@click="openDeleteModal()"

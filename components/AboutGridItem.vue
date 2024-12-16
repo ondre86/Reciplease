@@ -1,7 +1,7 @@
 <template>
     <div 
         class="
-            about-card flex flex-col gap-4 max-w-4xl justify-between p-10 py-16 rounded-xl shadow-xl border
+            about-card flex flex-col gap-4 max-w-4xl justify-between p-8 py-10 rounded-xl shadow-xl border h-fit
             md:flex-row
         "
     >
@@ -14,7 +14,7 @@
                 "
             >
         </div>
-        <div class="about-text">
+        <div class="about-text mt-6 md:mt-0">
             <h2 class="font-bold text-4xl w-fit">{{ title }}</h2>
             <h3 class="font-semibold text-lg mt-6">{{ subline }}</h3>
             <div>
@@ -44,8 +44,6 @@ const props = defineProps({
         max-width: none
 
 .about-card
-    &:first-of-type
-        // gap: 4rem
     &:hover
         div:has(img)
             img
