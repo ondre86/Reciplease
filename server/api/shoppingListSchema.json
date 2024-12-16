@@ -1,0 +1,25 @@
+{
+    "type": "json_schema",
+    "json_schema": {
+        "name": "shopping_list_schema",
+        "strict": true,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "listItems": {
+                    "type": "array",
+                    "description": "List of grocery items, their quantity, and their corresponding price estimates, with dollar signs preceding each price.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "totalEstimate": {
+                    "type": "string",
+                    "description": "Total price estimate for all of the list items, starting with the words: 'Total Estimate:'. This should be bold if using Markdown."
+                }
+            },
+            "required": ["listItems", "totalEstimate"],
+            "additionalProperties": false
+        }
+    }
+}

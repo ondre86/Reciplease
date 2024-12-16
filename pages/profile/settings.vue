@@ -60,8 +60,9 @@
 						<h3 class="text-2xl font-semibold">Delete Account</h3>
 						<ButtonSecondary 
 							class="toggled cursor-pointer"
-							@click="openDeleteModal()"
-							@keyup.enter="openDeleteModal()"
+							@click="toggleDeleteModal()"
+							@keyup.enter="toggleDeleteModal()"
+							tabindex="0"
 						>
 							Delete Account
 						</ButtonSecondary>
@@ -120,14 +121,16 @@
 				<h3 class="text-2xl font-semibold text-center">Delete Account</h3>
 				<ButtonSecondary 
 					class="toggled cursor-pointer" 
-					@click="openDeleteModal()"
-					@keyup.enter="openDeleteModal()"
+					@click="toggleDeleteModal()"
+					@keyup.enter="toggleDeleteModal()"
+					tabindex="0"
 				>
 					Delete Account
 				</ButtonSecondary>
 			</div>
 			<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
-				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center">
+				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4" @click="toggleDeleteModal" @keyup.enter="toggleDeleteModal"></ButtonClose>
+				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
 					<h4 class="font-semibold text-2xl">Confirm Account Deletion</h4>
 					<p>
 						Are you sure you want to delete your account? <br><br>
@@ -137,6 +140,7 @@
 						class="toggled cursor-pointer mt-4" 
 						@click="confirmDelete()"
 						@keyup.enter="confirmDelete()"
+						tabindex="0"
 					>
 						Yes, I'm Sure
 					</ButtonSecondary>
@@ -266,8 +270,9 @@ function changePassword(){
 	}
 }
 
-function openDeleteModal() {
-	modalOpen.value = true
+function toggleDeleteModal() {
+	if (modalOpen.value == true) modalOpen.value = false
+	else modalOpen.value = true
 }
 function confirmDelete() {
 	authStore.deleteCurrentUser()

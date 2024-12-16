@@ -14,12 +14,12 @@
 							</div>
 						</div>
 						<div class="flex gap-4 justify-center">
+							<div class="flex gap-4 w-fit items-center">
+								<span class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
+							</div>
 							<div class="flex gap-4 justify-center self-center verify-badge border p-2 rounded-lg w-fit text-xs">
 								<span class="" v-if="authStore.user && authStore.user.emailVerified">Verified</span>
 								<span class="" v-else>Not Verified</span>
-							</div>
-							<div class="flex gap-4 w-fit items-center">
-								<span class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
 							</div>
 						</div>
 

@@ -8,11 +8,12 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
     const recipes = ref([])
     const currentRecipe = ref({})
 
+    const shoppingListItems = ref(new Set([]))
+    const historyItems = ref([])
+
     const unsubscribe = ref(null)
 
-    const shoppingListItems = ref(new Set([]))
-
-    const resultMsg = ref(null)
+    // Recipes
 
     const addRecipe = async (recipe) => {
         try {
@@ -72,8 +73,6 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
             console.error('Error deleting recipe:', error.message)
         }
     }
-
-
 
 
     // Shopping List
@@ -163,9 +162,52 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
 
     const unsubscribeFromShoppingList = () => {
         if (unsubscribe.value) {
-        unsubscribe.value()
-        unsubscribe.value = null
-        console.log('Unsubscribed from real-time updates.')
+            unsubscribe.value()
+            unsubscribe.value = null
+            console.log('Unsubscribed from real-time updates.')
+        }
+    }
+
+    // History
+
+    const addHistoryItem = async (historyItem) => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users/${userId}/history`)
+            const historyDoc = doc(userCollection)
+            await setDoc(historyDoc, historyItem)
+
+            console.log('historyItem added successfully:', historyDoc.id)
+            return true
+        } 
+        catch (error) {
+            console.error('Error adding historyItem:', error.message)
+            return false
+        }
+    }
+
+    const fetchHistoryItems = async () => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users/${userId}/history`)
+            const snapshot = await getDocs(userCollection)
+
+            historyItems.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+            historyItems.value = historyItems.value.sort((a,b)=>{return b.time-a.time})
+            console.log('History Items fetched successfully:', historyItems.value)
+        } 
+        catch (error) {
+            console.error('Error fetching historyItems:', error.message)
         }
     }
 
@@ -173,6 +215,7 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
         recipes,
         currentRecipe,
         shoppingListItems,
+        historyItems,
         addRecipe,
         fetchRecipes,
         subscribeToShoppingList,
@@ -180,6 +223,8 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
         deleteRecipe,
         addListItem,
         fetchListItems,
-        deleteListItem
+        deleteListItem,
+        addHistoryItem,
+        fetchHistoryItems
     }
 })

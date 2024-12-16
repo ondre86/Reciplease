@@ -133,5 +133,11 @@ div, a
                     --tw-ring-color: #BBCC85
                     border-color: #283618
 
+                    &:not(.toggled)
+                        background-color: transparent
+                        color: g.$tan-primary
+                        --tw-ring-color: #687441
+
+
 
 </style>

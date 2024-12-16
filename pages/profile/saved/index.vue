@@ -28,7 +28,7 @@
 					>
 						<div
 							class="
-								flex flex-col p-6 border rounded-xl justify-between list-recipe gap-12
+								flex flex-col p-6 border rounded-xl justify-between gap-12
 								md:flex-row md:gap-12
 							"
 						>

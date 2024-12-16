@@ -34,7 +34,7 @@
                                     "type": "object",
                                     "properties": {
                                         "ingredient": { "type": "string" },
-                                        "measurement": { "type": "string", "description": "The measurement of the ingredient, followed the state of the ingredient if necessary, such as 'cracked', 'sliced', 'diced', etc." },
+                                        "measurement": { "type": "string", "description": "The measurement of the ingredient, followed the state of the ingredient if necessary, such as 'cracked', 'sliced', 'diced', etc. This value must always be present." },
                                         "quantity": { "type": "number" }
                                     },
                                     "required": ["ingredient", "measurement", "quantity"],

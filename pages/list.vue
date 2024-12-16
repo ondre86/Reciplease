@@ -48,32 +48,83 @@
 			<Transition name="fade" mode="out-in">
 				<div v-if="db.shoppingListItems.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
 					<form class="flex flex-col">
-						<span class="text-2xl font-semibold mb-2 w-full">Generate List &nbsp;✨</span>
+						<span class="text-2xl font-semibold mb-2 w-full">Generate List</span>
 						<span class="text-base font-light mb-8 max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
 						<fieldset class="flex flex-col gap-4 w-full self-center">
 							<legend class="text-lg font-medium mb-4 w-full underline underline-offset-4">List Style:</legend>
 							<div class="flex flex-col items-baseline gap-1">
 								<div class="flex gap-3 text-lg w-full items-center">
-									<input type="radio" id="default" name="list-format" value="Default" selected>
+									<input type="radio" id="default" name="list-format" value="default" v-model="listMode" checked>
 									<label for="default" class="w-full text-start">Default</label>
 								</div>
 								<i class="text-xs self-start ml-6">Bullet points</i>
 							</div>
 							<div class="flex flex-col items-baseline gap-1">
 								<div class="flex gap-3 text-lg w-full items-center">
-									<input type="radio" id="markdown" name="list-format" value="Markdown">
+									<input type="radio" id="markdown" name="list-format" value="markdown" v-model="listMode">
 									<label for="markdown" class="w-full text-start">Markdown</label>
 								</div>
 								<i class="text-xs self-start ml-6">Great for apps like Notion or Obsidian</i>
 							</div>
 						</fieldset>
 					</form>
-					<ButtonPrimary
-						:class="'toggled'"
-						class="self-center"
-					>
-						Export List
-					</ButtonPrimary>
+					<div class="flex flex-col gap-4">
+						<ButtonPrimary
+							:class="'toggled'"
+							class="self-center"
+							@click="toggleGenModal"
+							@keyup.enter="toggleGenModal"
+						>
+							Generate List
+						</ButtonPrimary>
+						<span class="text-xs italic text-center">All list generations can be viewed in your profile history.</span>
+					</div>
+					<UModal v-model="genModalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
+						<ButtonClose 
+							:svg-size="'10px'" 
+							:solo="true" 
+							class="z-40 absolute -top-2 -right-2" 
+							@click="toggleGenModal" 
+							@keyup.enter="toggleGenModal"
+						>
+						</ButtonClose>
+						<div class="gen-modal-wrap rounded-lg p-4 w-full h-full flex flex-col items-center text-center gap-6 self-center">
+							<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
+								<Transition name="fade" mode="out-in">
+									<div v-if="!searchStore.generatingShoppingList" class="text-start flex flex-col gap-4" id="list" ref="list">
+										<ul class="pt-4">
+											<li v-for="(listItem, index) in searchStore.generatedList.listItems" :key="index">
+												{{ listItem }}
+											</li>
+										</ul>
+										<span class="font-semibold pb-4">
+											{{ searchStore.generatedList.totalEstimate }}
+										</span>
+									</div>
+									<LoadingAnimation :svg-width="'50px'" class="self-center" v-else></LoadingAnimation>
+								</Transition>
+							</div>
+							<div class="flex flex-col gap-4 md:flex-row">
+								<ButtonPrimary
+									v-if="!searchStore.generatingShoppingList"
+									@click="copyList"
+									@keyup.enter="copyList"
+									class="toggled"
+								>
+									{{ copyStatus }}
+								</ButtonPrimary>
+								<ButtonPrimary
+									v-if="!searchStore.generatingShoppingList && webShare.isSupported"
+									@click="useWebShare"
+									@keyup.enter="useWebShare"
+									class="flex items-center gap-2"
+								>
+									Share <Icon name="i-heroicons-arrow-top-right-on-square" class="mb-1"></Icon>
+								</ButtonPrimary>
+							</div>
+						</div>
+
+					</UModal>
 				</div>
 			</Transition>
 		</main>
@@ -89,6 +140,13 @@ await db.fetchListItems()
 await db.subscribeToShoppingList()
 
 const { $gsap } = useNuxtApp()
+const genModalOpen = ref(false)
+
+const listMode = ref('default')
+const list = ref()
+const copyStatus = ref('Copy To Clipboard')
+
+const webShare = useShare()
 
 definePageMeta({
   requiresAuth: true,
@@ -153,7 +211,7 @@ function scrollToListEnd($event) {
 		y.value = emptyList.value.clientHeight - 200
 	}
 	else {
-		y.value = listWrap.value.clientHeight - 200
+		y.value = listWrap.value.clientHeight
 	}
 }
 
@@ -168,6 +226,36 @@ watch(emptyList, (cur)=>{
 	}
 })
 
+function toggleGenModal() {
+	if (genModalOpen.value == false) {
+		genModalOpen.value = true
+		searchStore.generateShoppingList(db.shoppingListItems, listMode.value)
+	}
+	else {
+		genModalOpen.value = false
+		copyStatus.value = "Copy To Clipboard"
+	}
+}
+
+async function copyList() {
+	try{
+		await navigator.clipboard.writeText(list.value.innerText)
+		copyStatus.value = "Copied!"
+	}
+	catch (error){
+		copyStatus.value = "Error!"
+	}
+}
+
+function useWebShare(){
+	if (webShare.isSupported){
+		webShare.share({
+			title: "Your Shopping List",
+			text: list.value.innerText
+		})
+	}
+}
+
 
 onMounted(()=>{
 	if (listTitle.value){
@@ -178,6 +266,10 @@ onMounted(()=>{
 			delay: 0.15
 		})
 	}
+})
+
+onUnmounted(()=>{
+	db.unsubscribeFromShoppingList()
 })
 </script>
 
@@ -209,4 +301,16 @@ input[type=radio]
 
 .list-input
 	top: 100px
+
+.gen-modal-wrap
+	background-color: white
+
+	@media (prefers-color-scheme: dark)
+		background-color: g.$green-acc2
+
+.gen-modal
+	background-color: g.$grey-fill
+
+	@media (prefers-color-scheme: dark)
+		background-color: g.$green-acc3
 </style>

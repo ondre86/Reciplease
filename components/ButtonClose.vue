@@ -40,12 +40,13 @@ div
         background-color: g.$red-acc2
         --tw-ring-color: #25110F
 
-    &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+    &:focus, &:focus-visible, &:focus-within
+        background-color: g.$red-acc1
         outline: 3px solid g.$red-acc2
         outline-offset: 3px
 
     @media (prefers-color-scheme: dark)
-        &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+        &:focus, &:focus-visible, &:focus-within
             outline-color: g.$tan-primary
 
 .in-tag
@@ -57,7 +58,7 @@ div
             transition: all .3s
             fill: g.$red-primary
 
-    &:hover, &:focus:not(:active), &:focus-visible:not(:active), &:focus-within:not(:active)
+    &:hover, &:focus, &:focus-visible, &:focus-within
         background-color: g.$tan-acc1
         --tw-ring-color: #CEC9AD
 

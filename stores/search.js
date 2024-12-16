@@ -3,6 +3,8 @@ import { defineStore } from 'pinia'
 import { useFirestoreStore } from './firestore'
 
 export const useSearchModeStore = defineStore('search', ()=>{
+	const db = useFirestoreStore()
+
 	const searchMode = ref('pantry')
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
@@ -17,12 +19,14 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const submittedRequest = ref(null)
 	const requestFulfilled = ref(null)
 	const additionalRequestFulfilled = ref(null)
+	const isValidRequest = ref(null)
 
 	const viewingSearchItems = ref(null)
 	const viewingRecipeFromSearch = ref(null)
 	const generatingRecipe = ref(null)
 
-	const db = useFirestoreStore()
+	const generatingShoppingList = ref(null)
+	const generatedList = ref(null)
 
 	const getSearchMode = computed(()=>{
 		return searchMode.value
@@ -81,7 +85,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		const searchTermArray = Array.from(searchTermsForServer.value)
 		const recipeResponseListArray = Array.from(recipeResponseList.value)
 
-		const data = await $fetch("/api/recipe-results", {
+		await $fetch("/api/recipe-results", {
             method: "POST",
 			// headers: auth tokens
             body: {
@@ -132,24 +136,35 @@ export const useSearchModeStore = defineStore('search', ()=>{
             }
         })
         .then((json) => {
-			if (recipeResponseList.value.size > 0){
-				JSON.parse(json.generation.response.content).recipes.forEach((item)=>{
-					serverResponseList.value.recipes.push(item)
-				}) 
+			if (JSON.parse(json.generation.response.content).isValidRequest){
+				if (recipeResponseList.value.size > 0){
+					JSON.parse(json.generation.response.content).recipes.forEach((item)=>{
+						serverResponseList.value.recipes.push(item)
+					}) 
+				}
+				else {
+					serverResponseList.value = JSON.parse(json.generation.response.content)
+	
+				}
+	
+				JSON.parse(json.generation.response.content).recipes.forEach((recipe)=>{
+					recipeResponseList.value.add(recipe.recipeName)
+				})
+				isValidRequest.value = true
 			}
 			else {
-				serverResponseList.value = JSON.parse(json.generation.response.content)
-
+				isValidRequest.value = false
 			}
 
-			JSON.parse(json.generation.response.content).recipes.forEach((recipe)=>{
-				recipeResponseList.value.add(recipe.recipeName)
-			})
-
-			console.log(serverResponseList.value)
 			requestFulfilled.value = true
 			viewingSearchItems.value = true
 			additionalRequestFulfilled.value = true
+		})
+
+		db.addHistoryItem({
+			type: "Ingredient Search",
+			query: searchTermArray,
+			time: Date.now()
 		})
 	}
 	async function getRecipeDetails(recipe) {
@@ -157,7 +172,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		requestFulfilled.value = false
 		generatingRecipe.value = true
 
-		const recipeDetails = await $fetch("/api/recipe-details", {
+		await $fetch("/api/recipe-details", {
             method: "POST",
 			// headers: auth tokens
             body: {
@@ -213,6 +228,77 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			viewingRecipeFromSearch.value = true
 			generatingRecipe.value = false
 		})
+
+		db.addHistoryItem({
+			type: "Recipe Generation",
+			query: recipe,
+			time: Date.now()
+		})
+	}
+
+	async function generateShoppingList(list, mode) {
+		generatingShoppingList.value = true
+		const shoppingListArray = Array.from(list)
+
+		await $fetch("/api/generate-list", {
+            method: "POST",
+			// headers: auth tokens
+            body: {
+				client:{
+					location: {
+						ip: '',
+						location: ''
+					},
+
+					time: {
+						requestTimestamp: new Date().toUTCString(),
+						requestDate: new Date().toLocaleDateString(),
+						requestTime: new Date().toLocaleTimeString(),
+					},
+				
+					browser: {
+						browserVersion: navigator.userAgent,
+						browserLanguage: navigator.language,
+						browserOnline: navigator.onLine,
+						page: window.location.origin,
+						referrer: document.referrer,
+						previousSitesAmount: history.length,
+					},
+
+					storage: {
+						cookiesEnabled: navigator.cookieEnabled,
+						cookies: document.cookie.split(';'),
+						localStorage: localStorage
+					},
+
+					device: {
+						sizeScreenW: screen.width,
+						sizeScreenH: screen.height,
+						sizeDocW: document.width,
+						sizeDocH: document.height,
+						sizeInW: innerWidth,
+						sizeInH: innerHeight,
+						sizeAvailW: screen.availWidth,
+						sizeAvailH: screen.availHeight
+					}
+			
+				},
+				request:{
+					message: shoppingListArray,
+					mode: mode,
+				},
+            }
+        })
+        .then((json) => {
+			generatedList.value = JSON.parse(json.generation.response.content)
+			generatingShoppingList.value = false
+		})
+
+		db.addHistoryItem({
+			type: "Shopping List Generation",
+			query: generatedList.value,
+			time: Date.now()
+		})
 	}
 
 	return { 
@@ -231,9 +317,12 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		submittedRequest,
 		requestFulfilled,
 		additionalRequestFulfilled,
+		isValidRequest,
 		viewingSearchItems,
 		viewingRecipeFromSearch,
 		generatingRecipe,
+		generatingShoppingList,
+		generatedList,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 
@@ -246,6 +335,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		clearShoppingList,
 		clearRecipeResponseList,
 		sendSearchTerms,
-		getRecipeDetails
+		getRecipeDetails,
+		generateShoppingList
 	}
 })

@@ -1,7 +1,7 @@
 <template>
     <ul 
         class="mt-12 w-full flex flex-col items-center"
-        v-if="searchStore.serverResponseList"
+        v-if="searchStore.serverResponseList && searchStore.isValidRequest"
     >
         <li 
             v-for="recipe in searchStore.serverResponseList.recipes" :key="recipe.recipeName"
@@ -34,6 +34,12 @@
             </div>
         </li>
     </ul>
+    <div class="flex flex-col gap-2 my-6 mt-12 text-center" v-else>
+        <span class="text-lg font-semibold">
+            Your request was invalid. <br>
+        </span>
+        <span>Please try again.</span>
+    </div>
 </template>
 
 <script setup>

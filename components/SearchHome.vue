@@ -35,17 +35,19 @@
 
         <SearchResultsHeader></SearchResultsHeader>
 		<SearchResults></SearchResults>
-		<Transition name="fade" mode="out-in">
-            <ButtonPrimary 
-                class="my-8"
-                @click="searchStore.sendSearchTerms"
-                @keyup.enter="searchStore.sendSearchTerms"
-                v-if="searchStore.additionalRequestFulfilled"
-            >
-                View More
-            </ButtonPrimary>
-            <LoadingAnimation class="my-8" v-else></LoadingAnimation>
-        </Transition>
+		<div v-if="searchStore.isValidRequest">
+            <Transition name="fade" mode="out-in">
+                <ButtonPrimary 
+                    class="my-8"
+                    @click="searchStore.sendSearchTerms"
+                    @keyup.enter="searchStore.sendSearchTerms"
+                    v-if="searchStore.additionalRequestFulfilled"
+                >
+                    View More
+                </ButtonPrimary>
+                <LoadingAnimation class="my-8" v-else></LoadingAnimation>
+            </Transition>
+        </div>
     </main>
 </template>
 

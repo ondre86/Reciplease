@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
     stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
+    ipGeoKey: process.env.NUXT_IP_GEO_KEY,
 
     public: {
       stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
