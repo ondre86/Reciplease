@@ -36,8 +36,12 @@
 								<h2 class="text-3xl font-bold">{{ recipe.recipeName }}</h2>
 								<span class="text-lg font-semibold">{{ recipe.cuisine }}</span>
 								<span class="italic max-w-96"> {{ recipe.description }}</span>
+								<div class="flex gap-4 mt-2" v-if="recipe.isVegetarian || recipe.isVegan">
+									<div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegetarian">Vegetarian</div>
+									<div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegan">Vegan</div>
+								</div>
 							</div>
-							<div class="flex flex-col gap-4 items-center self-center">
+							<div class="flex flex-col gap-4">
 								<ButtonPrimary
 									class="toggled"
 									:link="`/profile/saved/${recipe.id}`"
@@ -135,6 +139,12 @@ await db.fetchRecipes()
 const modalOpen = ref(false)
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
+.recipe-badge
+    background-color: #E9EED8
+    border-color: g.$green-acc2
 
+    @media (prefers-color-scheme:dark)
+        background-color: g.$green-acc1
+        border-color: g.$green-light
 </style>

@@ -16,9 +16,13 @@
                 <div class="flex flex-col gap-3 max-w-xl md:max-w-half">
                     <h2 class="text-3xl font-bold">{{ recipe.recipeName }}</h2>
                     <span class="text-lg font-semibold">{{ recipe.cuisine }}</span>
-                    <span class="italic max-w-96"> {{ recipe.description }}</span>
+                    <span class="italic"> {{ recipe.description }}</span>
+                    <div class="flex gap-4 mt-2" v-if="recipe.isVegetarian || recipe.isVegan">
+                        <div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegetarian">Vegetarian</div>
+                        <div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegan">Vegan</div>
+                    </div>
                 </div>
-                <div class="flex flex-col gap-4 items-center self-center">
+                <div class="flex flex-col gap-4">
                     <ButtonPrimary 
                         class="toggled"
                         @click="searchStore.getRecipeDetails(recipe.recipeName); searchStore.viewingSearchItems = false"
@@ -54,4 +58,13 @@ const searchStore = useSearchModeStore()
 
     @media (prefers-color-scheme:dark)
         background-color: g.$green-acc3
+
+.recipe-badge
+    background-color: #E9EED8
+    border-color: g.$green-acc2
+
+    @media (prefers-color-scheme:dark)
+        background-color: g.$green-acc1
+        border-color: g.$green-light
+
 </style>

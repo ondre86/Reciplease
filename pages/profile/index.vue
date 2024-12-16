@@ -9,18 +9,17 @@
 				<div class="meta-wrap flex flex-col text-xl p-4 rounded-xl border items-center">
 					<div class="flex flex-col gap-6">
 						<div class="flex flex-col gap-2 flex-wrap">
-							<Transition name="fade" mode="out-in">
-								<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
-							</Transition>
-						</div>
-						<div class="flex gap-4 w-full justify-center items-center">
-							<span>Account Tier: </span>
-							<span class="tier-badge border p-2 rounded-lg w-fit">Free{{ tier }}</span>
+							<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
 						</div>
 						<div class="flex gap-4 justify-center self-center tier-badge border p-2 rounded-lg w-fit">
 							<span v-if="authStore.user && authStore.user.emailVerified">Verified</span>
 							<span v-else>Not Verified</span>
 						</div>
+						<div class="flex gap-4 w-full justify-center items-center">
+							<span>Account Tier: </span>
+							<span class="tier-badge border p-2 rounded-lg w-fit">Free{{ tier }}</span>
+						</div>
+
 					</div>
 					<ButtonSecondary
 						class="cursor-pointer text-center w-fit mt-8 self-center"

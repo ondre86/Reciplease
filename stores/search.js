@@ -207,8 +207,6 @@ export const useSearchModeStore = defineStore('search', ()=>{
         .then((json) => {
 			serverResponseRecipe.value = JSON.parse(json.generation.response.content)
 			serverResponseImage.value = json.generation.image
-			console.log(serverResponseRecipe.value)
-			console.log(serverResponseImage.value)
 			requestFulfilled.value = true
 			viewingRecipeFromSearch.value = true
 		})
