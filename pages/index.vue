@@ -47,22 +47,7 @@ const searchStore = useSearchModeStore()
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
-function scrollToTop(){
-	window.scrollTo(0,0)
-}
-
 </script>
 
 <style lang="sass" scoped>
-main
-	margin-top: 81px
-
-.fade-move,
-.fade-enter-active,
-.fade-leave-active 
-	transition: all .25s ease
-
-.fade-enter-from,
-.fade-leave-to 
-	opacity: 0 !important
 </style>
