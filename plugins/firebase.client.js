@@ -4,8 +4,6 @@ import { getFirestore } from "firebase/firestore"
 import { getAnalytics } from "firebase/analytics"
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-    setLogLevel('debug')
-
     const config = useRuntimeConfig()
     
     const firebaseConfig = {

@@ -59,7 +59,7 @@
 							md:pr-16
 						"
 					>
-						<ButtonPrimary :link="'pricing'">View Pricing Plans</ButtonPrimary>
+						<ButtonPrimary :link="'pricing'" class="btn">View Pricing Plans</ButtonPrimary>
 					</div>
 					<div 
 						class="
@@ -193,7 +193,7 @@ span > a
 	.about-cta
 		background-color: g.$green-acc3
 
-	a
+	a:not(.btn)
 		color: g.$green-light
 
 		&:hover

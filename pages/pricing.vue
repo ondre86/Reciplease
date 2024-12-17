@@ -20,9 +20,9 @@
 						:subtitle="'Try Reciplease for free.'"
 						:extraSubtitle="'No credit card required.'"
 						:features="[
-							'10 Recipe Generations/Month',
+							'10 Recipe Searches/Month',
 							'10 Saved Recipes',
-							'10 Shopping List Items',
+							'Unlimited Shopping List Items',
 							'3 Shopping List Generations/Month'
 						]"
 						:darkEmphasis="true"

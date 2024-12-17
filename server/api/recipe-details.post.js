@@ -15,12 +15,9 @@ export default defineEventHandler(async (event)=>{
         Recipe responses should strive to be authentic and interesting. Trendy recipes are welcome.
     `
 
-    console.log(clientRequest.request.message)
-
     let openAISearchQuery = ''
     let openAIPrompt = ''
     let completion
-    let braveImageSearchURL = `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(clientRequest.request.message)}&count=1`
     let imageSearchResult
 
     if (clientRequest.request.mode == 'random') {
@@ -46,6 +43,9 @@ export default defineEventHandler(async (event)=>{
         response_format: detailedOpenAIResponseFormat
     })
 
+    let randomRecipe = JSON.parse(completion.choices[0].message.content).recipes[0].recipeName
+    let braveImageSearchURL = clientRequest.request.mode == "random" ? `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(randomRecipe)}&count=1` : `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(clientRequest.request.message)}&count=1`
+
     try {
         const response = await fetch(braveImageSearchURL, {
         method: "GET",
@@ -57,12 +57,11 @@ export default defineEventHandler(async (event)=>{
         });
     
         if (!response.ok) {
-            const errorText = await response.text(); // Capture additional error details
+            const errorText = await response.text()
             throw new Error(`HTTP error ${response.status}: ${response.statusText}\n${errorText}`);
         }
     
-        imageSearchResult = await response.json(); // Parse JSON response
-        console.log("Search results:", imageSearchResult);
+        imageSearchResult = await response.json()
     } 
     catch (error) {
         console.error("Error with Brave Image Search API:", error);

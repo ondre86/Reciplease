@@ -68,16 +68,20 @@
 							</div>
 						</fieldset>
 					</form>
-					<div class="flex flex-col gap-4">
-						<ButtonPrimary
-							:class="'toggled'"
-							class="self-center"
-							@click="toggleGenModal"
-							@keyup.enter="toggleGenModal"
-						>
-							Generate List
-						</ButtonPrimary>
-						<span class="text-xs italic text-center">All list generations can be viewed in your profile history.</span>
+					<div class="flex flex-col gap-4 justify-center items-center">
+						<Transition name="fade" mode="out-in">
+							<ButtonPrimary
+								:class="'toggled'"
+								class="self-center"
+								@click="toggleGenModal"
+								@keyup.enter="toggleGenModal"
+								v-if="!waitingForListStatus"
+							>
+								Generate List
+							</ButtonPrimary>
+							<LoadingAnimation :svg-width="'50px'" v-else></LoadingAnimation>
+						</Transition>
+						<span class="text-xs italic text-center">List generations can be viewed in your profile history.</span>
 					</div>
 					<UModal v-model="genModalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
 						<ButtonClose 
@@ -91,7 +95,7 @@
 						<div class="gen-modal-wrap rounded-lg p-4 w-full h-full flex flex-col items-center text-center gap-6 self-center">
 							<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
 								<Transition name="fade" mode="out-in">
-									<div v-if="!searchStore.generatingShoppingList" class="text-start flex flex-col gap-4" id="list" ref="list">
+									<div v-if="!searchStore.generatingShoppingList && searchStore.generatedList" class="text-start flex flex-col gap-4" id="list" ref="list">
 										<ul class="pt-4">
 											<li v-for="(listItem, index) in searchStore.generatedList.listItems" :key="index">
 												{{ listItem }}
@@ -101,7 +105,7 @@
 											{{ searchStore.generatedList.totalEstimate }}
 										</span>
 									</div>
-									<LoadingAnimation :svg-width="'50px'" class="self-center" v-else></LoadingAnimation>
+									<LoadingAnimation :svg-width="'50px'" class="self-center" v-else-if="searchStore.generatingShoppingList && !searchStore.generatedList"></LoadingAnimation>
 								</Transition>
 							</div>
 							<div class="flex flex-col gap-4 md:flex-row">
@@ -123,10 +127,35 @@
 								</ButtonPrimary>
 							</div>
 						</div>
-
 					</UModal>
 				</div>
 			</Transition>
+			<UModal v-model="searchStore.generationLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4" @click="searchStore.generationLimit = false; waitingForListStatus = false" @keyup.enter="searchStore.generationLimit = false; waitingForListStatus = false"></ButtonClose>
+				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
+					<h4 class="font-semibold text-2xl">Limit Reached</h4>
+					<p>
+						You've hit the limit for the free plan. <br>
+						Please wait until next month or upgrade your plan.
+					</p>
+					<div class="flex flex-col gap-4 mt-4 md:flex-row">
+						<ButtonPrimary
+							class="toggled"
+							:link="'/pricing'"
+						>
+							View Pricing Plans
+						</ButtonPrimary>
+						<ButtonSecondary
+							class="toggled cursor-pointer"
+							@click="searchStore.generationLimit = false; waitingForListStatus = false"
+							@keyup.enter="searchStore.generationLimit = false; waitingForListStatus = false"
+							tabindex="0"
+						>
+							Close
+						</ButtonSecondary>
+					</div>
+				</div>
+			</UModal>
 		</main>
 	</div>
 </template>
@@ -145,6 +174,7 @@ const genModalOpen = ref(false)
 const listMode = ref('default')
 const list = ref()
 const copyStatus = ref('Copy To Clipboard')
+const waitingForListStatus = ref(false)
 
 const webShare = useShare()
 
@@ -211,7 +241,7 @@ function scrollToListEnd($event) {
 		y.value = emptyList.value.clientHeight - 200
 	}
 	else {
-		y.value = listWrap.value.clientHeight
+		y.value = listWrap.value.clientHeight - 100
 	}
 }
 
@@ -226,12 +256,17 @@ watch(emptyList, (cur)=>{
 	}
 })
 
-function toggleGenModal() {
+async function toggleGenModal() {
+	waitingForListStatus.value = true
 	if (genModalOpen.value == false) {
-		genModalOpen.value = true
-		searchStore.generateShoppingList(db.shoppingListItems, listMode.value)
+		await searchStore.generateShoppingList(db.shoppingListItems, listMode.value)
+		if (!searchStore.generationLimit){
+			genModalOpen.value = true
+			waitingForListStatus.value = false
+		}
 	}
 	else {
+		waitingForListStatus.value = false
 		genModalOpen.value = false
 		copyStatus.value = "Copy To Clipboard"
 	}

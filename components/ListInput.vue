@@ -63,7 +63,6 @@
 import { Profanity } from '@2toad/profanity';
 
 const db = useFirestoreStore()
-console.log(db.shoppingListItems)
 
 const profanity = new Profanity({
     wholeWord: false

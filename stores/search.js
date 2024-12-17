@@ -28,6 +28,9 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const generatingShoppingList = ref(null)
 	const generatedList = ref(null)
 
+	const searchLimit = ref(false)
+	const generationLimit = ref(false)
+
 	const getSearchMode = computed(()=>{
 		return searchMode.value
 	})
@@ -76,6 +79,18 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	}
 
 	async function sendSearchTerms(){
+		let searches = 0
+		await db.fetchHistoryItems()
+		db.historyItems.forEach((item)=>{
+			if (item.type == "Recipe Search" && (new Date(item.time).getMonth() == new Date(Date.now()).getMonth())){
+				searches++
+			}
+		})
+		if (searches >= 10) {
+			searchLimit.value = true
+			return
+		}
+
 		submittedRequest.value = true
 
 		if (recipeResponseList.value.size > 0){
@@ -162,7 +177,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		})
 
 		db.addHistoryItem({
-			type: "Ingredient Search",
+			type: "Recipe Search",
 			query: searchTermArray,
 			time: Date.now()
 		})
@@ -231,12 +246,24 @@ export const useSearchModeStore = defineStore('search', ()=>{
 
 		db.addHistoryItem({
 			type: "Recipe Generation",
-			query: recipe,
+			query: recipe ? recipe : "Random",
 			time: Date.now()
 		})
 	}
 
 	async function generateShoppingList(list, mode) {
+		let listGenerations = 0
+		await db.fetchHistoryItems()
+		db.historyItems.forEach((item)=>{
+			if (item.type == "Shopping List Generation" && (new Date(item.time).getMonth() == new Date(Date.now()).getMonth())){
+				listGenerations++
+			}
+		})
+		if (listGenerations >= 3) {
+			generationLimit.value = true
+			return
+		}
+
 		generatingShoppingList.value = true
 		const shoppingListArray = Array.from(list)
 
@@ -323,6 +350,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		generatingRecipe,
 		generatingShoppingList,
 		generatedList,
+		searchLimit,
+		generationLimit,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 

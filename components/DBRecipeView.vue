@@ -148,9 +148,6 @@ function servingSizeCalculator($event, multiplier){
     servingSizes.value.minServings = minServingSize * multiplier
     servingSizes.value.maxServings = maxServingSize * multiplier
 
-    console.log($event.target)
-    console.log(mult.value)
-
     if ($event.target.nodeName == "SPAN"){
         $event.target.parentElement.classList.add('toggled')
     	$event.target.parentElement.setAttribute('aria-pressed', true)

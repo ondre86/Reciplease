@@ -29,7 +29,6 @@ export default defineEventHandler(async (event)=>{
     })
         .then((response) => response.text())
         .then((result) => {
-            console.log(result)
             location = result.city
         })
         .catch((error) => console.error(error))

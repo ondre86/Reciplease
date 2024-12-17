@@ -173,7 +173,6 @@ function switchAuthMode(){
 }
 
 watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMode, forgotPassword], ([currentEmail, currentPass, currentCPass, currentPasswordStrength, currentAuthMode, forgotPasswordStatus], [oldEmail, oldPass, oldCPass, oldPasswordStrength, oldAuthMode])=>{
-	console.log(currentEmail, currentPass, currentCPass, currentAuthMode)
 	if (currentPass || currentPass == ''){
 		passwordStrength.value = validator.isStrongPassword(passwordInput.value, {returnScore: true})
 	}
@@ -212,8 +211,6 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength, authMo
 	if (authStore.authMsg){
 		if (currentEmail !== oldEmail || currentPass !== oldPass){
 			authStore.authMsg = null
-			console.log(currentEmail !== oldEmail)
-			console.log(currentPass !== oldPass)
 		}
 	}
 })

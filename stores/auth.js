@@ -51,7 +51,6 @@ export const useAuthStore = defineStore('auth', ()=>{
         return new Promise((resolve) => {
             onAuthStateChanged(auth.value, (currentUser) => {
                 user.value = currentUser
-                console.log('Auth state changed:', currentUser)
                 resolve()
             })
         })
@@ -63,7 +62,6 @@ export const useAuthStore = defineStore('auth', ()=>{
             loadingState.value = true
             user.value = await signInWithEmailAndPassword(auth.value, email, password)
             loadingState.value = false
-            console.log('User logged in:', user.value.user)
             monitorAuthState()
             await navigateTo('/')
             authMsg.value = null
@@ -79,7 +77,6 @@ export const useAuthStore = defineStore('auth', ()=>{
             loadingState.value = true
             user.value = await createUserWithEmailAndPassword(auth.value, email, password)
             loadingState.value = false
-            console.log('User created:', user.value.user)
             monitorAuthState()
             sendEmailVerification(auth.value.currentUser)
             await navigateTo('/')
@@ -94,7 +91,6 @@ export const useAuthStore = defineStore('auth', ()=>{
     async function signOutUser() {
         try {
             await signOut(auth.value)
-            console.log('User signed out')
             monitorAuthState()
 
             searchStore.viewingRecipeFromSearch = false
@@ -115,7 +111,6 @@ export const useAuthStore = defineStore('auth', ()=>{
     async function deleteCurrentUser() {
         try {
             await deleteUser(auth.value.currentUser)
-            console.log('User deleted')
             monitorAuthState()
             await navigateTo('/')
             authMsg.value = null
