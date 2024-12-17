@@ -8,10 +8,10 @@ export default defineNuxtConfig({
    '@vueuse/nuxt',
    '@nuxt/fonts',
    '@nuxtjs/device',
-   // 'nuxt-security',
+   'nuxt-security',
    '@nuxtjs/seo',
    '@nuxt/ui',
-   '@nuxt/image'
+   '@nuxt/image',
   ],
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
