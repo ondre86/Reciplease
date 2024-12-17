@@ -58,11 +58,19 @@ export default defineEventHandler(async (event)=>{
         });
     
         if (!response.ok) {
-            const errorText = await response.text()
-            throw new Error(`HTTP error ${response.status}: ${response.statusText}\n${errorText}`);
+            imageSearchResult = {
+                results: [
+                    {
+                        thumbnail:{
+                            src: '/placeholder.png'
+                        }
+                    }
+                ]
+            }
         }
-    
-        imageSearchResult = await response.json()
+        else {
+            imageSearchResult = await response.json()
+        }
     } 
     catch (error) {
         console.error("Error with Brave Image Search API:", error);

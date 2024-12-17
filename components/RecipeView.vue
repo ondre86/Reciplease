@@ -38,7 +38,7 @@
                         <span class="font-light mt-4"> {{ searchStore.serverResponseRecipe.recipes[0].description }}</span>
                     </div>
                 </div>
-                <div class="flex justify-center mt-4">
+                <div class="flex justify-center">
                     <ButtonSecondary 
                         class="flex items-center gap-2 cursor-pointer"
                         @click="addToDB()"
