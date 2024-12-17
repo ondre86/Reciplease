@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-6 gap-8">
+		<main class="flex flex-col justify-start items-center px-6 gap-8 mb-12">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-6xl font-semibold">About</h1>
 				<span class="w-full text-lg font-light text-center">What is Reciplease and how can it help you?</span>
@@ -44,12 +44,12 @@
 				>
 				</AboutGridItem>
 			</div>
-			<div class="about-cta flex flex-col my-12 gap-6 border p-16 rounded-xl shadow-2xl">
+			<div class="about-cta flex flex-col mt-12 gap-6 border p-8 py-10 rounded-xl shadow-2xl">
 				<h2 class="font-semibold text-4xl text-center">Ready to Level Up?</h2>
 				<span class="font-normal text-base text-center">Start using Reciplease today!</span>
 				<div 
 					class="
-						flex flex-col justify-center mt-6 gap-8
+						flex flex-col justify-center mt-6 gap-8 md:gap-0
 						md:flex-row
 					"
 				>
@@ -68,7 +68,7 @@
 						"
 					>
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
-						<span class="text-center font-light mt-4">
+						<span class="text-center font-light">
 							Have an account? <br>
 							<RouterLink class="underline font-medium rounded-sm p-0.5" to="auth">Log In</RouterLink>
 						</span>

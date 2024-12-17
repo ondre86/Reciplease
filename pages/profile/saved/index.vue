@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center gap-8 px-6" style="margin-top: calc(69.4px + 2rem);">
+		<main class="flex flex-col justify-start items-center gap-8 px-6 mb-12" style="margin-top: calc(69.4px + 2rem);">
 			<div
 				class="flex items-center gap-3 self-start cursor-pointer back-text"
 				@click="navigateTo('/profile')"

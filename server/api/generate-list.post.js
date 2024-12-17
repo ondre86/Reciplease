@@ -8,7 +8,7 @@ export default defineEventHandler(async (event)=>{
     const openai = new OpenAI({apiKey: config.openAIKey})
     const recipeSearchDirection = `
         You are a helpful assistant that outputs shopping lists with price estimates for each item, along with a total price estimate at the end. 
-        Do not respond with anything other than a shopping list, not even a title. 
+        Do not respond with anything other than a title and the shopping list. 
         Use a colon to separate the price.
         Responses will either be in bullet points or markdown format - bullet points are the default unless specified. 
         If the default option is specified, do not use any markdown formatting such as asterisks, simply use dashes for each list item.

@@ -1,6 +1,6 @@
 <template>
     <main
-        class="flex flex-col items-center h-full px-8"
+        class="flex flex-col items-center h-full px-8 mb-12"
         ref="mainWrap"
         style="margin-top: calc(69.4px + 2rem);"
     >
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="directions flex flex-col my-24 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
+        <div class="directions flex flex-col mt-12 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
             <div class="flex flex-col gap-6">
                 <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8">Directions</h2>
                 <ol class="list-decimal list-inside">

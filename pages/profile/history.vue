@@ -21,16 +21,16 @@
 				<li v-for="(item, index) in db.historyItems.sort((a,b)=>{b.time-a.time})" :key="index">
 					<div
 						class="
-							flex flex-col p-6 border rounded-xl justify-between gap-12
-							md:flex-row md:gap-12
+							flex flex-col p-6 border rounded-xl justify-between gap-6
+							md:flex-row md:gap-16
 						"
 					>
 						<div class="flex flex-col gap-3 max-w-xl md:max-w-half">
 							<h2 class="text-3xl font-bold">{{ item.type }}</h2>
 							<span class="text-lg font-light">{{ new Date(item.time).toLocaleString() }}</span>
-							<div>
+							<div v-if="typeof(item.query) == 'string' || Array.isArray(item.query)">
 								<span class="text-xl font-medium italic mt-4" v-if="typeof(item.query) == 'string'"> {{ item.query }}</span>
-								<ul class="flex gap-4 mt-4" v-else-if="Array.isArray(item.query)">
+								<ul class="flex flex-wrap gap-4 mt-4" v-else-if="Array.isArray(item.query)">
 									<li v-for="(queryItem, index) in item.query" :key="index">
 										<ButtonSecondary class="inactive">{{ queryItem }}</ButtonSecondary>
 									</li>
@@ -57,13 +57,16 @@
 							</ButtonClose>
 							<div class="gen-modal-wrap rounded-lg p-4 w-full h-full flex flex-col items-center text-center gap-6 self-center">
 								<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
-									<div class="text-start flex flex-col gap-4" id="list" ref="list">
+									<div class="text-start flex flex-col gap-4" id="historyList" ref="historyList">
+										<span class="text-center font-semibold text-lg">
+											{{ modalList.query.title }}
+										</span>
 										<ul class="pt-4">
 											<li v-for="(listItem, index) in modalList.query.listItems" :key="index">
 												{{ listItem }}
 											</li>
 										</ul>
-										<span class="font-semibold pb-4">
+										<span class="font-semibold pb-4 text-center">
 											{{ modalList.query.totalEstimate }}
 										</span>
 									</div>
@@ -138,12 +141,14 @@ await db.fetchHistoryItems()
 
 const modalOpen = ref(false)
 const modalList = ref(null)
+
+const historyList = ref()
 const copyStatus = ref('Copy To Clipboard')
 const webShare = useShare()
 
 async function copyList() {
 	try{
-		await navigator.clipboard.writeText(list.value.innerText)
+		await navigator.clipboard.writeText(historyList.value[0].innerText)
 		copyStatus.value = "Copied!"
 	}
 	catch (error){
@@ -154,7 +159,7 @@ function useWebShare(){
 	if (webShare.isSupported){
 		webShare.share({
 			title: "Your Shopping List",
-			text: list.value.innerText
+			text: historyList.value[0].innerText
 		})
 	}
 }
@@ -165,8 +170,10 @@ function openModal(item) {
 		modalList.value = item
 	}
 	else {
-		copyStatus.value = "Copy To Clipboard"
 		modalOpen.value = false
+		setTimeout(() => {
+			copyStatus.value = "Copy To Clipboard"
+		}, 1000)
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div 
-		class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 mb-8 rounded-xl p-4 py-8 md:p-8"
+		class="auth-wrap flex flex-col gap-12 border shadow-2xl mt-6 rounded-xl p-4 py-8 md:p-8"
 		:class="{'gap-2': forgotPassword}"
 	>
         <!-- <div class="flex flex-col gap-6">

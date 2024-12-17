@@ -13,6 +13,7 @@ export default defineEventHandler(async (event)=>{
         If you are provided with no valid food ingredients, "isValidRequest" should be false.
         If you cannot generate any recipes from the provided recipe name, "isValidRequest" should be false.
         Recipe responses should strive to be authentic and interesting. Trendy recipes are welcome.
+        If asked for a random recipe, provide a recipe from a different culture that uses different ingredients than the previous random recipe request.
     `
 
     let openAISearchQuery = ''
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event)=>{
 
     if (clientRequest.request.mode == 'random') {
         openAISearchQuery = 'random recipe'
-        openAIPrompt = `Provide me with a random recipe that contains ingredients I would be able to easily procure within the United States. It does not have to be a simple dish.`
+        openAIPrompt = `Provide me with a random recipe. It does not have to be a simple dish.`
     }
     else {
         openAIPrompt = `Provide me a recipe for ${clientRequest.request.message}`

@@ -1,16 +1,16 @@
 <template>
     <div 
-        class="flex flex-col justify-center gap-4 mt-4 w-full max-w-2xl z-0"
+        class="flex flex-col justify-center gap-4 w-full max-w-2xl z-0"
     >
         <span 
             id="mode-descriptor" 
-            class="w-full text-center my-6" 
+            class="w-full text-center my-4" 
         >
             {{modeDescriptor}}
         </span>
         <span class="text-center text-2xl font-medium">Find a Recipe:</span>
         <ul 
-            class="flex flex-col gap-6 justify-center items-center sm:flex-row "
+            class="flex flex-wrap gap-3 justify-center items-center sm:flex-row sm:gap-6"
         >
             <li>
                 <ButtonPrimary

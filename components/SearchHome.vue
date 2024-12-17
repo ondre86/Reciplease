@@ -45,7 +45,7 @@
                 >
                     View More
                 </ButtonPrimary>
-                <LoadingAnimation class="my-8" v-else></LoadingAnimation>
+                <LoadingAnimation class="my-8" :svg-width="'50px'" v-else></LoadingAnimation>
             </Transition>
         </div>
     </main>

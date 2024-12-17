@@ -6,6 +6,10 @@
         "schema": {
             "type": "object",
             "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "This should always say 'Shopping List'"
+                },
                 "listItems": {
                     "type": "array",
                     "description": "List of grocery items, their quantity, and their corresponding price estimates, with dollar signs preceding each price.",
@@ -18,7 +22,7 @@
                     "description": "Total price estimate for all of the list items, starting with the words: 'Total Estimate:'. This should be bold if using Markdown."
                 }
             },
-            "required": ["listItems", "totalEstimate"],
+            "required": ["title", "listItems", "totalEstimate"],
             "additionalProperties": false
         }
     }

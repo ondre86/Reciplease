@@ -1,13 +1,13 @@
 <template>
     <main
-        class="flex flex-col items-center h-full px-8"
+        class="flex flex-col items-center h-full px-8 mb-12"
         ref="mainWrap"
         style="margin-top: calc(69.4px + 2rem);"
     >
         <div
             class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
-            @click="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? searchStore.viewingSearchItems = false : searchStore.viewingSearchItems = true"
-            @keyup.enter="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? searchStore.viewingSearchItems = false : searchStore.viewingSearchItems = true"
+            @click="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
+            @keyup.enter="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
         >
             <ButtonSearch
                 :svg-width="'12px'"
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div class="directions flex flex-col my-24 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
+        <div class="directions flex flex-col mt-24 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
             <div class="flex flex-col gap-6">
                 <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8">Directions</h2>
                 <ol class="list-decimal list-inside">
@@ -136,14 +136,14 @@
             </div>
         </div>
         <UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
-            <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4" @click="modalOpen = false" @keyup.enter="modalOpen = false"></ButtonClose>
+            <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="modalOpen = false" @keyup.enter="modalOpen = false"></ButtonClose>
             <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
                 <h4 class="font-semibold text-2xl">Limit Reached</h4>
                 <p>
                     You've hit the limit for the free plan. <br>
                     Please wait until next month or upgrade your plan.
                 </p>
-                <div class="flex flex-col gap-4 mt-4 md:flex-row">
+                <div class="flex flex-col justify-center items-center gap-4 mt-4 md:flex-row">
                     <ButtonPrimary
                         class="toggled"
                         :link="'/pricing'"
@@ -254,7 +254,7 @@ function addToShoppingList(){
 
 const modalOpen = ref(false)
 function addToDB() {
-    if (db.recipes.length = 10){
+    if (db.recipes.length == 10){
         modalOpen.value = true
         return
     }

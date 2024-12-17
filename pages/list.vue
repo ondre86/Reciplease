@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-6 gap-16 mb-8">
+		<main class="flex flex-col justify-start items-center px-6 gap-16 mb-12">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6 text-center">
 				<h1 class="text-6xl font-semibold">Shopping List</h1>
 				<span class="w-full text-lg font-light">View, modify, and generate your shopping list.</span>
@@ -47,10 +47,10 @@
 			</div>
 			<Transition name="fade" mode="out-in">
 				<div v-if="db.shoppingListItems.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
-					<form class="flex flex-col">
+					<form class="flex flex-col text-center">
 						<span class="text-2xl font-semibold mb-2 w-full">Generate List</span>
-						<span class="text-base font-light mb-8 max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
-						<fieldset class="flex flex-col gap-4 w-full self-center">
+						<span class="text-base font-light max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
+						<!-- <fieldset class="flex flex-col gap-4 w-full self-center">
 							<legend class="text-lg font-medium mb-4 w-full underline underline-offset-4">List Style:</legend>
 							<div class="flex flex-col items-baseline gap-1">
 								<div class="flex gap-3 text-lg w-full items-center">
@@ -66,22 +66,22 @@
 								</div>
 								<i class="text-xs self-start ml-6">Great for apps like Notion or Obsidian</i>
 							</div>
-						</fieldset>
+						</fieldset> -->
 					</form>
-					<div class="flex flex-col gap-4 justify-center items-center">
+					<div class="flex flex-col gap-4">
 						<Transition name="fade" mode="out-in">
 							<ButtonPrimary
 								:class="'toggled'"
-								class="self-center"
+								class="self-center w-full"
 								@click="toggleGenModal"
 								@keyup.enter="toggleGenModal"
 								v-if="!waitingForListStatus"
 							>
 								Generate List
 							</ButtonPrimary>
-							<LoadingAnimation :svg-width="'50px'" v-else></LoadingAnimation>
+							<LoadingAnimation :svg-width="'50px'" class="self-center"v-else></LoadingAnimation>
 						</Transition>
-						<span class="text-xs italic text-center">List generations can be viewed in your profile history.</span>
+						<span class="text-xs text-center italic mt-4">List generations can be viewed in your profile history.</span>
 					</div>
 					<UModal v-model="genModalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
 						<ButtonClose 
@@ -96,19 +96,22 @@
 							<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
 								<Transition name="fade" mode="out-in">
 									<div v-if="!searchStore.generatingShoppingList && searchStore.generatedList" class="text-start flex flex-col gap-4" id="list" ref="list">
+										<span class="text-center font-semibold text-lg">
+											{{ searchStore.generatedList.title }}
+										</span>
 										<ul class="pt-4">
 											<li v-for="(listItem, index) in searchStore.generatedList.listItems" :key="index">
 												{{ listItem }}
 											</li>
 										</ul>
-										<span class="font-semibold pb-4">
+										<span class="font-semibold pb-4 text-center">
 											{{ searchStore.generatedList.totalEstimate }}
 										</span>
 									</div>
 									<LoadingAnimation :svg-width="'50px'" class="self-center" v-else-if="searchStore.generatingShoppingList && !searchStore.generatedList"></LoadingAnimation>
 								</Transition>
 							</div>
-							<div class="flex flex-col gap-4 md:flex-row">
+							<div class="flex flex-col justify-center items-center gap-4 md:flex-row">
 								<ButtonPrimary
 									v-if="!searchStore.generatingShoppingList"
 									@click="copyList"
@@ -131,14 +134,14 @@
 				</div>
 			</Transition>
 			<UModal v-model="searchStore.generationLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
-				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4" @click="searchStore.generationLimit = false; waitingForListStatus = false" @keyup.enter="searchStore.generationLimit = false; waitingForListStatus = false"></ButtonClose>
+				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.generationLimit = false; waitingForListStatus = false" @keyup.enter="searchStore.generationLimit = false; waitingForListStatus = false"></ButtonClose>
 				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
 					<h4 class="font-semibold text-2xl">Limit Reached</h4>
 					<p>
 						You've hit the limit for the free plan. <br>
 						Please wait until next month or upgrade your plan.
 					</p>
-					<div class="flex flex-col gap-4 mt-4 md:flex-row">
+					<div class="flex flex-col justify-center items-center gap-4 mt-4 md:flex-row">
 						<ButtonPrimary
 							class="toggled"
 							:link="'/pricing'"
@@ -268,7 +271,9 @@ async function toggleGenModal() {
 	else {
 		waitingForListStatus.value = false
 		genModalOpen.value = false
-		copyStatus.value = "Copy To Clipboard"
+		setTimeout(() => {
+			copyStatus.value = "Copy To Clipboard"
+		}, 1000)
 	}
 }
 
@@ -293,12 +298,12 @@ function useWebShare(){
 
 
 onMounted(()=>{
-	if (listTitle.value){
+	if (db.shoppingListItems){
 		$gsap.from('.shopping-list', {
 			y: 30,
 			opacity: 0,
 			duration: .5,
-			delay: 0.15
+			delay: 0.45
 		})
 	}
 })

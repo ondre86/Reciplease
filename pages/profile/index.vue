@@ -1,6 +1,6 @@
 <template>
 	<div id="app-wrap">
-		<main class="flex flex-col justify-start items-center px-6 gap-6">
+		<main class="flex flex-col justify-start items-center px-6 gap-6 mb-12">
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-6xl font-semibold">Profile</h1>
 				<span class="w-full text-lg font-light text-center">View saved recipes, history, and account settings.</span>
