@@ -7,7 +7,7 @@
         >
             <NuxtLink 
                 :to="'/'" 
-                class="p-1 rounded-lg cursor-pointer"
+                class="p-1 rounded-lg cursor-pointer transition-all duration-300"
                 @click.prevent="$event.target.blur(); mobileMenuTransition($event)"
                 id="logo-link"
             >
@@ -98,9 +98,7 @@
 <script setup>
 const authStore = useAuthStore()
 const { $gsap } = useNuxtApp()
-const isDark = useDark()
 
-const windowSize = useWindowSize()
 const isLargeScreen = useMediaQuery('(min-width: 700px)')
 
 const fontSize = 16
@@ -189,6 +187,12 @@ header
     border-bottom: 1px solid g.$grey-divider
 #logo
     max-width: 200px
+
+#logo-link
+    outline: 1px solid transparent
+    &:focus-visible
+        outline: 1px solid g.$green-primary
+
 li
     align-self: center
 
@@ -205,6 +209,9 @@ li
         &:hover, &:focus, &:active, &.router-link-exact-active, &.router-link-active
             color: g.$green-primary
             text-decoration-color: g.$green-primary
+
+        &:focus-visible
+            text-underline-offset: 14px
 
 
 #mobile-menu
@@ -234,6 +241,9 @@ li
                 color: g.$green-light
                 text-decoration: underline
                 text-underline-offset: 8px
+
+            &:focus-visible
+                text-underline-offset: 14px
 
     nav
         a:has(#logo)

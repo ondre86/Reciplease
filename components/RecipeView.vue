@@ -44,6 +44,7 @@
                         @click="addToDB()"
                         @keyup.enter="addToDB()"
                         :class="{'disabled': dbResult}"
+                        :aria-disabled="dbResult ? true : false"
                     >
                         {{ dbResult ? 'Saved' : 'Save' }}
                         <UIcon name="i-heroicons-heart"></UIcon>
@@ -114,8 +115,8 @@
                         @click="addToShoppingList"
                         @keyup.enter="addToShoppingList"
                         :class="shoppingListButtonText == `Added!` ? 'disabled' : ''"
-                        v-bind:['tabIndex']="shoppingListButtonText == `Added!` ? '-1' : '0'"
                         ref="shopping-list-btn"
+                        :aria-disabled="shoppingListButtonText == `Added!` ? true : false"
                     >
                         {{ shoppingListButtonText }}
                     </ButtonPrimary>

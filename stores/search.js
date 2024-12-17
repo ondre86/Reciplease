@@ -88,6 +88,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		})
 		if (searches >= 10) {
 			searchLimit.value = true
+			clearSearchTerms()
+			clearServerSearchTerms()
 			return
 		}
 

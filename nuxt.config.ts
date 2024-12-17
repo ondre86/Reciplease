@@ -66,5 +66,12 @@ export default defineNuxtConfig({
   },
   ui: {
       safelistColors: ['gmain']
+  },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        'img-src': ["'self'", 'data:', 'https://imgs.search.brave.com'],
+      },
+    },
   }
 })

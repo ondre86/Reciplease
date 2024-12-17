@@ -44,8 +44,8 @@ export default defineEventHandler(async (event)=>{
         response_format: detailedOpenAIResponseFormat
     })
 
-    let randomRecipe = JSON.parse(completion.choices[0].message.content).recipes[0].recipeName
-    let braveImageSearchURL = clientRequest.request.mode == "random" ? `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(randomRecipe)}&count=1` : `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(clientRequest.request.message)}&count=1`
+    let randomRecipe = JSON.parse(completion.choices[0].message.content).recipes[0].recipeName ? JSON.parse(completion.choices[0].message.content).recipes[0].recipeName : null
+    let braveImageSearchURL = clientRequest.request.mode == "random" && randomRecipe ? `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(randomRecipe)}&count=1` : `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(clientRequest.request.message)}&count=1`
 
     try {
         const response = await fetch(braveImageSearchURL, {

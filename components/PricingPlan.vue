@@ -9,6 +9,7 @@
         <ButtonPrimary 
             class="mt-4" 
             :class="{'disabled': disabled}"
+            :aria-disabled=disabled
             :link="link"
             :darkEmphasis="darkEmphasis"
         >
