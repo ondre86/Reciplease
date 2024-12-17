@@ -41,7 +41,12 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    pageTransition: { name: 'fade', mode: 'out-in' }
+    pageTransition: { name: 'fade', mode: 'out-in' },
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      }
+    }
   },
   gsap: {
     extraPlugins: {
@@ -59,7 +64,7 @@ export default defineNuxtConfig({
     "/profile/saved": { ssr: false },
     "/profile/billing": { ssr: false },
   },
-    ui: {
-        safelistColors: ['gmain']
-    }
+  ui: {
+      safelistColors: ['gmain']
+  }
 })

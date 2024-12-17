@@ -25,7 +25,7 @@
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">
                 <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
-                    <NuxtImg :src="searchStore.serverResponseImage.results[0].thumbnail.src" alt="" width="200px" height="200px" placeholder />
+                    <NuxtImg :src="searchStore.serverResponseImage.results[0].thumbnail.src" :alt="searchStore.serverResponseRecipe.recipes[0].recipeName" width="200px" height="200px" placeholder />
                 </div>
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-4 max-w-md text-center">

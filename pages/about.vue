@@ -9,7 +9,7 @@
 			<div class="flex flex-col gap-16 h-fit">
 				<AboutGridItem
 					:image="'/svg/time.svg'"
-					:alt="''"
+					:alt="'Analog Clock at 12:20'"
 					:title="'Time Saver'"
 					:subline="`No more staring in the fridge, stressing about tonight's dinner.`"
 					:desc="`Reciplease takes the guesswork out of cooking by finding recipes based on ingredients you already have in your pantry. Then, once you find recipes that you like, you can create one organized shopping list with everything you need.`"
@@ -18,7 +18,7 @@
 				</AboutGridItem>
 				<AboutGridItem
 					:image="'/svg/stars.svg'"
-					:alt="''"
+					:alt="'Twinkle stars'"
 					:title="'Creativity Catalyst'"
 					:subline="`Spice things up for your family & friends...and Instagram!`"
 					:desc="`You cook pretty often and you've got a nice rotation of meals, but we all get tired of eating the same things over and over. You can find new recipes from dozens of different cuisines that use interesting new ingredients on Reciplease.`"
@@ -27,7 +27,7 @@
 				</AboutGridItem>
 				<AboutGridItem
 					:image="'/svg/money.svg'"
-					:alt="''"
+					:alt="'Money bag'"
 					:title="'Budget Booster'"
 					:subline="`Forget about surprises at the cash register.`"
 					:desc="'We all know that food prices are rising and our budgets need to be better. Take the guesswork out of the grocery store by knowing how much your meals are going to cost with our Shopping List Generator.'"
@@ -36,7 +36,7 @@
 				</AboutGridItem>
 				<AboutGridItem
 					:image="'/svg/smile.svg'"
-					:alt="''"
+					:alt="'Smiley face wearing sunglasses'"
 					:title="'Headache Reliever'"
 					:subline="`No more clutter, scrolling, and ads.`"
 					:desc="`Scrolling through endless stories, anecdotes, and ads can be a real pain when you just need to see two things - ingredients and instructions. There's none of that here on Reciplease; just grab what you need and go.`"
@@ -68,10 +68,10 @@
 						"
 					>
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
-						<span class="text-center font-light">
+						<!-- <span class="text-center font-light">
 							Have an account? <br>
 							<RouterLink class="underline font-medium rounded-sm p-0.5" to="auth">Log In</RouterLink>
-						</span>
+						</span> -->
 					</div>
 				</div>
 			</div>

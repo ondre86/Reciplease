@@ -8,7 +8,7 @@
         >
             {{modeDescriptor}}
         </span>
-        <span class="text-center text-2xl font-medium">Find a Recipe:</span>
+        <h2 class="text-center text-2xl font-medium">Find a Recipe:</h2>
         <ul 
             class="flex flex-wrap gap-3 justify-center items-center sm:flex-row sm:gap-6"
         >

@@ -8,6 +8,8 @@
                 h-16 w-full px-4 py-2 pr-20 rounded-xl text-3xl transition-all duration-300 bg-transparent relative z-10
                 focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
             "
+            aria-labelledby="mode-descriptor"
+            title="Enter your query here."
             @keydown="addToSearchTerms($event); hidePlaceholder()"
             @paste="addToSearchTerms($event)"
             @focus="hidePlaceholder"
@@ -26,7 +28,7 @@
             </ButtonSearch>
         </Transition>
         <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0 placeholder-wrap text-nowrap overflow-hidden">
-            <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
+            <span id="placeholder" ref="placeholderEl" :aria-placeholder="placeholder">{{placeholder}}</span>
         </div>
         <UModal v-model="searchStore.searchLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
             <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.searchLimit = false" @keyup.enter="searchStore.searchLimit = false"></ButtonClose>
@@ -99,6 +101,7 @@ watch(searchMode, async (newMode, oldMode) =>{
     search.value.style.outlineColor = outlineColor
     searchInput.value = ''
     hidePlaceholder()
+    placeholderEl.value.textContent = ''
     setTimeout(() => {
         showPlaceholder()
         if (newMode == 'pantry'){
