@@ -1,6 +1,6 @@
 <template>
     <main
-        class="loading flex flex-col justify-center items-center"
+        class="loading flex flex-col justify-center items-center relative"
     >
         <LoadingAnimation></LoadingAnimation>
     </main>
@@ -14,4 +14,7 @@
 .loading
     margin-top: 0px
     height: calc( 100svh - 36px )
+
+.cancel
+    top: calc( 81px + 3rem )
 </style>

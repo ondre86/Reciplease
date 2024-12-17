@@ -32,7 +32,7 @@
                 </ul>
                 <Transition name="fade" mode="out-in">
                     <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!authStore.user">Sign In</ButtonPrimary>
-                    <ButtonPrimary class="justify-self-end toggled" :link="'/profile'" v-else>Profile</ButtonPrimary>
+                    <ButtonPrimary class="justify-self-end" :link="'/profile'" v-else>Profile</ButtonPrimary>
                 </Transition>
             </div>
             <div 
