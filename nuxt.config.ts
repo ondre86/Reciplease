@@ -3,14 +3,15 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
   modules: [
-    '@hypernym/nuxt-gsap',
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-    '@nuxt/fonts',
-    '@nuxtjs/device',
-    // 'nuxt-security',
-    '@nuxtjs/seo',
-    '@nuxt/ui'
+   '@hypernym/nuxt-gsap',
+   '@pinia/nuxt',
+   '@vueuse/nuxt',
+   '@nuxt/fonts',
+   '@nuxtjs/device',
+   // 'nuxt-security',
+   '@nuxtjs/seo',
+   '@nuxt/ui',
+   '@nuxt/image'
   ],
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
@@ -49,17 +50,16 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-		"/": { ssr: false },
+    "/": { ssr: false },
     "/list": { ssr: false },
-		"/auth": { ssr: false },
+    "/auth": { ssr: false },
     "/profile": { ssr: false },
     "/profile/settings": { ssr: false },
     "/profile/history": { ssr: false },
     "/profile/saved": { ssr: false },
     "/profile/billing": { ssr: false },
   },
-	ui: {
-		safelistColors: ['gmain']
-	}
+    ui: {
+        safelistColors: ['gmain']
+    }
 })
-

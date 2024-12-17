@@ -22,7 +22,7 @@
                         <div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegan">Vegan</div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-4 justify-center">
                     <ButtonPrimary 
                         class="toggled"
                         @click="searchStore.getRecipeDetails(recipe.recipeName); searchStore.viewingSearchItems = false"

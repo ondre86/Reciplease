@@ -24,18 +24,18 @@
             "
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">
-                <div class="overflow-hidden rounded-full max-w-fit self-center">
-                    <img :src="recipe.image" alt="" width="200px">
+                <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
+                    <NuxtImg :src="recipe.image" alt="" width="200px" placeholder />
                 </div>
                 <div class="flex flex-col gap-12">
-                    <div class="flex flex-col gap-6 max-w-md text-center">
+                    <div class="flex flex-col gap-4 max-w-md text-center">
                         <h1 class="text-4xl font-bold">{{ recipe.recipeName }}</h1>
                         <span class="text-2xl font-semibold"> {{ recipe.cuisine }}</span>
-                        <span class="font-light "> {{ recipe.description }}</span>
-                        <div class="flex gap-4 mt-2 justify-center" v-if="recipe.isVegetarian || recipe.isVegan">
+                        <div class="flex gap-4 justify-center" v-if="recipe.isVegetarian || recipe.isVegan">
                             <div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegetarian">Vegetarian</div>
                             <div class="recipe-badge border w-fit p-2 rounded-md" v-if="recipe.isVegan">Vegan</div>
                         </div>
+                        <span class="font-light mt-4 "> {{ recipe.description }}</span>
                     </div>
                 </div>
             </div>

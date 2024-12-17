@@ -45,7 +45,7 @@
 						]"
 						:darkEmphasis="false"
 						:disabled="true"
-						class="shadow-2xl"
+						class="shadow-2xl opacity-0"
 						id="unlimited"
 					>
 					</PricingPlan>
@@ -97,9 +97,11 @@ onMounted(()=>{
 	a1.show()
 	a2.show()
 
-	$gsap.from("#unlimited", {
-		y:30,
-		opacity: 0,
+	$gsap.fromTo("#unlimited", {
+		y:30
+	}, {
+		opacity: 1,
+		y: 0,
 		duration: .5,
 		delay: .5
 	})

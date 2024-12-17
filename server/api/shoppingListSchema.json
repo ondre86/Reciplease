@@ -12,7 +12,7 @@
                 },
                 "listItems": {
                     "type": "array",
-                    "description": "List of grocery items, their quantity, and their corresponding price estimates, with dollar signs preceding each price.",
+                    "description": "A bulleted list of grocery items, their quantity, and their corresponding price estimates, with dollar signs preceding each price.",
                     "items": {
                         "type": "string"
                     }

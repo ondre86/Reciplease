@@ -10,8 +10,7 @@ export default defineEventHandler(async (event)=>{
         You are a helpful assistant that outputs shopping lists with price estimates for each item, along with a total price estimate at the end. 
         Do not respond with anything other than a title and the shopping list. 
         Use a colon to separate the price.
-        Responses will either be in bullet points or markdown format - bullet points are the default unless specified. 
-        If the default option is specified, do not use any markdown formatting such as asterisks, simply use dashes for each list item.
+        Use dashes for each list item.
         If markdown format is specified, give each item a checkbox, and do not use a dash before the checkbox.
         If you are provided with a location, get price estimates that match that location, but do not include the location in your response. 
         Item quantities in the JSON objects may be formatted for recipe amounts; translate those amounts into the nearest purchasable item quantity. 
@@ -42,7 +41,7 @@ export default defineEventHandler(async (event)=>{
     openAISearchQuery = openAISearchQuery.slice(0, openAISearchQuery.length-2)
 
     let listMode = clientRequest.request.mode
-    let openAIPrompt = `Create a shopping list for these items: ${openAISearchQuery}. Location: ${location}. Format: ${listMode}`
+    let openAIPrompt = `Create a shopping list for these items: ${openAISearchQuery}. Location: ${location}.`
     let completion
 
     completion = await openai.chat.completions.create({

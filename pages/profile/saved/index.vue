@@ -88,6 +88,10 @@
 </template>
 
 <script setup>
+const db = useFirestoreStore()
+await db.fetchRecipes()
+const modalOpen = ref(false)
+
 definePageMeta({
   requiresAuth: true,
 })
@@ -134,11 +138,6 @@ const links = [
 	},
 ]
 
-const db = useFirestoreStore()
-
-await db.fetchRecipes()
-
-const modalOpen = ref(false)
 </script>
 
 <style lang="sass" scoped>
