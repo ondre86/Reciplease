@@ -13,7 +13,7 @@
 	font-size: 16px
 
 #app
-	min-height: 100vh
+	// min-height: 100vh
 	display: flex
 	flex-direction: column
 	justify-content: space-between
@@ -24,7 +24,7 @@
 
 #app-wrap
 	display: flex
-	justify-content: center
+	// justify-content: center
 	min-height: calc(100vh - 36px)
 
 main

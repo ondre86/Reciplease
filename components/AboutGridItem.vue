@@ -10,7 +10,7 @@
                 :src=image 
                 :alt="alt" 
                 class="
-                    transition-all duration-300 min-h-20 w-full
+                    transition-all duration-300 min-h-20 md:w-full
                 "
             >
         </div>

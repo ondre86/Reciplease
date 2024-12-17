@@ -1,6 +1,6 @@
 <template>
     <main
-        class="loading flex flex-col justify-center items-center h-svh"
+        class="loading flex flex-col justify-center items-center"
     >
         <LoadingAnimation></LoadingAnimation>
     </main>
@@ -13,4 +13,5 @@
 <style lang="sass" scoped>
 .loading
     margin-top: 0px
+    height: calc( 100svh - 36px )
 </style>

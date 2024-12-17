@@ -1,6 +1,6 @@
 <template>
     <main
-        class="flex flex-col items-center h-full self-center px-6 mb-12"
+        class="flex flex-col items-center h-full self-center px-6 mb-4"
         ref="mainWrap"
     >
         <MainLogo></MainLogo>
