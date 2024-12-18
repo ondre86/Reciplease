@@ -105,9 +105,9 @@
                     >
                         {{ shoppingListButtonText }}
                     </ButtonPrimary>
-                    <RouterLink to="/list" class="underline self-center">
+                    <NuxtLink to="/list" class="underline self-center">
                         View Shopping List
-                    </RouterLink>
+                    </NuxtLink>
                 </div>
             </div>
         </div>

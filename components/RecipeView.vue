@@ -38,7 +38,7 @@
                         <span class="font-light mt-4"> {{ searchStore.serverResponseRecipe.recipes[0].description }}</span>
                     </div>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex flex-col justify-center items-center gap-4">
                     <ButtonSecondary 
                         class="flex items-center gap-2 cursor-pointer"
                         @click="addToDB()"
@@ -49,6 +49,7 @@
                         {{ dbResult ? 'Saved' : 'Save' }}
                         <UIcon name="i-heroicons-heart"></UIcon>
                     </ButtonSecondary>
+                    <NuxtLink :to="'/profile/saved'" v-show="dbResult" class="underline underline-offset-4 transition-all duration-300">View Saved Recipes</NuxtLink>
                 </div>
             </div>
             <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl w-80">
@@ -120,9 +121,9 @@
                     >
                         {{ shoppingListButtonText }}
                     </ButtonPrimary>
-                    <RouterLink to="list" class="underline self-center">
+                    <NuxtLink to="/list" class="underline self-center">
                         View Shopping List
-                    </RouterLink>
+                    </NuxtLink>
                 </div>
             </div>
         </div>

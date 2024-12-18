@@ -48,25 +48,8 @@
 			<Transition name="fade" mode="out-in">
 				<div v-if="db.shoppingListItems.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">
 					<form class="flex flex-col text-center">
-						<span class="text-2xl font-semibold mb-2 w-full">Generate List</span>
+						<span class="text-2xl font-semibold mb-2 w-full">Get Pricing Estimates</span>
 						<span class="text-base font-light max-w-xl">Generate your shopping list to get pricing estimates for real grocery items.</span>
-						<!-- <fieldset class="flex flex-col gap-4 w-full self-center">
-							<legend class="text-lg font-medium mb-4 w-full underline underline-offset-4">List Style:</legend>
-							<div class="flex flex-col items-baseline gap-1">
-								<div class="flex gap-3 text-lg w-full items-center">
-									<input type="radio" id="default" name="list-format" value="default" v-model="listMode" checked>
-									<label for="default" class="w-full text-start">Default</label>
-								</div>
-								<i class="text-xs self-start ml-6">Bullet points</i>
-							</div>
-							<div class="flex flex-col items-baseline gap-1">
-								<div class="flex gap-3 text-lg w-full items-center">
-									<input type="radio" id="markdown" name="list-format" value="markdown" v-model="listMode">
-									<label for="markdown" class="w-full text-start">Markdown</label>
-								</div>
-								<i class="text-xs self-start ml-6">Great for apps like Notion or Obsidian</i>
-							</div>
-						</fieldset> -->
 					</form>
 					<div class="flex flex-col gap-4">
 						<Transition name="fade" mode="out-in">
@@ -87,7 +70,7 @@
 						<ButtonClose 
 							:svg-size="'10px'" 
 							:solo="true" 
-							class="z-40 absolute -top-2 -right-2" 
+							class="z-40 absolute top-4 right-4" 
 							@click="toggleGenModal" 
 							@keyup.enter="toggleGenModal"
 						>
@@ -121,7 +104,7 @@
 									{{ copyStatus }}
 								</ButtonPrimary>
 								<ButtonPrimary
-									v-if="!searchStore.generatingShoppingList && webShare.isSupported"
+									v-if="!searchStore.generatingShoppingList && webShare.isSupported && device.isMobile"
 									@click="useWebShare"
 									@keyup.enter="useWebShare"
 									class="flex items-center gap-2"
@@ -180,6 +163,7 @@ const copyStatus = ref('Copy To Clipboard')
 const waitingForListStatus = ref(false)
 
 const webShare = useShare()
+const device = useDevice()
 
 definePageMeta({
   requiresAuth: true,

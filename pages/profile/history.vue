@@ -50,7 +50,7 @@
 							<ButtonClose 
 								:svg-size="'10px'" 
 								:solo="true" 
-								class="z-40 absolute -top-2 -right-2" 
+								class="z-40 absolute top-4 right-4" 
 								@click="openModal" 
 								@keyup.enter="openModal"
 							>
@@ -79,6 +79,7 @@
 									{{ copyStatus }}
 								</ButtonPrimary>
 								<ButtonPrimary 
+									v-if="webShare.isSupported && device.isMobile"
 									@click="useWebShare"
 									@keyup.enter="useWebShare"
 									class="flex items-center gap-2"
@@ -143,8 +144,9 @@ const modalOpen = ref(false)
 const modalList = ref(null)
 
 const historyList = ref()
-const copyStatus = ref('Copy To Clipboard')
+const copyStatus = ref('Copy List')
 const webShare = useShare()
+const device = useDevice()
 
 async function copyList() {
 	try{
@@ -172,7 +174,7 @@ function openModal(item) {
 	else {
 		modalOpen.value = false
 		setTimeout(() => {
-			copyStatus.value = "Copy To Clipboard"
+			copyStatus.value = "Copy List"
 		}, 1000)
 	}
 }
