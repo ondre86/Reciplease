@@ -12,7 +12,8 @@
                 searchStore.requestFulfilled = false; 
                 searchStore.viewingSearchItems = false;
                 searchStore.changeSearchMode('pantry');
-                searchStore.clearRecipeResponseList()
+                searchStore.clearRecipeResponseList();
+                $router.back();
             "
             @keyup.enter="
                 searchStore.clearSearchTerms(); 
@@ -21,7 +22,8 @@
                 searchStore.requestFulfilled = false; 
                 searchStore.viewingSearchItems = false;
                 searchStore.changeSearchMode('pantry');
-                searchStore.clearRecipeResponseList()
+                searchStore.clearRecipeResponseList();
+                $router.back();
             "
         >
             <ButtonSearch

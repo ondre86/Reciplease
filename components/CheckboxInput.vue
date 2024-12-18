@@ -75,6 +75,7 @@ function check($event){
         vertical-align: top;
         height: 1.15rem;
         width: 1.15rem;
+        min-width: 18.4px;
         margin-right: 0.6em;
         color: rgba(0, 0, 0, 0.275);
         border: solid 0.06em;

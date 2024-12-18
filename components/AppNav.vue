@@ -8,7 +8,7 @@
             <NuxtLink 
                 :to="'/'" 
                 class="p-1 rounded-lg cursor-pointer transition-all duration-300"
-                @click.prevent="$event.target.blur(); mobileMenuTransition($event)"
+                @click.prevent="$event.target.blur(); mobileMenuTransition($event); searchStore.viewingSearchItems = false; searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.viewingRecipeFromSearch = false; searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms()"
                 id="logo-link"
             >
                 <div id="logo" class="flex items-center">
@@ -96,6 +96,7 @@
 </template>
 
 <script setup>
+const searchStore = useSearchModeStore()
 const authStore = useAuthStore()
 const { $gsap } = useNuxtApp()
 

@@ -1,10 +1,7 @@
 <template>
 	<div id="app-wrap">
 		<Transition name="fade" mode="out-in" @before-enter="y = 0">
-			<DefaultHome v-if="(!searchStore.submittedRequest && !searchStore.requestFulfilled) && !(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)"></DefaultHome>
-			<LoadingHome v-else-if="(searchStore.submittedRequest && !searchStore.requestFulfilled) && !(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)"></LoadingHome>
-			<SearchHome v-else-if="(searchStore.submittedRequest && searchStore.requestFulfilled) && (searchStore.viewingSearchItems && !searchStore.viewingRecipeFromSearch)"></SearchHome>
-			<RecipeView v-else-if="(searchStore.submittedRequest && searchStore.requestFulfilled) && (!searchStore.viewingSearchItems && searchStore.viewingRecipeFromSearch)"></RecipeView>
+			<DefaultHome v-if="!(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)"></DefaultHome>
 		</Transition>
 	</div>
 

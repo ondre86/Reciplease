@@ -5,7 +5,7 @@
             <div class="flex flex-col gap-1">
                 <span>{{ item.name }}</span>
                 <span class="italic text-sm">
-                    <span v-if="item.quantity !== '0'">{{ item.quantity }}&nbsp;</span>
+                    <span v-if="item.quantity && item.quantity !== '0'">{{ item.quantity }}&nbsp;</span>
                     <span>{{ item.measurement }}</span>
                     <div v-if="item.additionalMeasurements">
                         <span v-for="(additionalMeasurement, index) in item.additionalMeasurements" :key="index">

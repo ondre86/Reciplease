@@ -25,7 +25,7 @@
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">
                 <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
-                    <NuxtImg :src="recipe.image" :alt="recipe.recipeName" width="200px" placeholder />
+                    <NuxtImg class="flex items-center justify-center text-center" :src="recipe.image" :alt="imgAlt" width="200px" height="200px" @load="imgAlt = recipe.recipeName" />
                 </div>
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-4 max-w-md text-center">
@@ -135,7 +135,6 @@ const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const searchStore = useSearchModeStore()
 const db = useFirestoreStore()
-const dbResult = ref(null)
 
 const minServingSize = props.recipe.servingSize.minServings
 const maxServingSize = props.recipe.servingSize.maxServings
@@ -171,7 +170,6 @@ function servingSizeCalculator($event, multiplier){
 }
 
 const tempShoppingList = ref([])
-const shoppingBtn = useTemplateRef('shopping-list-btn')
 
 function addToShoppingList(){
     if (shoppingListButtonText.value !== 'Added!'){
@@ -211,10 +209,7 @@ function addToShoppingList(){
 
 }
 
-
-
-
-
+const imgAlt = ref('')
 
 onMounted(()=>{
     const e1 = document.querySelectorAll(".annotate")[0]
@@ -245,6 +240,7 @@ img
     width: 200px
     height: 200px
     object-fit: cover
+    background: url(/placeholder.png)
     
 .back-text
     text-decoration: underline

@@ -9,7 +9,7 @@
             <AppInput></AppInput>
             <SearchItemWrapper></SearchItemWrapper>
         </div>
-        <div v-else>
+        <div v-else style="max-width: 600px;">
             <AppInput></AppInput>
             <SearchItemWrapper></SearchItemWrapper>
             <SearchModeWrapper></SearchModeWrapper>

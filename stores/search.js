@@ -94,6 +94,13 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		}
 
 		submittedRequest.value = true
+		requestFulfilled.value = false
+
+		if (!viewingSearchItems.value){
+			clearRecipeResponseList()
+		}
+
+		await navigateTo('/search')
 
 		if (recipeResponseList.value.size > 0){
 			additionalRequestFulfilled.value = false
@@ -188,6 +195,14 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		submittedRequest.value = true
 		requestFulfilled.value = false
 		generatingRecipe.value = true
+
+		let slug = ''
+		for (let num = 0; num < 17; num++){
+			const alpha = 'abcdefghijklmnopqrstuvwxyz'.split('')
+			slug += alpha[Math.floor(Math.random() * alpha.length)]
+		}
+
+		await navigateTo(`/search/${slug}+${recipe ? recipe.replaceAll(" ", "-") : 'random'}`)
 
 		await $fetch("/api/recipe-details", {
             method: "POST",

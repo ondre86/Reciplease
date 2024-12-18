@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
-import { collection, doc, setDoc, getDocs, deleteDoc, onSnapshot } from 'firebase/firestore'
+import { collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot } from 'firebase/firestore'
 
 export const useFirestoreStore = defineStore('firestoreStore', () => {
     const recipes = ref([])
@@ -50,6 +50,29 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
         } 
         catch (error) {
             console.error('Error fetching recipes:', error.message)
+        }
+    }
+
+    const fetchRecipeById = async (recipeId) => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+    
+            if (!userId) throw new Error('User is not authenticated.')
+    
+            const recipeDoc = doc($firebase.firestore, `users/${userId}/recipes`, recipeId)
+            const recipeSnap = await getDoc(recipeDoc)
+    
+            if (recipeSnap.exists()) {
+                return { id: recipeSnap.id, ...recipeSnap.data() }
+            } else {
+                throw new Error('Recipe not found.')
+            }
+        } 
+        catch (error) {
+            console.error('Error fetching recipe:', error.message)
+            throw error
         }
     }
 
@@ -207,6 +230,7 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
         historyItems,
         addRecipe,
         fetchRecipes,
+        fetchRecipeById,
         subscribeToShoppingList,
         unsubscribeFromShoppingList,
         deleteRecipe,

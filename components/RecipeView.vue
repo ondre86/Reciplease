@@ -6,8 +6,8 @@
     >
         <div
             class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
-            @click="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
-            @keyup.enter="searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
+            @click="$router.back(); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
+            @keyup.enter="$router.back(); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
         >
             <ButtonSearch
                 :svg-width="'12px'"
@@ -25,7 +25,7 @@
         >
             <div class="flex flex-col gap-8 md:sticky md:top-28">
                 <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
-                    <NuxtImg :src="searchStore.serverResponseImage.results[0].thumbnail.src" :alt="searchStore.serverResponseRecipe.recipes[0].recipeName" width="200px" height="200px" placeholder />
+                    <NuxtImg class="flex items-center justify-center text-center" :src="searchStore.serverResponseImage.results[0].thumbnail.src" :alt="imgAlt" width="200px" height="200px" @load="imgAlt = searchStore.serverResponseRecipe.recipes[0].recipeName" />
                 </div>
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-4 max-w-md text-center">
@@ -51,7 +51,7 @@
                     </ButtonSecondary>
                 </div>
             </div>
-            <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl">
+            <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl w-80">
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2 text-center mb-4">
                         <h2 class="text-4xl font-semibold annotate w-fit self-center">Ingredients</h2>
@@ -254,6 +254,8 @@ function addToShoppingList(){
 }
 
 const modalOpen = ref(false)
+const imgAlt = ref('')
+
 function addToDB() {
     if (db.recipes.length == 10){
         modalOpen.value = true
@@ -267,26 +269,27 @@ function addToDB() {
     }
 }
 
-
 onMounted(()=>{
-    const e1 = document.querySelectorAll(".annotate")[0]
-    const e2 = document.querySelectorAll(".annotate")[1]
+    setTimeout(() => {
+        const e1 = document.querySelectorAll(".annotate")[0]
+        const e2 = document.querySelectorAll(".annotate")[1]
 
-    const a1 = annotate(e1, { type: 'underline',color: '#687441' })
-    const a2 = annotate(e2, { type: 'underline',color: '#687441' })
+        const a1 = annotate(e1, { type: 'underline',color: '#687441' })
+        const a2 = annotate(e2, { type: 'underline',color: '#687441' })
 
-    function showUnderlines(el, annotateEl){
-        $ScrollTrigger.create({
-            trigger: el,
-            start: 'bottom bottom-=30%',
-            onEnter: ()=>{
-                annotateEl.show()
-            }
-        })
-	}
+        function showUnderlines(el, annotateEl){
+            $ScrollTrigger.create({
+                trigger: el,
+                start: 'bottom bottom-=30%',
+                onEnter: ()=>{
+                    annotateEl.show()
+                }
+            })
+        }
+        showUnderlines(e1, a1)
+        showUnderlines(e2, a2)
+    }, 500)
 
-	showUnderlines(e1, a1)
-	showUnderlines(e2, a2)
 
     tempShoppingList.value = document.querySelectorAll('input')
 })
@@ -297,6 +300,7 @@ img
     height: 200px
     width: 200px
     object-fit: cover
+    background: url(/placeholder.png)
 
 .back-text
     text-decoration: underline
@@ -345,5 +349,5 @@ ol
     @media (prefers-color-scheme:dark)
         background-color: g.$green-acc1
         border-color: g.$green-light
-                
+
 </style>

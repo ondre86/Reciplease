@@ -66,7 +66,7 @@ const { $gsap, $ScrollTrigger } = useNuxtApp()
 const profanity = new Profanity({
     wholeWord: false
 })
-profanity.whitelist.addWords(['casserole', 'cassava', 'cassareep', 'glass', 'molasses', 'butter', 'buttered'])
+profanity.whitelist.addWords(['casserole', 'cassava', 'cassareep', 'glass', 'grass', 'lemongrass', 'molasses', 'butter', 'buttered'])
 
 const ingredientTL = $gsap.timeline({
     repeat: -1,
