@@ -7,19 +7,21 @@
                 <span class="text-base">{{ subtitle }}</span>
             </div>
             <div class="flex flex-col gap-4 items-center self-center w-full md:w-fit">
-                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : `View ${optionTitle}` }}</ButtonPrimary>
+                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : `${noView ? '' : 'View'} ${optionTitle}` }}</ButtonPrimary>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     optionTitle: String,
     subtitle: String,
     link: String,
-    disabled: Boolean
+    disabled: Boolean,
+    noView: Boolean
 })
+const btnPrefix = ref(props.noView)
 </script>
 
 <style lang="sass" scoped>

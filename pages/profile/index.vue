@@ -67,6 +67,15 @@
 					>
 					</ProfileOption>
 				</li>
+				<li class="w-full md:w-fit">
+					<ProfileOption 
+						:optionTitle="'Contact Support'" 
+						:link="'mailto:support@reciplease.co'"
+						:subtitle="'support@reciplease.co'"
+						:noView="true"
+					>
+					</ProfileOption>
+				</li>
 
 			</ul>
 		</main>
