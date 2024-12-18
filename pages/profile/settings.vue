@@ -131,7 +131,7 @@
 			<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
 				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4" @click="toggleDeleteModal" @keyup.enter="toggleDeleteModal"></ButtonClose>
 				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
-					<h4 class="font-semibold text-2xl">Confirm Account Deletion</h4>
+					<h4 class="font-semibold text-2xl">Confirm Deletion</h4>
 					<p>
 						Are you sure you want to delete your account? <br><br>
 						This action is not reversible.

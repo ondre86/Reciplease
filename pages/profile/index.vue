@@ -34,12 +34,12 @@
 					</ButtonSecondary>
 				</div>
 			</div>
-			<ul class="mt-12 w-full flex flex-col justify-center items-center gap-4 md:flex-row md:flex-wrap">
+			<ul class="mt-12 flex flex-col justify-center items-center gap-4 w-full md:flex-row md:flex-wrap">
 				<li class="w-full md:w-fit">
 					<ProfileOption 
 						:optionTitle="'Saved Recipes'" 
 						:link="'/profile/saved'"
-						:subtitle="'Save recipes from your searches and view them here.'"
+						:subtitle="'Save recipes from searches and view them here.'"
 					>
 					</ProfileOption>
 				</li>
@@ -47,7 +47,7 @@
 					<ProfileOption 
 						:optionTitle="'Activity History'" 
 						:link="'/profile/history'"
-						:subtitle="'View your past searches and shopping list creations.'"
+						:subtitle="'Review previous searches and shopping lists.'"
 					>
 					</ProfileOption>
 				</li>
@@ -55,14 +55,14 @@
 					<ProfileOption 
 						:optionTitle="'Account Settings'" 
 						:link="'/profile/settings'"
-						:subtitle="'Change your account email and password, or delete your account.'"
+						:subtitle="'Update your credentials or delete your account.'"
 					>
 					</ProfileOption>
 				</li>
 				<li class="w-full md:w-fit">
 					<ProfileOption 
 						:optionTitle="'Billing & Plans'" 
-						:subtitle="'View your invoices and change your subscription plan.'"
+						:subtitle="'View invoices and manage your subscription.'"
 						:disabled="true"
 					>
 					</ProfileOption>
