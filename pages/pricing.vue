@@ -21,7 +21,8 @@
 						:extraSubtitle="'No credit card required.'"
 						:features="[
 							'10 Recipe Searches/Month',
-							'10 Saved Recipes',
+							'20 Recipe Generations/Month',
+							'10 Saved Recipes Max',
 							'Unlimited Shopping List Items',
 							'3 Shopping List Generations/Month'
 						]"

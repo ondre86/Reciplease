@@ -49,14 +49,37 @@
                 </ButtonPrimary>
             </li>
         </ul>
+        <UModal v-model="searchStore.recipeGenLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+            <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.recipeGenLimit = false" @keyup.enter="searchStore.recipeGenLimit = false"></ButtonClose>
+            <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
+                <h4 class="font-semibold text-2xl">Limit Reached</h4>
+                <p>
+                    You've hit the limit for the free plan. <br>
+                    Please wait until next month or upgrade your plan.
+                </p>
+                <div class="flex flex-col items-center justify-center gap-4 mt-4 md:flex-row">
+                    <ButtonPrimary
+                        class="toggled"
+                        :link="'/pricing'"
+                    >
+                        View Pricing Plans
+                    </ButtonPrimary>
+                    <ButtonSecondary
+                        class="toggled cursor-pointer"
+                        @click="searchStore.recipeGenLimit = false"
+                        @keyup.enter="searchStore.recipeGenLimit = false"
+                        tabindex="0"
+                    >
+                        Close
+                    </ButtonSecondary>
+                </div>
+            </div>
+        </UModal>
     </div>
 </template>
 
 <script setup>
 const { $gsap } = useNuxtApp()
-
-const windowSize = useWindowSize()
-const isSmallScreen = useMediaQuery('(max-width: 700px)')
 
 const searchStore = useSearchModeStore()
 const authStore = useAuthStore()
@@ -74,23 +97,32 @@ async function toggleSearchMode(event) {
     searchStore.clearSearchTerms()
     searchStore.clearServerSearchTerms()
 
-    const descriptorTL = $gsap.timeline()
-    .to('#mode-descriptor', {
-        y:20,
-        opacity: 0,
-        duration: .3
-    })
-    .call(()=>{
-        modeDescriptor.value = modeDescriptors[event.target.getAttribute('data-searchmode')]
-    })
-    .to('#mode-descriptor', {
-        y:0,
-        opacity: 1,
-        duration: .3
-    })
+    if (searchStore.getSearchMode == 'random'){
+        if (!authStore.user) return await navigateTo('/auth')
 
-	event.target.classList.add('toggled')
-	event.target.setAttribute('aria-pressed', true)
+        searchStore.getRecipeDetails()
+    }
+
+    if (event.target.getAttribute('data-searchmode') !== "random"){
+        event.target.classList.add('toggled')
+        event.target.setAttribute('aria-pressed', true)
+
+        const descriptorTL = $gsap.timeline()
+            .to('#mode-descriptor', {
+                y:20,
+                opacity: 0,
+                duration: .3
+            })
+            .call(()=>{
+                modeDescriptor.value = modeDescriptors[event.target.getAttribute('data-searchmode')]
+            })
+            .to('#mode-descriptor', {
+                y:0,
+                opacity: 1,
+                duration: .3
+            })
+    }
+
 
 	setTimeout(() => {
 		event.target.blur()
@@ -104,11 +136,7 @@ async function toggleSearchMode(event) {
 		}
 	}
 
-    if (searchStore.getSearchMode == 'random'){
-        if (!authStore.user) return await navigateTo('/auth')
 
-        searchStore.getRecipeDetails()
-    }
 }
 </script>
 

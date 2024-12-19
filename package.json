@@ -28,6 +28,7 @@
     "openai": "^4.76.0",
     "pinia": "^2.3.0",
     "rough-notation": "^0.5.1",
+    "underscore.string": "^3.3.6",
     "validator": "^13.12.0",
     "vue": "latest",
     "vue-router": "latest"

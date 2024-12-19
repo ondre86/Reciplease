@@ -137,6 +137,20 @@
                 </ol>
             </div>
         </div>
+        <div class="nutrition flex flex-col mt-12 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
+            <div class="flex flex-col gap-6">
+                <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8 mb-4">Nutrition</h2>
+                <ul class="flex justify-center gap-6 flex-wrap w-fit">
+                    <li v-for="(amount, macro) in searchStore.serverResponseRecipe.recipes[0].nutrition" :key="macro" class="text-4xl leading-8">
+                        <div class="flex flex-col gap-4 border rounded-xl p-4 macro">
+                            <span class="text-xl">{{ us.titleize(us.humanize(macro)) }}</span>
+                            <em class="text-center text-2xl font-medium">{{ amount }}</em>
+                        </div>
+                    </li>
+                </ul>
+                <i class="text-center text-xs mt-2">per serving</i>
+            </div>
+        </div>
         <UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
             <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="modalOpen = false" @keyup.enter="modalOpen = false"></ButtonClose>
             <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
@@ -167,7 +181,8 @@
 </template>
 
 <script setup>
-import { annotate } from 'rough-notation';
+import { annotate } from 'rough-notation'
+import * as us from 'underscore.string'
 const { $gsap, $ScrollTrigger } = useNuxtApp()
 
 const searchStore = useSearchModeStore()
@@ -274,9 +289,11 @@ onMounted(()=>{
     setTimeout(() => {
         const e1 = document.querySelectorAll(".annotate")[0]
         const e2 = document.querySelectorAll(".annotate")[1]
+        const e3 = document.querySelectorAll(".annotate")[2]
 
         const a1 = annotate(e1, { type: 'underline',color: '#687441' })
         const a2 = annotate(e2, { type: 'underline',color: '#687441' })
+        const a3 = annotate(e3, { type: 'underline',color: '#687441' })
 
         function showUnderlines(el, annotateEl){
             $ScrollTrigger.create({
@@ -289,6 +306,7 @@ onMounted(()=>{
         }
         showUnderlines(e1, a1)
         showUnderlines(e2, a2)
+        showUnderlines(e3, a3)
     }, 500)
 
 
@@ -351,4 +369,8 @@ ol
         background-color: g.$green-acc1
         border-color: g.$green-light
 
+.macro
+    background-color: g.$grey-fill
+    @media (prefers-color-scheme:dark)
+        background-color: g.$green-acc1
 </style>

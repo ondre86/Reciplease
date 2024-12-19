@@ -25,8 +25,8 @@
                 <div class="flex flex-col gap-4 justify-center">
                     <ButtonPrimary 
                         class="toggled"
-                        @click="searchStore.getRecipeDetails(recipe.recipeName); searchStore.viewingSearchItems = false"
-                        @keyup.enter="searchStore.getRecipeDetails(recipe.recipeName); searchStore.viewingSearchItems = false"
+                        @click="searchStore.getRecipeDetails(recipe.recipeName)"
+                        @keyup.enter="searchStore.getRecipeDetails(recipe.recipeName)"
                     >
                         View Recipe
                     </ButtonPrimary>
@@ -40,6 +40,32 @@
         </span>
         <span>Please try again.</span>
     </div>
+    <UModal v-model="searchStore.recipeGenLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+        <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.recipeGenLimit = false" @keyup.enter="searchStore.recipeGenLimit = false"></ButtonClose>
+        <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
+            <h4 class="font-semibold text-2xl">Limit Reached</h4>
+            <p>
+                You've hit the limit for the free plan. <br>
+                Please wait until next month or upgrade your plan.
+            </p>
+            <div class="flex flex-col items-center justify-center gap-4 mt-4 md:flex-row">
+                <ButtonPrimary
+                    class="toggled"
+                    :link="'/pricing'"
+                >
+                    View Pricing Plans
+                </ButtonPrimary>
+                <ButtonSecondary
+                    class="toggled cursor-pointer"
+                    @click="searchStore.recipeGenLimit = false"
+                    @keyup.enter="searchStore.recipeGenLimit = false"
+                    tabindex="0"
+                >
+                    Close
+                </ButtonSecondary>
+            </div>
+        </div>
+    </UModal>
 </template>
 
 <script setup>

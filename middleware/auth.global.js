@@ -19,9 +19,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		return navigateTo('/profile')
 	}
 
-	console.log(to, from)
-	console.log(searchStore)
-
 	// back from recipe to search
 	if ((from.path.includes('/search') && from.path.includes('+')) && to.path == '/search'){
 		searchStore.viewingRecipeFromSearch = false

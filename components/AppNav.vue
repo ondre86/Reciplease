@@ -117,7 +117,7 @@ function mobileMenuTransition($event){
         if (mobileMenuOpen.value == false) {
             mobileMenuTL.addLabel('start')
             .to('#mobile-menu', {
-                y: 32 + (fontSize * 2),
+                y: 31 + (fontSize * 2),
                 duration: .3
             })
             .to('#mobile-menu', {

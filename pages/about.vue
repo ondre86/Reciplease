@@ -68,12 +68,13 @@
 						"
 					>
 						<ButtonPrimary :link="'auth'" :class="'toggled'">Get Started for Free</ButtonPrimary>
-						<!-- <span class="text-center font-light">
-							Have an account? <br>
-							<RouterLink class="underline font-medium rounded-sm p-0.5" to="auth">Log In</RouterLink>
-						</span> -->
 					</div>
 				</div>
+			</div>
+			<div class="mt-6">
+				<p class="text-xs text-center max-w-xl">
+					Reciplease does not claim to own any recipe nor any images displayed throughout the site. <br> All recipe content is provided by generative artificial intelligence and images are provided by search engines. 
+				</p>
 			</div>
 		</main>
 	</div>
