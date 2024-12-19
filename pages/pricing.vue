@@ -38,6 +38,7 @@
 						:price="10"
 						:subtitle="'Enjoy full access to Reciplease.'"
 						:features="[
+							'Unlimited Recipe Searches',
 							'Unlimited Recipe Generations',
 							'Unlimited Saved Recipes',
 							'Unlimited Shopping List Items',

@@ -32,7 +32,7 @@
                 class="rotate-180"
             >
             </ButtonSearch>
-            <span>Go Back</span>
+            <span>Home</span>
         </div>
 
         <SearchResultsHeader></SearchResultsHeader>

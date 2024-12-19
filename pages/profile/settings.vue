@@ -12,7 +12,7 @@
 					class="rotate-180"
 				>
 				</ButtonSearch>
-				<span>Go Back</span>
+				<span>Profile</span>
 			</div>
 			<div class="flex flex-col text-4xl justify-center items-center">
 				<h1 class="text-4xl font-semibold">Settings</h1>
@@ -73,34 +73,59 @@
 				>
 					<h3 class="text-2xl font-semibold text-center">Change Password</h3>
 					<div class="flex flex-col gap-2">
-						<label for="password">New Password</label>
+						<div class="flex gap-4">
+							<label for="password">New Password</label>
+							<UPopover class="w-fit self-center" :ui="{ ring: 'ring-0 border border-gmain-500' }">
+								<UButton id="pop-btn" color="white" label="?" class="rounded-full p-1 px-2 text-xs text-gray-500 flex self-center " />
+								<template #panel>
+									<div id="pop-modal" class="p-4 flex flex-col gap-2">
+										<span class="text-center text-sm">Password must be at least: </span>
+										<span class="text-xs text-gray-500 text-center dark:text-white">8 characters long<br>1 lowercase letter + 1 uppercase letter<br>1 number + 1 symbol</span>
+									</div>
+								</template>
+							</UPopover>
+						</div>
+						<div class="relative">
 						<input
 							id="password"
-							type="password"
+							:type="passwordVisible ? 'text' : 'password'"
 							ref="password"
 							autocomplete="current-password"
 							v-model="passwordInput"
 							minlength="8"
 							class="
-								pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+								pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
 								focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
 							"
 							:class="{'red-border': authStore.authMsg}"
 						/>
+						<div class="w-fit h-fit"
+							tabindex="0"
+							@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
+							@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
+						>
+							<Icon
+								class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-4 z-50"
+								:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+							></Icon>
+						</div>
 					</div>
-					<div class="flex flex-col gap-2">
+					</div>
+					<div class="flex flex-col gap-2 w-full">
 						<label for="confirm-password">Confirm Password</label>
-						<input
-							id="confirm-password"
-							type="password"
-							ref="confirmPassword"
-							v-model="confirmPasswordInput"
-							class="
-								cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
-								focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
-							"
-							:class="{'red-border': authStore.authMsg}"
-						/>
+						<div class="relative">
+								<input
+									id="confirm-password"
+									:type="passwordVisible ? 'text' : 'password'"
+									ref="confirmPassword"
+									v-model="confirmPasswordInput"
+									class="
+										cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+										focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
+									"
+									:class="{'red-border': authStore.authMsg}"
+								/>
+							</div>
 						<UMeter id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
 						<Transition name="fade" mode="out-in"><span id="password-msg" ref="password-msg" class="text-center" v-if="authStore.authMsg && authStore.authMsg.includes('password')">{{ authStore.authMsg }}</span></Transition>
 					</div>
@@ -212,7 +237,8 @@ const confirmPasswordInput = defineModel('confirmPassword')
 const emailInvalid = ref(true)
 const passInvalid = ref(true)
 
-const loading = ref(false)
+const passwordVisible = ref(false)
+
 const modalOpen = ref(false)
 
 watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength], ([currentEmail, currentPass, currentCPass, currentPasswordStrength], [oldEmail, oldPass, oldCPass, oldPasswordStrength])=>{
@@ -284,7 +310,31 @@ function confirmDelete() {
 .tier-badge
 	background-color: g.$grey-fill
 
+.email-input, .pw-input, .cpw-input
+	background-color: g.$grey-fill
+
+	&:focus
+		outline: 2px solid g.$green-primary
+
+.red-border
+	border: 2px solid g.$red-primary
+	
+	&:focus, &:focus-visible, &:focus-within
+		outline: 6px solid g.$red-primary
+
 @media (prefers-color-scheme:dark)
 	.tier-badge
 		background-color: g.$green-acc3
+
+	.email-input, .pw-input, .cpw-input
+		border-color: g.$tan-acc1	
+		background-color: g.$green-acc2
+		border-color: g.$green-acc1
+
+	.red-border
+		border: 2px solid g.$red-primary
+		
+		&:focus, &:focus-visible, &:focus-within
+			outline: 6px solid g.$red-primary
+
 </style>

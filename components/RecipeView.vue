@@ -15,7 +15,7 @@
                 class="rotate-180"
             >
             </ButtonSearch>
-            <span>Go Back</span>
+            <span>{{ searchStore.searchMode == 'random' ? "Home" : "Search Results" }}</span>
         </div>
         <div 
             class="
@@ -143,7 +143,7 @@
                 <ul class="flex justify-center gap-6 flex-wrap w-fit">
                     <li v-for="(amount, macro) in searchStore.serverResponseRecipe.recipes[0].nutrition" :key="macro" class="text-4xl leading-8">
                         <div class="flex flex-col gap-4 border rounded-xl p-4 macro">
-                            <span class="text-xl">{{ us.titleize(us.humanize(macro)) }}</span>
+                            <span class="text-xl text-center">{{ us.titleize(us.humanize(macro)) }}</span>
                             <em class="text-center text-2xl font-medium">{{ amount }}</em>
                         </div>
                     </li>

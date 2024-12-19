@@ -12,7 +12,7 @@
 					class="rotate-180"
 				>
 				</ButtonSearch>
-				<span>Go Back</span>
+				<span>Profile</span>
 			</div>
 			<div class="flex flex-col text-4xl justify-center items-center gap-6">
 				<h1 class="text-4xl font-semibold">History</h1>

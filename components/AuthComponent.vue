@@ -54,44 +54,58 @@
                             <template #panel>
                                 <div id="pop-modal" class="p-4 flex flex-col gap-2">
                                     <span class="text-center text-sm">Password must be at least: </span>
-                                    <span class="text-xs text-gray-500 text-center">8 characters long<br>1 lowercase letter + 1 uppercase letter<br>1 number + 1 symbol</span>
+                                    <span class="text-xs text-gray-500 text-center dark:text-white">8 characters long<br>1 lowercase letter + 1 uppercase letter<br>1 number + 1 symbol</span>
                                 </div>
                             </template>
                         </UPopover>
                     </div>
-                    <input
-                        id="password"
-                        type="password"
-                        ref="password"
-                        autocomplete="current-password"
-                        v-model="passwordInput"
-                        minlength="8"
-                        class="
-                            pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
-                            focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
-                        "
-                        :class="{'red-border': authStore.authMsg}"
-                    />
+                    <div class="relative">
+						<input
+							id="password"
+							:type="passwordVisible ? 'text' : 'password'"
+							ref="password"
+							autocomplete="current-password"
+							v-model="passwordInput"
+							minlength="8"
+							class="
+								pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
+								focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
+							"
+							:class="{'red-border': authStore.authMsg}"
+						/>
+						<div class="w-fit h-fit"
+							tabindex="0"
+							@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
+							@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
+						>
+							<Icon
+								class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-4 z-50"
+								:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+							></Icon>
+						</div>
+					</div>
                     <Transition name="fade" mode="out-in">
                         <div class="flex flex-col gap-2" v-show="authMode == 'Sign Up'" :key="1">
                             <label for="confirm-password">Confirm Password</label>
-                            <input
-                                id="confirm-password"
-                                type="password"
-                                ref="confirmPassword"
-                                v-model="confirmPasswordInput"
-                                class="
-                                    cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
-                                    focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
-                                "
-                                :class="{'red-border': authStore.authMsg}"
-                            />
+                            <div class="relative">
+								<input
+									id="confirm-password"
+									:type="passwordVisible ? 'text' : 'password'"
+									ref="confirmPassword"
+									v-model="confirmPasswordInput"
+									class="
+										cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+										focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
+									"
+									:class="{'red-border': authStore.authMsg}"
+								/>
+							</div>
                             <Transition name="fade" mode="out-in"><span id="error-password" ref="error-password">{{ confirmErrorPassword }}</span></Transition>
                         </div>
                     </Transition>
                     <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
                     <Transition name="fade" mode="out-in">
-                        <span class="w-full text-center mt-2" id="error-password" ref="error-password" v-if="authStore.authMsg">Invalid Email or Password</span>
+                        <span class="w-full text-center" id="error-password" ref="error-password" v-if="authStore.authMsg">Invalid Email or Password</span>
                     </Transition>
                 </div>
             </div>
@@ -99,7 +113,7 @@
         <div class="flex flex-col gap-6 mt-2">
             <div class="flex justify-center mb-4">
 				<span v-if="authStore.authMsg && forgotPassword">{{ authStore.authMsg }}</span>
-				<span v-else-if="!forgotPassword" @click="forgotPassword = true" class="forgot underline cursor-pointer underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md">Forgot your Password?</span>
+				<span v-else-if="!forgotPassword" tabindex="0" @click="forgotPassword = true" @keyup.enter="forgotPassword = true" class="forgot underline cursor-pointer underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md">Forgot your Password?</span>
             </div>
             <div class="flex justify-center">
 				<Transition name="fade" mode="out-in">
@@ -159,6 +173,7 @@ const errorPassword = ref('')
 const confirmErrorPassword = ref('')
 
 const forgotPassword = ref(false)
+const passwordVisible = ref(false)
 
 const authMode = ref('Sign In')
 const authSwitchLink = ref('Create an Account')

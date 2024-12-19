@@ -52,7 +52,7 @@ useHead({
   }
 })
 
-const { x, y } = useWindowScroll({ behavior: 'smooth' })
+// const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 </script>
 

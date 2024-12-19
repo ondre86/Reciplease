@@ -50,7 +50,7 @@ if (!searchStore.submittedRequest){
     await navigateTo('/')
 }
 
-const { x, y } = useWindowScroll({ behavior: 'smooth' })
+// const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 </script>
 
