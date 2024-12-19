@@ -13,6 +13,7 @@
 					:svg-width="'12px'"
 					:svg-height="'12px'"
 					class="rotate-180"
+                    aria-label="Return to Saved Recipes"
 				>
 				</ButtonSearch>
 				<span>Saved Recipes</span>

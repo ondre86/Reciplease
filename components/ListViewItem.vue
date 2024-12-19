@@ -1,6 +1,6 @@
 <template>
     <div class="checkbox-wrapper-1 flex items-center">
-        <input class="substituted" type="checkbox" aria-hidden="true" :id="item.name" @click="check($event); $emit('checked', $event)"/>
+        <input class="substituted" type="checkbox" :id="item.name" @click="check($event); $emit('checked', $event)"/>
         <label class="text-lg flex w-full" :for="item.name">
             <div class="flex flex-col gap-1">
                 <span>{{ item.name }}</span>

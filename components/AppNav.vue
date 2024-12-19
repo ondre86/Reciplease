@@ -4,6 +4,7 @@
             class="
                 flex justify-between px-6 w-full max-w-screen-xl items-center relative z-10
             "
+            aria-label="Primary Navigation"
         >
             <NuxtLink 
                 :to="'/'" 
@@ -44,7 +45,7 @@
             </div>
         </nav>
         <div v-show="!isLargeScreen" id='mobile-menu' class="absolute top-0 opacity-0 w-full flex justify-center py-1 z-0 pb-4 invisible"> 
-            <nav>
+            <nav aria-label="Mobile Navigation">
                 <ul class="flex gap-5">
                     <li>
                         <NuxtLink 

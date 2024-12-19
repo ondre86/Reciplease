@@ -7,7 +7,7 @@
                 <span class="text-base">{{ subtitle }}</span>
             </div>
             <div class="flex flex-col gap-4 items-center self-center w-full md:w-fit">
-                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }">{{ disabled ? "Coming Soon" : `${noView ? '' : 'View'} ${optionTitle}` }}</ButtonPrimary>
+                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }" :disabled="disabled == true">{{ disabled ? "Coming Soon" : `${noView ? '' : 'View'} ${optionTitle}` }}</ButtonPrimary>
             </div>
         </div>
     </div>

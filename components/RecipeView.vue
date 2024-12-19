@@ -151,7 +151,7 @@
                 <i class="text-center text-xs mt-2">per serving</i>
             </div>
         </div>
-        <UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+        <UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
             <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="modalOpen = false" @keyup.enter="modalOpen = false"></ButtonClose>
             <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
                 <h4 class="font-semibold text-2xl">Limit Reached</h4>

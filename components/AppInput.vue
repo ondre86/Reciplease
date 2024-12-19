@@ -9,6 +9,7 @@
                 focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
             "
             aria-labelledby="mode-descriptor"
+            :aria-placeholder="placeholder"
             title="Enter your query here."
             @keydown="addToSearchTerms($event); hidePlaceholder()"
             @paste="addToSearchTerms($event)"
@@ -28,9 +29,9 @@
             </ButtonSearch>
         </Transition>
         <div class="text-3xl absolute left-6 top-1/2 -translate-y-1/2 z-0 placeholder-wrap text-nowrap overflow-hidden">
-            <span id="placeholder" ref="placeholderEl" :aria-placeholder="placeholder">{{placeholder}}</span>
+            <span id="placeholder" ref="placeholderEl">{{placeholder}}</span>
         </div>
-        <UModal v-model="searchStore.searchLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+        <UModal v-model="searchStore.searchLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
             <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.searchLimit = false" @keyup.enter="searchStore.searchLimit = false"></ButtonClose>
             <div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
                 <h4 class="font-semibold text-2xl">Limit Reached</h4>

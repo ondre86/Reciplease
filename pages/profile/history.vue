@@ -10,6 +10,7 @@
 					:svg-width="'12px'"
 					:svg-height="'12px'"
 					class="rotate-180"
+					aria-label="Return to Saved Recipes"
 				>
 				</ButtonSearch>
 				<span>Profile</span>
@@ -50,6 +51,7 @@
 							<ButtonClose 
 								:svg-size="'10px'" 
 								:solo="true" 
+								tabindex="0"
 								class="z-40 absolute top-4 right-4" 
 								@click="openModal" 
 								@keyup.enter="openModal"
@@ -103,6 +105,9 @@
 </template>
 
 <script setup>
+const db = useFirestoreStore()
+await db.fetchHistoryItems()
+
 definePageMeta({
   requiresAuth: true,
 })
@@ -137,9 +142,6 @@ useHead({
   }
 })
 
-const db = useFirestoreStore()
-await db.fetchHistoryItems()
-
 const modalOpen = ref(false)
 const modalList = ref(null)
 
@@ -168,8 +170,8 @@ function useWebShare(){
 
 function openModal(item) {
 	if (!modalOpen.value) {
-		modalOpen.value = true
 		modalList.value = item
+		modalOpen.value = true
 	}
 	else {
 		modalOpen.value = false

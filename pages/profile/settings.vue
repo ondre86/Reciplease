@@ -10,6 +10,7 @@
 					:svg-width="'12px'"
 					:svg-height="'12px'"
 					class="rotate-180"
+					aria-label="Return to Profile"
 				>
 				</ButtonSearch>
 				<span>Profile</span>
@@ -44,6 +45,7 @@
 								<ButtonPrimary
 									class="toggled mt-4"
 									:class="{'disabled': emailInvalid}"
+									:disabled="emailInvalid == true"
 									@click="changeEmail"
 									@keyup.enter="changeEmail"
 									v-if="!authStore.loadingState"
@@ -99,8 +101,10 @@
 								"
 								:class="{'red-border': authStore.authMsg}"
 							/>
-							<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+							<div class="pw-icon flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-2 rounded-full transition-all duration-300"
 								tabindex="0"
+								role="button"
+								aria-label="Show Password"
 								@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
 								@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
 							>
@@ -119,13 +123,15 @@
 								ref="confirmPassword"
 								v-model="confirmPasswordInput"
 								class="
-									cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+									cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
 									focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
 								"
 								:class="{'red-border': authStore.authMsg}"
 							/>
-							<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+							<div class="pw-icon flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-2 rounded-full transition-all duration-300"
 								tabindex="0"
+								role="button"
+								aria-label="Show Password"
 								@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
 								@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
 							>
@@ -134,13 +140,14 @@
 								></Icon>
 							</div>
 						</div>
-						<UMeter id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
+						<UMeter id='meter' ref="meter" :label="'Password Strength'":min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
 						<Transition name="fade" mode="out-in"><span id="password-msg" ref="password-msg" class="text-center" v-if="authStore.authMsg && authStore.authMsg.includes('password')">{{ authStore.authMsg }}</span></Transition>
 					</div>
 
 					<ButtonPrimary 
 						class="toggled" 
 						:class="{'disabled': passInvalid}"
+						:disabled="passInvalid == true"
 						@click="changePassword"
 						@keyup.enter="changePassword"
 					>
@@ -312,6 +319,11 @@ function confirmDelete() {
 	authStore.deleteCurrentUser()
 }
 
+onMounted(() => {
+	const pwMeter = document.querySelectorAll('meter')[0]	
+	pwMeter.ariaLabel = 'Password Strength'
+})
+
 </script>
 
 <style lang="sass" scoped>
@@ -330,6 +342,12 @@ function confirmDelete() {
 	&:focus, &:focus-visible, &:focus-within
 		outline: 6px solid g.$red-primary
 
+.pw-icon
+	outline: 2px solid transparent
+
+	&:hover, &:focus-visible
+		outline-color: g.$green-primary
+
 @media (prefers-color-scheme:dark)
 	.tier-badge
 		background-color: g.$green-acc3
@@ -344,5 +362,11 @@ function confirmDelete() {
 		
 		&:focus, &:focus-visible, &:focus-within
 			outline: 6px solid g.$red-primary
+
+	.pw-icon
+		outline: 2px solid transparent
+
+		&:hover, &:focus-visible
+			outline-color: g.$green-light
 
 </style>

@@ -72,9 +72,12 @@
 								focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
 							"
 							:class="{'red-border': authStore.authMsg}"
+							@keyup.enter="submitCredentials"
 						/>
-						<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+						<div class="pw-icon flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-2 rounded-full transition-all duration-300"
 							tabindex="0"
+							role="button"
+							aria-label="Show Password"
 							@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
 							@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
 						>
@@ -93,13 +96,16 @@
 									ref="confirmPassword"
 									v-model="confirmPasswordInput"
 									class="
-										cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+										cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
 										focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
 									"
 									:class="{'red-border': authStore.authMsg}"
+									@keyup.enter="submitCredentials"
 								/>
-								<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+								<div class="pw-icon flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-2 rounded-full transition-all duration-300"
 									tabindex="0"
+									role="button"
+									aria-label="Show Password"
 									@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
 									@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
 								>
@@ -111,7 +117,7 @@
                             <Transition name="fade" mode="out-in"><span id="error-password" ref="error-password">{{ confirmErrorPassword }}</span></Transition>
                         </div>
                     </Transition>
-                    <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
+                    <UMeter v-show="authMode == 'Sign Up'" id='meter' ref="meter" :label="'Password Strength'" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
                     <Transition name="fade" mode="out-in">
                         <span class="w-full text-center" id="error-password" ref="error-password" v-if="authStore.authMsg">Invalid Email or Password</span>
                     </Transition>
@@ -121,7 +127,17 @@
         <div class="flex flex-col gap-6 mt-2">
             <div class="flex justify-center mb-4">
 				<span v-if="authStore.authMsg && forgotPassword">{{ authStore.authMsg }}</span>
-				<span v-else-if="!forgotPassword" tabindex="0" @click="forgotPassword = true" @keyup.enter="forgotPassword = true" class="forgot underline cursor-pointer underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md">Forgot your Password?</span>
+				<span 
+					v-else-if="!forgotPassword" 
+					tabindex="0" 
+					role="button"
+					aria-label="Forgot Your Password?"
+					@click="forgotPassword = true" 
+					@keyup.enter="forgotPassword = true" 
+					class="forgot underline cursor-pointer underline-offset-4 hover:underline-offset-8 transition-all duration-200 rounded-md"
+					>
+						Forgot your Password?
+					</span>
             </div>
             <div class="flex justify-center">
 				<Transition name="fade" mode="out-in">
@@ -130,6 +146,7 @@
 						style="width: 100%"
 						:class="{'disabled': invalid}"
 						:tabIndex="{0: invalid}"
+						:disabled="invalid == true"
 						@click.prevent="submitCredentials()"
 						@keyup.enter="submitCredentials()"
 						v-if="!authStore.loadingState"
@@ -144,12 +161,15 @@
                 @keyup.enter="switchAuthMode()"
                 class="auth-switch text-lg self-center underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 cursor-pointer rounded-md" 
 				tabindex="0"
+				role="button"
 			>
                 {{authSwitchLink}}
             </span>
 			<span
 				class="auth-switch text-lg self-center underline underline-offset-4 hover:underline-offset-8 transition-all duration-200 cursor-pointer rounded-md" 
 				tabindex="0"
+				role="button"
+				aria-label="Log In"
 				v-if="forgotPassword"
 				@click="forgotPassword = false"
 				@keyup.enter="forgotPassword = false"
@@ -260,6 +280,10 @@ async function submitCredentials(){
     }
 }
 
+onMounted(() => {
+	const pwMeter = document.querySelectorAll('meter')[0]	
+	pwMeter.ariaLabel = 'Password Strength'
+})
 
 </script>
 
@@ -304,6 +328,12 @@ a, span
 	&:focus, &:focus-visible	
 		outline: none
 		text-underline-offset: 16px
+
+.pw-icon
+	outline: 2px solid transparent
+
+	&:hover, &:focus-visible
+		outline-color: g.$green-primary
 
 #googleAuth, #facebookAuth, #appleAuth
 	width: 100%
@@ -418,5 +448,11 @@ a, span
 		
 		&:focus, &:focus-visible, &:focus-within
 			outline: 6px solid g.$red-primary
+
+	.pw-icon
+		outline: 2px solid transparent
+
+		&:hover, &:focus-visible
+			outline-color: g.$green-light
 
 </style>

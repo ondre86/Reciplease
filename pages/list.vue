@@ -116,7 +116,7 @@
 					</UModal>
 				</div>
 			</Transition>
-			<UModal v-model="searchStore.generationLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+			<UModal v-model="searchStore.generationLimit" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
 				<ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="searchStore.generationLimit = false; waitingForListStatus = false" @keyup.enter="searchStore.generationLimit = false; waitingForListStatus = false"></ButtonClose>
 				<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center relative">
 					<h4 class="font-semibold text-2xl">Limit Reached</h4>

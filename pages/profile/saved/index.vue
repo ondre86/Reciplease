@@ -10,6 +10,7 @@
 					:svg-width="'12px'"
 					:svg-height="'12px'"
 					class="rotate-180"
+					aria-label="Return to Profile"
 				>
 				</ButtonSearch>
 				<span>Profile</span>
@@ -52,6 +53,7 @@
 								</ButtonPrimary>
 								<ButtonSecondary
 									class="cursor-pointer"
+									tabindex="0"
 									@click="modalOpen = true; db.currentRecipe = recipe;"
 									@keyup.enter="modalOpen = true; db.currentRecipe = recipe;"
 								>
@@ -63,6 +65,7 @@
 									:svg-size="'10px'" 
 									:solo="true" 
 									class="z-40 absolute top-4 right-4" 
+									tabindex="0"
 									@click="modalOpen = false" 
 									@keyup.enter="modalOpen = false"
 								>
@@ -74,6 +77,7 @@
 									</p>
 									<ButtonSecondary
 										class="toggled cursor-pointer mt-4"
+										tabindex="0"
 										@click="db.deleteRecipe(db.currentRecipe.id)"
 										@keyup.enter="db.deleteRecipe(db.currentRecipe.id)"
 									>

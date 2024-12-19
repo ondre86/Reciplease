@@ -1,5 +1,8 @@
 <template>
-    <div class="w-fit px-3 py-2 rounded-lg ring-1 text-center transition-all duration-300">
+    <div 
+        class="w-fit px-3 py-2 rounded-lg ring-1 text-center transition-all duration-300"
+        role="button"
+    >
         <slot></slot>
     </div>
 </template>
