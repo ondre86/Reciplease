@@ -6,8 +6,8 @@
     >
         <div
             class="flex items-center gap-3 self-start mb-8 cursor-pointer back-text"
-            @click="$router.back(); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
-            @keyup.enter="$router.back(); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
+            @click="navigateTo('/search'); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
+            @keyup.enter="navigateTo('/search'); searchStore.viewingRecipeFromSearch = false; searchStore.searchMode == 'random' ? (searchStore.viewingSearchItems = false, searchStore.submittedRequest = false, searchStore.requestFulfilled = false, searchStore.searchMode = 'pantry') : searchStore.viewingSearchItems = true;"
         >
             <ButtonSearch
                 :svg-width="'12px'"

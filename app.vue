@@ -5,6 +5,7 @@
     <NuxtRouteAnnouncer />
 	<AppFooter class="self-end"></AppFooter>
   </div>
+  <UNotifications />
 </template>
 
 <style lang="sass">
@@ -37,6 +38,9 @@ main
 
 	*
 		border-color: g.$green-primary
+
+	div.flex.p-4.gap-3.items-center:has(.iconify)
+		background-color: g.$green-acc3
 
 .fade-move,
 .fade-enter-active,

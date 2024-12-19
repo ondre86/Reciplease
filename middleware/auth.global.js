@@ -7,6 +7,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const userStore = useAuthStore()
 	const searchStore = useSearchModeStore()
 
+	const toast = useToast()
+
 	if (!userStore.isInitialized) {
 		await userStore.initializeAuth()
 	}
@@ -48,6 +50,40 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (from.path == '/' && (to.path.includes('/search') && to.path.includes('+')) && searchStore.submittedRequest){
 		searchStore.viewingRecipeFromSearch = true
 		searchStore.viewingSearchItems = false
+	}
+
+	// leave search toast
+	if ((searchStore.viewingSearchItems) && !to.path.includes('/search')){
+		toast.clear()
+		toast.add({
+			title: 'Return to Search Results',
+			icon: 'i-heroicons-arrow-uturn-left',
+			timeout: 0,
+			click: ()=>{
+				toast.clear()
+				return navigateTo('/search')
+			}
+		})
+	}
+
+	// leave recipe toast
+	if ((searchStore.viewingRecipeFromSearch) && (from.path.includes('/search') && from.path.includes('+')) && !(to.path.includes('/search') && to.path.includes('+'))){
+		let recipePath = from.path
+
+		toast.clear()
+		toast.add({
+			title: 'Return to Recipe',
+			icon: 'i-heroicons-arrow-uturn-left',
+			timeout: 0,
+			click: ()=>{
+				toast.clear()
+				return navigateTo(recipePath)
+			}
+		})
+	}
+
+	if (to.path == '/' && !(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)){
+		toast.clear()
 	}
 
 	if (!to.meta.requiresAuth) return

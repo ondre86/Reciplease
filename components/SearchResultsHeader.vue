@@ -17,7 +17,8 @@
                     v-else
                     v-for="searchTerm in userSearchTerms"
                     :key="searchTerm"
-                    class="inactive"
+                    class="inactive cursor-not-allowed"
+                    role="presentation"
                 >
                     {{ searchTerm }}
                 </ButtonSecondary>
