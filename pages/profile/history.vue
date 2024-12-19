@@ -47,50 +47,7 @@
 								View List
 							</ButtonPrimary>
 						</div>
-						<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" prevent-close>
-							<ButtonClose 
-								:svg-size="'10px'" 
-								:solo="true" 
-								tabindex="0"
-								class="z-40 absolute top-4 right-4" 
-								@click="openModal" 
-								@keyup.enter="openModal"
-							>
-							</ButtonClose>
-							<div class="gen-modal-wrap rounded-lg p-4 w-full h-full flex flex-col items-center text-center gap-6 self-center">
-								<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
-									<div class="text-start flex flex-col gap-4" id="historyList" ref="historyList">
-										<span class="text-center font-semibold text-lg">
-											{{ modalList.query.title }}
-										</span>
-										<ul class="pt-4">
-											<li v-for="(listItem, index) in modalList.query.listItems" :key="index">
-												{{ listItem }}
-											</li>
-										</ul>
-										<span class="font-semibold pb-4 text-center">
-											{{ modalList.query.totalEstimate }}
-										</span>
-									</div>
-								</div>
-								<ButtonPrimary 
-									@click="copyList"
-									@keyup.enter="copyList"
-									class="toggled"
-								>
-									{{ copyStatus }}
-								</ButtonPrimary>
-								<ButtonPrimary 
-									v-if="webShare.isSupported && device.isMobile"
-									@click="useWebShare"
-									@keyup.enter="useWebShare"
-									class="flex items-center gap-2"
-								>
-									Share <Icon name="i-heroicons-arrow-top-right-on-square" class="mb-1"></Icon>
-								</ButtonPrimary>
-							</div>
 
-						</UModal>
 					</div>
 				</li>
 			</ul>
@@ -101,6 +58,49 @@
 				<span>Use Reciplease to see your usage history here.</span>
 			</div>
 		</main>
+		<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+			<ButtonClose 
+				:svg-size="'10px'" 
+				:solo="true" 
+				tabindex="0"
+				class="z-40 absolute top-4 right-4" 
+				@click="openModal" 
+				@keyup.enter="openModal"
+			>
+			</ButtonClose>
+			<div class="gen-modal-wrap rounded-lg p-4 w-full h-full flex flex-col items-center text-center gap-6 self-center">
+				<div class="gen-modal max-h-80 w-full rounded-md overflow-y-auto flex justify-center p-4">
+					<div class="text-start flex flex-col gap-4" id="historyList" ref="historyList">
+						<span class="text-center font-semibold text-lg">
+							{{ modalList.query.title }}
+						</span>
+						<ul class="pt-4">
+							<li v-for="(listItem, index) in modalList.query.listItems" :key="index">
+								{{ listItem }}
+							</li>
+						</ul>
+						<span class="font-semibold pb-4 text-center">
+							{{ modalList.query.totalEstimate }}
+						</span>
+					</div>
+				</div>
+				<ButtonPrimary 
+					@click="copyList"
+					@keyup.enter="copyList"
+					class="toggled"
+				>
+					{{ copyStatus }}
+				</ButtonPrimary>
+				<ButtonPrimary 
+					v-if="webShare.isSupported && device.isMobile"
+					@click="useWebShare"
+					@keyup.enter="useWebShare"
+					class="flex items-center gap-2"
+				>
+					Share <Icon name="i-heroicons-arrow-top-right-on-square" class="mb-1"></Icon>
+				</ButtonPrimary>
+			</div>
+		</UModal>
 	</div>
 </template>
 
