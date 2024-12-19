@@ -73,13 +73,12 @@
 							"
 							:class="{'red-border': authStore.authMsg}"
 						/>
-						<div class="w-fit h-fit"
+						<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
 							tabindex="0"
 							@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
 							@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
 						>
 							<Icon
-								class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-4 z-50"
 								:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
 							></Icon>
 						</div>
@@ -99,6 +98,15 @@
 									"
 									:class="{'red-border': authStore.authMsg}"
 								/>
+								<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+									tabindex="0"
+									@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
+									@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
+								>
+									<Icon
+										:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+									></Icon>
+								</div>
 							</div>
                             <Transition name="fade" mode="out-in"><span id="error-password" ref="error-password">{{ confirmErrorPassword }}</span></Transition>
                         </div>

@@ -86,46 +86,54 @@
 							</UPopover>
 						</div>
 						<div class="relative">
-						<input
-							id="password"
-							:type="passwordVisible ? 'text' : 'password'"
-							ref="password"
-							autocomplete="current-password"
-							v-model="passwordInput"
-							minlength="8"
-							class="
-								pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
-								focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
-							"
-							:class="{'red-border': authStore.authMsg}"
-						/>
-						<div class="w-fit h-fit"
-							tabindex="0"
-							@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
-							@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
-						>
-							<Icon
-								class="cursor-pointer absolute top-1/2 -translate-y-1/2 right-4 z-50"
-								:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
-							></Icon>
+							<input
+								id="password"
+								:type="passwordVisible ? 'text' : 'password'"
+								ref="password"
+								autocomplete="current-password"
+								v-model="passwordInput"
+								minlength="8"
+								class="
+									pw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2 pr-12
+									focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
+								"
+								:class="{'red-border': authStore.authMsg}"
+							/>
+							<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+								tabindex="0"
+								@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
+								@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
+							>
+								<Icon
+									:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+								></Icon>
+							</div>
 						</div>
-					</div>
 					</div>
 					<div class="flex flex-col gap-2 w-full">
 						<label for="confirm-password">Confirm Password</label>
 						<div class="relative">
-								<input
-									id="confirm-password"
-									:type="passwordVisible ? 'text' : 'password'"
-									ref="confirmPassword"
-									v-model="confirmPasswordInput"
-									class="
-										cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
-										focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
-									"
-									:class="{'red-border': authStore.authMsg}"
-								/>
+							<input
+								id="confirm-password"
+								:type="passwordVisible ? 'text' : 'password'"
+								ref="confirmPassword"
+								v-model="confirmPasswordInput"
+								class="
+									cpw-input h-12 w-full px-4 py-2 rounded-lg text-xl transition-all duration-300 bg-transparent relative z-10 border-2
+									focus:shadow-2xl focus-within:shadow-lg focus-visible:shadow-lg
+								"
+								:class="{'red-border': authStore.authMsg}"
+							/>
+							<div class="flex justify-center items-center cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-50 w-fit h-fit p-3"
+								tabindex="0"
+								@click="passwordVisible ? passwordVisible = false : passwordVisible = true"
+								@keyup.enter="passwordVisible ? passwordVisible = false : passwordVisible = true"
+							>
+								<Icon
+									:name="passwordVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+								></Icon>
 							</div>
+						</div>
 						<UMeter id='meter' ref="meter" :min="0" :max="65" :value="passwordStrength" :color="meterColor" class="my-4 items-center" :ui="{ meter: {background: 'dark:bg-neutral-800'} }" />
 						<Transition name="fade" mode="out-in"><span id="password-msg" ref="password-msg" class="text-center" v-if="authStore.authMsg && authStore.authMsg.includes('password')">{{ authStore.authMsg }}</span></Transition>
 					</div>
