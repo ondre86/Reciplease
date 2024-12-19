@@ -62,7 +62,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			click: ()=>{
 				toast.clear()
 				return navigateTo('/search')
-			}
+			},
+			actions: [
+				{
+					label: 'Return',
+					click: () => {
+						toast.clear()
+						return navigateTo('/search')
+					}
+				}
+			]
 		})
 	}
 
@@ -78,7 +87,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			click: ()=>{
 				toast.clear()
 				return navigateTo(recipePath)
-			}
+			},
+			actions: [
+				{
+					label: 'Return',
+					click: () => {
+						toast.clear()
+						return navigateTo(recipePath)
+					}
+				}
+			]
 		})
 	}
 
