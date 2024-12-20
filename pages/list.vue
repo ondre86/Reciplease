@@ -104,7 +104,7 @@
 									{{ copyStatus }}
 								</ButtonPrimary>
 								<ButtonPrimary
-									v-if="!searchStore.generatingShoppingList && webShare.isSupported && device.isMobile"
+									v-if="!searchStore.generatingShoppingList && webShare.isSupported && device.isMobileOrTablet"
 									@click="useWebShare"
 									@keyup.enter="useWebShare"
 									class="flex items-center gap-2"

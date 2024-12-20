@@ -92,7 +92,7 @@
 					{{ copyStatus }}
 				</ButtonPrimary>
 				<ButtonPrimary 
-					v-if="webShare.isSupported && device.isMobile"
+					v-if="webShare.isSupported && device.isMobileOrTablet"
 					@click="useWebShare"
 					@keyup.enter="useWebShare"
 					class="flex items-center gap-2"
@@ -152,7 +152,7 @@ const device = useDevice()
 
 async function copyList() {
 	try{
-		await navigator.clipboard.writeText(historyList.value[0].innerText)
+		await navigator.clipboard.writeText(historyList.value.innerText)
 		copyStatus.value = "Copied!"
 	}
 	catch (error){
@@ -163,7 +163,7 @@ function useWebShare(){
 	if (webShare.isSupported){
 		webShare.share({
 			title: "Your Shopping List",
-			text: historyList.value[0].innerText
+			text: historyList.value.innerText
 		})
 	}
 }
