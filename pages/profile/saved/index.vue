@@ -60,31 +60,6 @@
 									Delete Recipe
 								</ButtonSecondary>
 							</div>
-							<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
-								<ButtonClose 
-									:svg-size="'10px'" 
-									:solo="true" 
-									class="z-40 absolute top-4 right-4" 
-									tabindex="0"
-									@click="modalOpen = false" 
-									@keyup.enter="modalOpen = false"
-								>
-								</ButtonClose>
-								<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center">
-									<h4 class="font-semibold text-2xl">Confirm Deletion</h4>
-									<p>
-										Are you sure you want to delete this recipe from your list? <br>
-									</p>
-									<ButtonSecondary
-										class="toggled cursor-pointer mt-4"
-										tabindex="0"
-										@click="db.deleteRecipe(db.currentRecipe.id)"
-										@keyup.enter="db.deleteRecipe(db.currentRecipe.id)"
-									>
-										Yes, I'm Sure
-									</ButtonSecondary>
-								</div>
-							</UModal>
 						</div>
 					</li>
 				</ul>
@@ -96,6 +71,31 @@
 				</div>
 			</Transition>
 		</main>
+		<UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }">
+			<ButtonClose 
+				:svg-size="'10px'" 
+				:solo="true" 
+				class="z-40 absolute top-4 right-4" 
+				tabindex="0"
+				@click="modalOpen = false" 
+				@keyup.enter="modalOpen = false"
+			>
+			</ButtonClose>
+			<div class="p-4 py-6 flex flex-col items-center text-center gap-6 self-center">
+				<h4 class="font-semibold text-2xl">Confirm Deletion</h4>
+				<p>
+					Are you sure you want to delete this recipe from your list? <br>
+				</p>
+				<ButtonSecondary
+					class="toggled cursor-pointer mt-4"
+					tabindex="0"
+					@click="db.deleteRecipe(db.currentRecipe.id)"
+					@keyup.enter="db.deleteRecipe(db.currentRecipe.id)"
+				>
+					Yes, I'm Sure
+				</ButtonSecondary>
+			</div>
+		</UModal>
 	</div>
 </template>
 
