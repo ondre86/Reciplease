@@ -80,6 +80,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	}
 
 	async function sendSearchTerms(){
+		if (!searchTermsForServer.value || searchTermsForServer.value.size == 0) return
 		if (!searchLimit.value){
 			let searches = 0
 			await db.fetchHistoryItems()
