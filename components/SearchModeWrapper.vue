@@ -3,7 +3,7 @@
         class="flex flex-col justify-center gap-4 w-full max-w-2xl z-0"
     >
         <div 
-            class="my-4 flex flex-col text-center gap-1"
+            class="my-4 flex flex-col text-center gap-2"
         >
             <span
                 id="mode-descriptor"
@@ -101,7 +101,7 @@ const modeDescriptors = {
 }
 
 let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
-let modeHelper = ref("Press 'Enter' after each ingredient.")
+let modeHelper = ref('Press "Return" or "Enter" after each ingredient to add it to your search list. Then, press "Go" to generate results.')
 
 async function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
@@ -126,7 +126,7 @@ async function toggleSearchMode(event) {
             })
             .call(()=>{
                 modeDescriptor.value = modeDescriptors[event.target.getAttribute('data-searchmode')]
-                modeHelper.value = searchStore.getSearchMode == 'pantry' ? "Press 'Enter' after each ingredient." : "Press 'Enter' to search."
+                modeHelper.value = searchStore.getSearchMode == 'pantry' ? 'Press "Return" or "Enter" after each ingredient to add it to your search list. Then, press "Go" to generate results.' : 'Press "Return" or "Go" to generate results.'
             })
             .to(['#mode-descriptor', '#mode-helper'], {
                 y:0,
