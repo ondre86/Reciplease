@@ -89,8 +89,8 @@
 				<ButtonSecondary
 					class="toggled cursor-pointer mt-4"
 					tabindex="0"
-					@click="db.deleteRecipe(db.currentRecipe.id)"
-					@keyup.enter="db.deleteRecipe(db.currentRecipe.id)"
+					@click="db.deleteRecipe(db.currentRecipe.id); modalOpen = false"
+					@keyup.enter="db.deleteRecipe(db.currentRecipe.id); modalOpen = false"
 				>
 					Yes, I'm Sure
 				</ButtonSecondary>
