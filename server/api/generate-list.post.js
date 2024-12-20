@@ -13,7 +13,7 @@ export default defineEventHandler(async (event)=>{
         Use dashes for each list item.
         If markdown format is specified, give each item a checkbox, and do not use a dash before the checkbox.
         If you are provided with a location, get price estimates that match that location, but do not include the location in your response. 
-        Item quantities in the JSON objects may be formatted for recipe amounts; translate those amounts into the nearest purchasable item quantity. 
+        Translate item quantites into the closest purchasable item quantity that you can get from a grocery store. 
     `
 
     // GET IP ADDRESS GENERAL LOCATION FOR PRICE ESTIMATES

@@ -19,7 +19,7 @@
                 },
                 "totalEstimate": {
                     "type": "string",
-                    "description": "Total price estimate for all of the list items, starting with the words: 'Total Estimate:'. This should be bold if using Markdown."
+                    "description": "Total price estimate for all of the list items, starting with the words: 'Total Estimate:'."
                 }
             },
             "required": ["title", "listItems", "totalEstimate"],

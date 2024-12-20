@@ -22,6 +22,8 @@ const windowSize = useWindowSize()
 </script>
 
 <style lang="sass" scoped>
+main
+    margin-top: calc( 81px + 1.5rem)
 @media (min-width: 768px)
     main
         margin-top: calc( 81px + 6rem )

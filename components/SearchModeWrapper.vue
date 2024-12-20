@@ -2,12 +2,22 @@
     <div 
         class="flex flex-col justify-center gap-4 w-full max-w-2xl z-0"
     >
-        <span 
-            id="mode-descriptor" 
-            class="w-full text-center my-4" 
+        <div 
+            class="my-4 flex flex-col text-center gap-1"
         >
-            {{modeDescriptor}}
-        </span>
+            <span
+                id="mode-descriptor"
+                class="w-full text-center "
+            >
+                {{modeDescriptor}}
+            </span>
+            <span
+                id="mode-helper"
+                class="w-full text-center text-xs italic"
+            >
+                {{ modeHelper }}
+            </span>
+        </div>
         <h2 class="text-center text-2xl font-medium">Find a Recipe:</h2>
         <ul 
             class="flex flex-wrap gap-3 justify-center items-center sm:flex-row sm:gap-4"
@@ -91,6 +101,7 @@ const modeDescriptors = {
 }
 
 let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
+let modeHelper = ref("Press 'Enter' after each ingredient.")
 
 async function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
@@ -108,15 +119,16 @@ async function toggleSearchMode(event) {
         event.target.setAttribute('aria-pressed', true)
 
         const descriptorTL = $gsap.timeline()
-            .to('#mode-descriptor', {
+            .to(['#mode-descriptor', '#mode-helper'], {
                 y:20,
                 opacity: 0,
                 duration: .3
             })
             .call(()=>{
                 modeDescriptor.value = modeDescriptors[event.target.getAttribute('data-searchmode')]
+                modeHelper.value = searchStore.getSearchMode == 'pantry' ? "Press 'Enter' after each ingredient." : "Press 'Enter' to search."
             })
-            .to('#mode-descriptor', {
+            .to(['#mode-descriptor', '#mode-helper'], {
                 y:0,
                 opacity: 1,
                 duration: .3
