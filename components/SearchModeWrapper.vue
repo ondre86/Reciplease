@@ -1,9 +1,9 @@
 <template>
     <div 
-        class="flex flex-col justify-center gap-4 w-full max-w-2xl z-0"
+        class="flex flex-col justify-center items-center gap-4 w-full max-w-2xl z-0"
     >
         <div 
-            class="my-4 flex flex-col text-center gap-2"
+            class="my-4 flex flex-col text-center gap-2 max-w-lg"
         >
             <span
                 id="mode-descriptor"
