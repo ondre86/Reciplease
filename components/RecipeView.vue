@@ -49,7 +49,7 @@
                         {{ dbResult ? 'Saved' : 'Save' }}
                         <UIcon name="i-heroicons-heart"></UIcon>
                     </ButtonSecondary>
-                    <NuxtLink :to="'/profile/saved'" v-show="dbResult" class="underline underline-offset-4 transition-all duration-300">View Saved Recipes</NuxtLink>
+                    <NuxtLink :to="'/profile/saved'" class="underline underline-offset-4 transition-all duration-300 h-4">{{dbResult ? 'View Saved Recipes' : ' '}}</NuxtLink>
                 </div>
             </div>
             <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl w-80">
