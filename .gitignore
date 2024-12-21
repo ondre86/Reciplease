@@ -25,6 +25,9 @@ logs
 
 # git ignore
 .gitignore
+.git
 
 # service acct
 serviceAccount.json
+git-filter-repo
+Reciplease.git
