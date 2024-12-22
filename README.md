@@ -1,75 +1,42 @@
-# Nuxt Minimal Starter
+# [Reciplease](https://reciplease.co)
+## An AI SaaS web app helping home cooks and busy adults ease the stresses of cooking and grocery budgeting. 
+Reciplease provides users with detailed recipes for their search queries — which come in three varieties: By Ingredient, By Recipe Name, and Random.
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Once authenticated, users can:
+- search for recipes
+- generate detailed recipes with an interactive ingredient list
+- save recipes to view later
+- view, modify, and generate their shopping list with pricing estimates
+- view their account activity history
+- update their credentials
 
-## Setup
+## Tech Stack
+- Vue.js
+- Pinia
+- Nuxt
+- CSS
+- Tailwind CSS
+- SASS
+- Node.js
+- Firebase (Auth, Firestore)
+- CloudFlare (Domains, Pages)
 
-Make sure to install dependencies:
+### Libraries
+- Vue Router
+- GSAP
+- Profanity
+- VueUse
+- Validator
+- Rough Notation
+- Underscore.string
 
-```bash
-# npm
-npm install
+### Nuxt Modules
+- Nuxt Security
+- Nuxt Fonts
+- Nuxt Images
+- Nuxt SEO
+- Nuxt UI
+- Nuxt Device
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- - -
+© 2024 Ondre Johnson. All Rights Reserved.
