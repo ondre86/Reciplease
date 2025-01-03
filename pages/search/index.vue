@@ -47,10 +47,36 @@ useHead({
 const searchStore = useSearchModeStore()
 
 if (!searchStore.submittedRequest){
-    await navigateTo('/')
-}
+	if (sessionStorage.getItem("validSearch") !== true){
+		searchStore.submittedRequest = true
+		searchStore.requestFulfilled = true
+		searchStore.additionalRequestFulfilled = true
+		searchStore.isValidRequest = false
+		searchStore.viewingSearchItems = true
+		searchStore.searchMode = sessionStorage.getItem("searchMode")
+	}
 
-// const { x, y } = useWindowScroll({ behavior: 'smooth' })
+	else{
+		let savedSearchResults = JSON.parse(sessionStorage.getItem("searchResults"))
+		let parsedSavedSearchResults = []
+		savedSearchResults.forEach((item)=>{
+			parsedSavedSearchResults.push(JSON.parse(item))
+		})
+
+		searchStore.submittedRequest = true
+		searchStore.requestFulfilled = true
+		searchStore.additionalRequestFulfilled = true
+		searchStore.isValidRequest = true
+		searchStore.viewingSearchItems = true
+		searchStore.searchMode = sessionStorage.getItem("searchMode")
+		searchStore.serverResponseList.recipes = parsedSavedSearchResults
+
+		console.log(searchStore)
+	}
+	if (!sessionStorage.getItem("searchResults")){
+		await navigateTo('/')
+	}
+}
 
 </script>
 

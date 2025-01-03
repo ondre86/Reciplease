@@ -34,7 +34,7 @@
                                     "type": "object",
                                     "properties": {
                                         "ingredient": { "type": "string" },
-                                        "measurement": { "type": "string", "description": "The measurement of the ingredient, followed the state of the ingredient, if necessary. This value should be in imperial units and must always be present." },
+                                        "measurement": { "type": "string", "description": "The measurement of the ingredient, followed the state of the ingredient, if necessary. This value should be in imperial units and must always be present. It should never contain a number." },
                                         "quantity": { "type": "number", "description": "The quantity of the ingredient needed for the recipe. If the measurement is 'to taste', this should be null." }
                                     },
                                     "required": ["ingredient", "measurement", "quantity"],

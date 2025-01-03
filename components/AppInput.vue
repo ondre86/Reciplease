@@ -419,6 +419,8 @@ function addToSearchTerms(event) {
 
 async function sendSearchtoServer(modifier){
     if (searchMode.value == 'recipe' && !isSearchEmpty()){
+        searchStore.clearSearchTerms()
+        searchStore.clearServerSearchTerms()
         searchStore.addServerSearchTerm(searchInput.value.replace(/[^a-zA-Z0-9\s]/g, ''))
         searchInput.value = ''
     }

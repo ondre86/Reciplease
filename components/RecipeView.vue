@@ -17,139 +17,148 @@
             </ButtonSearch>
             <span>{{ searchStore.searchMode == 'random' ? "Home" : "Search Results" }}</span>
         </div>
-        <div 
-            class="
-                flex flex-col max-w-4xl justify-between items-center gap-12
-                md:flex-row md:items-start md:gap-36
-            "
-        >
-            <div class="flex flex-col gap-8 md:sticky md:top-28">
-                <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
-                    <NuxtImg class="flex items-center justify-center text-center" :src="searchStore.serverResponseImage.results[0].thumbnail.src" :alt="imgAlt" width="200px" height="200px" @load="imgAlt = searchStore.serverResponseRecipe.recipes[0].recipeName" />
-                </div>
-                <div class="flex flex-col gap-12">
-                    <div class="flex flex-col gap-4 max-w-md text-center">
-                        <h1 class="text-4xl font-bold">{{ searchStore.serverResponseRecipe.recipes[0].recipeName }}</h1>
-                        <span class="text-2xl font-semibold"> {{ searchStore.serverResponseRecipe.recipes[0].cuisine }}</span>
-                        <div class="flex gap-4 justify-center" v-if="searchStore.serverResponseRecipe.recipes[0].isVegetarian || searchStore.serverResponseRecipe.recipes[0].isVegan">
-                            <div class="recipe-badge border w-fit p-2 rounded-md" v-if="searchStore.serverResponseRecipe.recipes[0].isVegetarian">Vegetarian</div>
-                            <div class="recipe-badge border w-fit p-2 rounded-md" v-if="searchStore.serverResponseRecipe.recipes[0].isVegan">Vegan</div>
-                        </div>
-                        <span class="font-light mt-4"> {{ searchStore.serverResponseRecipe.recipes[0].description }}</span>
+        <div v-if="searchStore.serverResponseRecipe.recipes[0]">
+            <div
+                class="
+                    flex flex-col max-w-4xl justify-between items-center gap-12
+                    md:flex-row md:items-start md:gap-36
+                "
+            >
+                <div class="flex flex-col gap-8 md:sticky md:top-28">
+                    <div class="overflow-hidden rounded-full max-w-fit self-center shadow-lg">
+                        <NuxtImg class="flex items-center justify-center text-center" :src="searchStore.serverResponseImage.results[0].thumbnail.src" :alt="imgAlt" width="200px" height="200px" @load="imgAlt = searchStore.serverResponseRecipe.recipes[0].recipeName" />
                     </div>
-                </div>
-                <div class="flex flex-col justify-center items-center gap-4">
-                    <ButtonSecondary 
-                        class="flex items-center gap-2 cursor-pointer"
-                        @click="addToDB()"
-                        @keyup.enter="addToDB()"
-                        :class="{'disabled': dbResult}"
-                        :aria-disabled="dbResult ? true : false"
-                    >
-                        {{ dbResult ? 'Saved' : 'Save' }}
-                        <UIcon name="i-heroicons-heart"></UIcon>
-                    </ButtonSecondary>
-                    <NuxtLink :to="'/profile/saved'" class="underline underline-offset-4 transition-all duration-300 h-4">{{dbResult ? 'View Saved Recipes' : ' '}}</NuxtLink>
-                </div>
-            </div>
-            <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl w-80">
-                <div class="flex flex-col gap-4">
-                    <div class="flex flex-col gap-2 text-center mb-4">
-                        <h2 class="text-4xl font-semibold annotate w-fit self-center">Ingredients</h2>
-                    </div>
-                    <div 
-                        class="flex flex-col gap-4 items-center mb-4">
-                            <span class="font-semibold text-xl" v-if="servingSizes.minServings !== servingSizes.maxServings">
-                                {{ servingSizes.minServings }} to {{ servingSizes.maxServings }} servings
-                            </span>
-                            <span class="font-semibold text-xl" v-else>
-                                {{ servingSizes.maxServings }} servings
-                            </span>
-                            <div class="flex gap-2">
-                                <ButtonPrimary 
-                                    class="text-xs p-1 servings-btn"
-                                    :data-mult="1"
-                                    @click="servingSizeCalculator($event, 1)"
-                                    @keyup.enter="servingSizeCalculator($event, 1)"
-                                    :class="'toggled'"
-                                >
-                                    <span style="font-size: .7rem;">x </span>
-                                    1
-                                </ButtonPrimary>
-                                <ButtonPrimary 
-                                    class="text-xs p-1 servings-btn"
-                                    :data-mult="2"
-                                    @click="servingSizeCalculator($event, 2)"
-                                    @keyup.enter="servingSizeCalculator($event, 2)"
-                                >
-                                    <span style="font-size: .7rem;">x </span>
-                                    2
-                                </ButtonPrimary>
-                                <ButtonPrimary 
-                                    class="text-xs p-1 servings-btn"
-                                    :data-mult="4"
-                                    @click="servingSizeCalculator($event, 4)"
-                                    @keyup.enter="servingSizeCalculator($event, 4)"
-                                >
-                                    <span style="font-size: .7rem;">x </span>
-                                    4
-                                </ButtonPrimary>
+                    <div class="flex flex-col gap-12">
+                        <div class="flex flex-col gap-4 max-w-md text-center">
+                            <h1 class="text-4xl font-bold">{{ searchStore.serverResponseRecipe.recipes[0].recipeName }}</h1>
+                            <span class="text-2xl font-semibold"> {{ searchStore.serverResponseRecipe.recipes[0].cuisine }}</span>
+                            <div class="flex gap-4 justify-center" v-if="searchStore.serverResponseRecipe.recipes[0].isVegetarian || searchStore.serverResponseRecipe.recipes[0].isVegan">
+                                <div class="recipe-badge border w-fit p-2 rounded-md" v-if="searchStore.serverResponseRecipe.recipes[0].isVegetarian">Vegetarian</div>
+                                <div class="recipe-badge border w-fit p-2 rounded-md" v-if="searchStore.serverResponseRecipe.recipes[0].isVegan">Vegan</div>
                             </div>
+                            <span class="font-light mt-4"> {{ searchStore.serverResponseRecipe.recipes[0].description }}</span>
                         </div>
-                    <span class="italic text-xs text-center mb-2">
-                        Check off items that you don't want or need.
-                    </span>
-
-                    <ul>
-                        <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].ingredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
-                            <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
+                    </div>
+                    <div class="flex flex-col justify-center items-center gap-4">
+                        <ButtonSecondary
+                            class="flex items-center gap-2 cursor-pointer"
+                            @click="addToDB()"
+                            @keyup.enter="addToDB()"
+                            :class="{'disabled': dbResult}"
+                            :aria-disabled="dbResult ? true : false"
+                        >
+                            {{ dbResult ? 'Saved' : 'Save' }}
+                            <UIcon name="i-heroicons-heart"></UIcon>
+                        </ButtonSecondary>
+                        <NuxtLink :to="'/profile/saved'" class="underline underline-offset-4 transition-all duration-300 h-4">{{dbResult ? 'View Saved Recipes' : ' '}}</NuxtLink>
+                    </div>
+                </div>
+                <div class="ingredients py-6 px-6 rounded-xl border shadow-2xl w-80">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex flex-col gap-2 text-center mb-4">
+                            <h2 class="text-4xl font-semibold annotate w-fit self-center">Ingredients</h2>
+                        </div>
+                        <div
+                            class="flex flex-col gap-4 items-center mb-4">
+                                <span class="font-semibold text-xl" v-if="servingSizes.minServings !== servingSizes.maxServings">
+                                    {{ servingSizes.minServings }} to {{ servingSizes.maxServings }} servings
+                                </span>
+                                <span class="font-semibold text-xl" v-else>
+                                    {{ servingSizes.maxServings }} servings
+                                </span>
+                                <div class="flex gap-2">
+                                    <ButtonPrimary
+                                        class="text-xs p-1 servings-btn"
+                                        :data-mult="1"
+                                        @click="servingSizeCalculator($event, 1)"
+                                        @keyup.enter="servingSizeCalculator($event, 1)"
+                                        :class="'toggled'"
+                                    >
+                                        <span style="font-size: .7rem;">x </span>
+                                        1
+                                    </ButtonPrimary>
+                                    <ButtonPrimary
+                                        class="text-xs p-1 servings-btn"
+                                        :data-mult="2"
+                                        @click="servingSizeCalculator($event, 2)"
+                                        @keyup.enter="servingSizeCalculator($event, 2)"
+                                    >
+                                        <span style="font-size: .7rem;">x </span>
+                                        2
+                                    </ButtonPrimary>
+                                    <ButtonPrimary
+                                        class="text-xs p-1 servings-btn"
+                                        :data-mult="4"
+                                        @click="servingSizeCalculator($event, 4)"
+                                        @keyup.enter="servingSizeCalculator($event, 4)"
+                                    >
+                                        <span style="font-size: .7rem;">x </span>
+                                        4
+                                    </ButtonPrimary>
+                                </div>
+                            </div>
+                        <span class="italic text-xs text-center mb-2">
+                            Check off items that you don't want or need.
+                        </span>
+                        <ul>
+                            <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].ingredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
+                                <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="text-xl text-center my-6 mt-4 pb-2 font-semibold border-b"><span>Optional Ingredients</span></li>
+                            <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].optionalIngredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
+                                <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
+                            </li>
+                        </ul>
+                        <ButtonPrimary
+                            class="my-2 toggled self-center"
+                            @click="addToShoppingList"
+                            @keyup.enter="addToShoppingList"
+                            :class="shoppingListButtonText == `Added!` ? 'disabled' : ''"
+                            ref="shopping-list-btn"
+                            :aria-disabled="shoppingListButtonText == `Added!` ? true : false"
+                        >
+                            {{ shoppingListButtonText }}
+                        </ButtonPrimary>
+                        <NuxtLink to="/list" class="underline self-center">
+                            View Shopping List
+                        </NuxtLink>
+                    </div>
+                </div>
+            </div>
+            <div class="directions flex flex-col mt-24 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
+                <div class="flex flex-col gap-6">
+                    <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8">Directions</h2>
+                    <ol class="list-decimal list-inside">
+                        <li v-for="direction in searchStore.serverResponseRecipe.recipes[0].instructions" :key="direction" class="my-3 text-4xl border-b py-4 leading-8">
+                            <span class="text-xl">{{ direction }}</span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="nutrition flex flex-col mt-12 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
+                <div class="flex flex-col gap-6">
+                    <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8 mb-4">Nutrition</h2>
+                    <ul class="flex justify-center gap-6 flex-wrap w-fit">
+                        <li v-for="(amount, macro) in searchStore.serverResponseRecipe.recipes[0].nutrition" :key="macro" class="text-4xl leading-8">
+                            <div class="flex flex-col gap-4 border rounded-xl p-4 macro">
+                                <span class="text-xl text-center">{{ us.titleize(us.humanize(macro)) }}</span>
+                                <em class="text-center text-2xl font-medium">{{ amount }}</em>
+                            </div>
                         </li>
                     </ul>
-                    <ul>
-                        <li class="text-xl text-center my-6 mt-4 pb-2 font-semibold border-b"><span>Optional Ingredients</span></li>
-                        <li v-for="ingredient in searchStore.serverResponseRecipe.recipes[0].optionalIngredients" :key="ingredient.ingredient" class="my-2 border-b pb-2" >
-                            <CheckboxInput :ingredient="ingredient" :multiplier="mult"></CheckboxInput>
-                        </li>
-                    </ul>
-                    <ButtonPrimary 
-                        class="my-2 toggled self-center"
-                        @click="addToShoppingList"
-                        @keyup.enter="addToShoppingList"
-                        :class="shoppingListButtonText == `Added!` ? 'disabled' : ''"
-                        ref="shopping-list-btn"
-                        :aria-disabled="shoppingListButtonText == `Added!` ? true : false"
-                    >
-                        {{ shoppingListButtonText }}
-                    </ButtonPrimary>
-                    <NuxtLink to="/list" class="underline self-center">
-                        View Shopping List
-                    </NuxtLink>
+                    <i class="text-center text-xs mt-2">per serving</i>
                 </div>
             </div>
         </div>
-        <div class="directions flex flex-col mt-24 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
-            <div class="flex flex-col gap-6">
-                <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8">Directions</h2>
-                <ol class="list-decimal list-inside">
-                    <li v-for="direction in searchStore.serverResponseRecipe.recipes[0].instructions" :key="direction" class="my-3 text-4xl border-b py-4 leading-8">
-                        <span class="text-xl">{{ direction }}</span>
-                    </li>
-                </ol>
-            </div>
-        </div>
-        <div class="nutrition flex flex-col mt-12 max-w-4xl border rounded-xl py-6 px-8 shadow-2xl">
-            <div class="flex flex-col gap-6">
-                <h2 class="text-4xl font-semibold text-center annotate w-fit self-center leading-8 mb-4">Nutrition</h2>
-                <ul class="flex justify-center gap-6 flex-wrap w-fit">
-                    <li v-for="(amount, macro) in searchStore.serverResponseRecipe.recipes[0].nutrition" :key="macro" class="text-4xl leading-8">
-                        <div class="flex flex-col gap-4 border rounded-xl p-4 macro">
-                            <span class="text-xl text-center">{{ us.titleize(us.humanize(macro)) }}</span>
-                            <em class="text-center text-2xl font-medium">{{ amount }}</em>
-                        </div>
-                    </li>
-                </ul>
-                <i class="text-center text-xs mt-2">per serving</i>
-            </div>
+        <div v-else class="text-center">
+            <h1>Sorry!</h1>
+            <p>
+                Something's gone wrong! <br>
+                We aren't able to generate this recipe. <br><br>
+                Please try a different recipe or try again at a later time.
+            </p>
         </div>
         <UModal v-model="modalOpen" :ui="{ container: 'items-center', background: 'bg-white dark:bg-neutral-900' }" >
             <ButtonClose :svg-size="'15px'" :solo="true" class="absolute top-4 right-4 z-50" @click="modalOpen = false" @keyup.enter="modalOpen = false"></ButtonClose>
@@ -183,7 +192,7 @@
 <script setup>
 import { annotate } from 'rough-notation'
 import * as us from 'underscore.string'
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $ScrollTrigger } = useNuxtApp()
 
 const searchStore = useSearchModeStore()
 const db = useFirestoreStore()
@@ -192,14 +201,14 @@ await db.fetchRecipes()
 const dbResult = ref(null)
 
 db.recipes.forEach((recipe)=>{
-    if (recipe.recipeName == searchStore.serverResponseRecipe.recipes[0].recipeName){
+    if (searchStore.serverResponseRecipe.recipes[0] && recipe.recipeName == searchStore.serverResponseRecipe.recipes[0].recipeName){
         dbResult.value = recipe
     }
 })
 
-const minServingSize = searchStore.serverResponseRecipe.recipes[0].servingSize.minServings
-const maxServingSize = searchStore.serverResponseRecipe.recipes[0].servingSize.maxServings
-const servingSizes = ref(searchStore.serverResponseRecipe.recipes[0].servingSize)
+const minServingSize = searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].servingSize.minServings : null
+const maxServingSize = searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].servingSize.maxServings : null
+const servingSizes = ref(searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].servingSize : null)
 const mult = ref(1)
 const shoppingListButtonText = ref('Add Unchecked to List')
 
@@ -286,35 +295,40 @@ function addToDB() {
 }
 
 onMounted(()=>{
-    setTimeout(() => {
-        const e1 = document.querySelectorAll(".annotate")[0]
-        const e2 = document.querySelectorAll(".annotate")[1]
-        const e3 = document.querySelectorAll(".annotate")[2]
+    if (searchStore.serverResponseRecipe.recipes[0]){
+        setTimeout(() => {
+            const e1 = document.querySelectorAll(".annotate")[0]
+            const e2 = document.querySelectorAll(".annotate")[1]
+            const e3 = document.querySelectorAll(".annotate")[2]
 
-        const a1 = annotate(e1, { type: 'underline',color: '#687441' })
-        const a2 = annotate(e2, { type: 'underline',color: '#687441' })
-        const a3 = annotate(e3, { type: 'underline',color: '#687441' })
+            const a1 = annotate(e1, { type: 'underline',color: '#687441' })
+            const a2 = annotate(e2, { type: 'underline',color: '#687441' })
+            const a3 = annotate(e3, { type: 'underline',color: '#687441' })
 
-        function showUnderlines(el, annotateEl){
-            $ScrollTrigger.create({
-                trigger: el,
-                start: 'bottom bottom-=30%',
-                onEnter: ()=>{
-                    annotateEl.show()
-                }
-            })
-        }
-        showUnderlines(e1, a1)
-        showUnderlines(e2, a2)
-        showUnderlines(e3, a3)
-    }, 500)
+            function showUnderlines(el, annotateEl){
+                $ScrollTrigger.create({
+                    trigger: el,
+                    start: 'bottom bottom-=30%',
+                    onEnter: ()=>{
+                        annotateEl.show()
+                    }
+                })
+            }
+            showUnderlines(e1, a1)
+            showUnderlines(e2, a2)
+            showUnderlines(e3, a3)
+        }, 500)
 
 
-    tempShoppingList.value = document.querySelectorAll('input')
+        tempShoppingList.value = document.querySelectorAll('input')
+    }
 })
 </script>
 
 <style lang="sass" scoped>
+h1
+    font-size: 3rem
+    font-weight: bold
 img
     height: 200px
     width: 200px

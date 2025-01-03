@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore, skipHydrate } from 'pinia'
 import { useFirestoreStore } from './firestore'
+import { useStorage } from '@vueuse/core'
 
 export const useSearchModeStore = defineStore('search', ()=>{
 	const db = useFirestoreStore()
@@ -9,7 +10,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
 
-	const recipeResponseList = ref(new Set([]))
+	const currentRecipeResponseList = ref(new Set([]))
 	const shoppingList = ref(new Set([]))
 
 	const serverResponseList = ref({})
@@ -31,6 +32,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	const searchLimit = ref(false)
 	const recipeGenLimit = ref(false)
 	const generationLimit = ref(false)
+
+	const sessionSearchResultsStore = ref(null)
 
 	const getSearchMode = computed(()=>{
 		return searchMode.value
@@ -75,8 +78,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	function clearShoppingList(){
 		shoppingList.value.clear()
 	}
-	function clearRecipeResponseList(){
-		recipeResponseList.value.clear()
+	function clearCurrentRecipeResponseList(){
+		currentRecipeResponseList.value.clear()
 	}
 
 	async function sendSearchTerms(){
@@ -97,23 +100,24 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			}
 		}
 
+		if (!viewingSearchItems.value){
+			clearCurrentRecipeResponseList()
+		}
+
 		submittedRequest.value = true
-		if (recipeResponseList.value.size > 0){
+		if (currentRecipeResponseList.value.size > 0){
 			additionalRequestFulfilled.value = false
 		}
 		else {
 			requestFulfilled.value = false
+			await navigateTo('/search')
 		}
-
-		if (!viewingSearchItems.value){
-			clearRecipeResponseList()
-		}
-
-		await navigateTo('/search')
 
 
 		const searchTermArray = Array.from(searchTermsForServer.value)
-		const recipeResponseListArray = Array.from(recipeResponseList.value)
+		const currentRecipeResponseListArray = Array.from(currentRecipeResponseList.value)
+
+		sessionStorage.setItem('searchTerms', JSON.stringify(searchTermArray))
 
 		await $fetch("/api/recipe-results", {
             method: "POST",
@@ -161,13 +165,13 @@ export const useSearchModeStore = defineStore('search', ()=>{
 				request:{
 					message: searchTermArray,
 					mode: searchMode.value,
-					responseList: recipeResponseListArray,
+					responseList: currentRecipeResponseListArray,
 				},
             }
         })
         .then((json) => {
 			if (JSON.parse(json.generation.response.content).isValidRequest){
-				if (recipeResponseList.value.size > 0){
+				if (currentRecipeResponseList.value.size > 0){
 					JSON.parse(json.generation.response.content).recipes.forEach((item)=>{
 						serverResponseList.value.recipes.push(item)
 					}) 
@@ -178,7 +182,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 				}
 	
 				JSON.parse(json.generation.response.content).recipes.forEach((recipe)=>{
-					recipeResponseList.value.add(recipe.recipeName)
+					currentRecipeResponseList.value.add(recipe.recipeName)
 				})
 				isValidRequest.value = true
 			}
@@ -189,6 +193,19 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			requestFulfilled.value = true
 			viewingSearchItems.value = true
 			additionalRequestFulfilled.value = true
+
+			const sessionSearchResultsArray = []
+
+			serverResponseList.value.recipes.forEach((item)=>{
+				sessionSearchResultsArray.push(JSON.stringify(item))
+			})
+
+			let searchResultsString = JSON.stringify(sessionSearchResultsArray)
+
+			sessionStorage.setItem('searchResults', searchResultsString)
+			sessionStorage.setItem('searchMode', searchMode.value)
+			sessionStorage.setItem('validSearch', isValidRequest.value)
+
 		})
 
 		db.addHistoryItem({
@@ -219,13 +236,16 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		requestFulfilled.value = false
 		generatingRecipe.value = true
 
-		let slug = ''
+		let randomSlug = ''
 		for (let num = 0; num < 17; num++){
 			const alpha = 'abcdefghijklmnopqrstuvwxyz'.split('')
-			slug += alpha[Math.floor(Math.random() * alpha.length)]
+			randomSlug += alpha[Math.floor(Math.random() * alpha.length)]
 		}
 
-		await navigateTo(`/search/${slug}+${recipe ? recipe.replaceAll(" ", "-") : 'random'}`)
+		let newSlug = `/search/${randomSlug}+${recipe ? recipe.replaceAll(" ", "-") : 'random'}`
+		sessionStorage.setItem('recipeSlug', newSlug)
+
+		await navigateTo(newSlug)
 
 		await $fetch("/api/recipe-details", {
             method: "POST",
@@ -282,6 +302,18 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			requestFulfilled.value = true
 			viewingRecipeFromSearch.value = true
 			generatingRecipe.value = false
+
+			const sessionRecipeResultArray = []
+
+			serverResponseRecipe.value.recipes.forEach((item)=>{
+				sessionRecipeResultArray.push(JSON.stringify(item))
+			})
+
+			let recipeResultString = JSON.stringify(sessionRecipeResultArray)
+
+			sessionStorage.setItem('recipeResult', recipeResultString)
+			sessionStorage.setItem('recipeImage', JSON.stringify(serverResponseImage.value))
+			sessionStorage.setItem('validRecipe', serverResponseRecipe.value.recipes[0] !== undefined)
 		})
 
 		db.addHistoryItem({
@@ -374,7 +406,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		searchMode, 
 		searchTerms, 
 		searchTermsForServer, 
-		recipeResponseList,
+		currentRecipeResponseList,
 		shoppingList,
 		serverResponseList,
 		serverResponseRecipe,
@@ -395,6 +427,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		searchLimit,
 		recipeGenLimit,
 		generationLimit,
+		sessionSearchResultsStore,
 		changeSearchMode, 
 		addSearchTerm, 
 		addServerSearchTerm, 
@@ -405,7 +438,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		clearSearchTerms,
 		clearServerSearchTerms,
 		clearShoppingList,
-		clearRecipeResponseList,
+		clearCurrentRecipeResponseList,
 		sendSearchTerms,
 		getRecipeDetails,
 		generateShoppingList

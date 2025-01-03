@@ -29,7 +29,7 @@
 
 <script setup>
 const searchStore = useSearchModeStore()
-const userSearchTerms = Array.from(searchStore.getServerSearchTerms)
+const userSearchTerms = Array.from(searchStore.getServerSearchTerms).length > 0 ? Array.from(searchStore.getServerSearchTerms) : JSON.parse(sessionStorage.getItem("searchTerms"))
 </script>
 
 <style lang="sass" scoped>

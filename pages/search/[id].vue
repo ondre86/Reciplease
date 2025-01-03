@@ -14,27 +14,44 @@ definePageMeta({
   requiresAuth: true,
 })
 const searchStore = useSearchModeStore()
+const route = useRoute()
+
 if (!searchStore.submittedRequest){
-    searchStore.viewingRecipeFromSearch = false
-    searchStore.requestFulfilled = false
-    searchStore.viewingSearchItems = false
-    await navigateTo('/')
+	let recipeResult = JSON.parse(sessionStorage.getItem("recipeResult"))
+
+	if (recipeResult && route.path == sessionStorage.getItem('recipeSlug')){
+		let parsedRecipeResult = []
+		recipeResult.forEach((item)=>{
+			parsedRecipeResult.push(JSON.parse(item))
+		})
+
+		searchStore.submittedRequest = true
+		searchStore.requestFulfilled = true
+		searchStore.isValidRequest = true
+		searchStore.viewingRecipeFromSearch = true
+		searchStore.searchMode = sessionStorage.getItem("searchMode")
+		searchStore.serverResponseRecipe.recipes = parsedRecipeResult
+		searchStore.serverResponseImage = JSON.parse(sessionStorage.getItem("recipeImage"))
+	}
+	else{
+		await navigateTo('/')
+	}
 }
 
 useHead({
-  title: `${searchStore.serverResponseRecipe.recipes ? searchStore.serverResponseRecipe.recipes[0].recipeName : ''}`,
+  title: `${searchStore.serverResponseRecipe.recipes && searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].recipeName : ''}`,
   meta: [
 	{
 		name: 'description',
-		content: `${searchStore.serverResponseRecipe.recipes ? searchStore.serverResponseRecipe.recipes[0].description : ''}`
+		content: `${searchStore.serverResponseRecipe.recipes && searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].description : ''}`
 	},
 	{
 		name: 'og:description',
-		content: `${searchStore.serverResponseRecipe.recipes ? searchStore.serverResponseRecipe.recipes[0].description : ''}`
+		content: `${searchStore.serverResponseRecipe.recipes && searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].description : ''}`
 	},
 	{
 		name: 'og:title',
-		content: `${searchStore.serverResponseRecipe.recipes ? searchStore.serverResponseRecipe.recipes[0].recipeName : ''} · Reciplease`
+		content: `${searchStore.serverResponseRecipe.recipes && searchStore.serverResponseRecipe.recipes[0] ? searchStore.serverResponseRecipe.recipes[0].recipeName : ''} · Reciplease`
 	},
 	{
 		name: 'og:image',
@@ -51,8 +68,6 @@ useHead({
     siteName: 'Reciplease'
   }
 })
-
-// const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 </script>
 
