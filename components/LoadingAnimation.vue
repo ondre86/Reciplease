@@ -18,7 +18,8 @@
 
 <script setup>
 const props = defineProps({
-    svgWidth: String
+    svgWidth: String,
+    opacity: Number
 })
 
 const { $gsap } = useNuxtApp()
@@ -66,6 +67,7 @@ onMounted(()=>{
 <style lang="sass" scoped>
 svg
     width: v-bind('svgWidth')
+    opacity: v-bind('opacity')
 g
     fill: v-bind('color')
 </style>

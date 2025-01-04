@@ -101,7 +101,7 @@ const modeDescriptors = {
 }
 
 let modeDescriptor = ref(modeDescriptors[searchStore.getSearchMode])
-let modeHelper = ref('Press "Return" or "Enter" after each ingredient to add it to your search list. Then, press "Go" to generate results.')
+let modeHelper = ref('Press "Return" or "Enter" to add an ingredient to your search list.')
 
 async function toggleSearchMode(event) {
 	searchStore.changeSearchMode(event.target.getAttribute('data-searchmode'))
@@ -126,7 +126,7 @@ async function toggleSearchMode(event) {
             })
             .call(()=>{
                 modeDescriptor.value = modeDescriptors[event.target.getAttribute('data-searchmode')]
-                modeHelper.value = searchStore.getSearchMode == 'pantry' ? 'Press "Return" or "Enter" after each ingredient to add it to your search list. Then, press "Go" to generate results.' : 'Press "Return" or "Go" to generate results.'
+                modeHelper.value = searchStore.getSearchMode == 'pantry' ? 'Press "Return" or "Enter" to add an ingredient to your search list.' : 'Press "Return" or "Go" to generate results.'
             })
             .to(['#mode-descriptor', '#mode-helper'], {
                 y:0,

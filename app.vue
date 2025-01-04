@@ -3,7 +3,6 @@
     <AppNav />
     <NuxtPage />
     <NuxtRouteAnnouncer />
-	<AppFooter class="self-end"></AppFooter>
   </div>
   <UNotifications />
 </template>
@@ -17,6 +16,7 @@
 	display: flex
 	flex-direction: column
 	justify-content: space-between
+	overflow-x: hidden
 		
 *
 	font-family: "Infra"

@@ -14,6 +14,12 @@
             <SearchItemWrapper></SearchItemWrapper>
             <SearchModeWrapper></SearchModeWrapper>
         </div>
+        <TitledImages></TitledImages>
+        <TheStruggle></TheStruggle>
+        <SaveTheDay></SaveTheDay>
+        <GetInspiration></GetInspiration>
+        <LandingCTA></LandingCTA>
+        <LoadingAnimation :opacity="0.3" class="mt-16"></LoadingAnimation>
     </main>
 </template>
 
