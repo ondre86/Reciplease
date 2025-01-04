@@ -10,7 +10,7 @@
             <div class="flex flex-col justify-start items-center gap-8 w-full lg:flex-row">
                 <div class="flex flex-col gap-4 w-full lg:w-1/2">
                     <div class="flex flex-col items-center justify-center rounded-xl md:flex-row video-wrap">
-                        <video class="rounded-2xl" ref="video" autoplay muted :src="videoSRC"></video>
+                        <video class="rounded-2xl" ref="video" autoplay muted playsinline :src="videoSRC"></video>
                     </div>
                 </div>
                 <div class="flex flex-col justify-center gap-6 lg:w-1/2 lg:pl-8">
