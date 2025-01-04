@@ -97,7 +97,7 @@ export const useAuthStore = defineStore('auth', ()=>{
             searchStore.viewingSearchItems = false
             searchStore.submittedRequest = false
             searchStore.requestFulfilled = false
-            searchStore.clearRecipeResponseList()
+            searchStore.clearCurrentRecipeResponseList()
             
             await navigateTo('/')
             authMsg.value = null
