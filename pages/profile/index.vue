@@ -83,20 +83,11 @@
 </template>
 
 <script setup>
-import { annotate } from 'rough-notation';
-
 definePageMeta({
   requiresAuth: true,
 })
 
 const authStore = useAuthStore()
-
-// onMounted(()=>{
-// 	const a1 = annotate(document.querySelectorAll('.annotate')[0], { type: 'underline', color: '#687441' })
-// 	setTimeout(() => {
-// 		a1.show()
-// 	}, 300)
-// })
 
 const tier = ref('')
 

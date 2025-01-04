@@ -1,6 +1,6 @@
 <template>
     <main
-        class="flex flex-col items-center justify-center h-full self-center px-6 pb-6"
+        class="flex flex-col items-center justify-center h-full self-center px-6"
         ref="mainWrap"
     >
         <MainLogo></MainLogo>
@@ -19,7 +19,7 @@
         <SaveTheDay></SaveTheDay>
         <GetInspiration></GetInspiration>
         <LandingCTA></LandingCTA>
-        <LoadingAnimation :opacity="0.3" class="mt-16"></LoadingAnimation>
+        <BackToTop></BackToTop>
     </main>
 </template>
 

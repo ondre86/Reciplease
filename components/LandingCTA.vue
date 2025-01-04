@@ -9,6 +9,21 @@
 </template>
 
 <script setup>
+const { $gsap, $ScrollTrigger } = useNuxtApp()
+
+onMounted(() => {
+    $ScrollTrigger.create({
+        animation: $gsap.from(".cta", {
+            y: 40,
+            opacity: 0
+        }),
+        trigger: '.cta',
+        start: "top bottom-=15%",
+        end: "+=30%",
+        scrub: true
+    })
+})
+
 
 </script>
 

@@ -1,7 +1,7 @@
 
 <template>
     <div class="flex flex-col gap-8 max-w-3xl p-8 rounded-lg border testimonial sm:flex-row">
-        <UAvatar size="3xl" :src="img"></UAvatar>
+        <UAvatar size="3xl" :src="img" :icon="icon"></UAvatar>
         <div class="flex flex-col gap-2">
             <h3 class="font-semibold text-xl">{{name}}</h3>
             <p>{{text}}</p>
@@ -13,7 +13,8 @@
 const props = defineProps({
     img: String,
     name: String,
-    text: String
+    text: String,
+    icon: String
 })
 </script>
 
