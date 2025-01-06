@@ -1,6 +1,6 @@
 
 <template>
-    <div class="flex flex-col items-center mt-6 py-12 px-6 gap-8 border rounded-xl cta">
+    <div class="flex flex-col items-center my-6 py-12 px-6 gap-8 border rounded-xl cta">
         <div class="text-center flex flex-col gap-4">
             <h2 class="text-4xl font-bold">Try Reciplease for Free Today!</h2>
         </div>
