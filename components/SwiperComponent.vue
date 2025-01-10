@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 
 const inspo = ref([
 	{
@@ -75,16 +75,19 @@ const inspo = ref([
 const inspoList = ref()
 
 onMounted(() => {
-	$ScrollTrigger.create({
-		animation: $gsap.from(inspoList.value.children, {
-			x: '100%',
-			opacity: 0,
-			filter: 'blur(5px)'
-		}),
-		trigger: inspoList.value,
-		start: "top bottom-=10%",
-		end: "+=50%",
-		scrub: true
+	const swipe = $gsap.timeline()
+
+	swipe.from(inspoList.value, {
+		x: '25%',
+		opacity: 0,
+		filter: 'blur(5px)',
+		scrollTrigger: {
+			trigger: inspoList.value,
+			start: "top bottom-=10%",
+			end: "+=50%",
+			scrub: true,
+			immediateRender:false
+		}
 	})
 })
 

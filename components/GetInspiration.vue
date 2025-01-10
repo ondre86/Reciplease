@@ -13,20 +13,25 @@
 
 <script setup>
 import { annotate } from 'rough-notation';
-const { $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 
 onMounted(() => {
-    const title = document.querySelectorAll('#home-title-4')[0]
-    const titleAnnotation = annotate(title, { 
+    const inspo = $gsap.timeline()
+
+    const title4 = document.querySelectorAll('#home-title-4')[0]
+    const titleAnnotation4 = annotate(title4, { 
         type: 'underline',
         color: '#687441'
     })
 
-    $ScrollTrigger.create({
-        trigger: title,
-        start: 'bottom bottom-=20%',
-        onEnter: ()=>{
-            titleAnnotation.show()
+    inspo.to(title4, {
+        scrollTrigger: {
+            trigger: title4,
+            start: 'bottom bottom-=20%',
+            immediateRender: false,
+            onEnter: ()=>{
+                titleAnnotation4.show()
+            }
         }
     })
 })

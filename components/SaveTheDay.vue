@@ -52,7 +52,7 @@
 
 <script setup>
 import { annotate } from 'rough-notation'
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 const { x, y } = useWindowScroll({behavior: 'smooth'})
 const { width, height } = useWindowSize()
 
@@ -178,28 +178,34 @@ onMounted(()=>{
         }
     })
 
-    $ScrollTrigger.create({
-        animation: $gsap.from(video.value, {
-            filter: 'blur(10px)',
-            opacity: .5
-        }),
-        trigger: video.value,
-        start: "top bottom-=15%",
-        end: "+=40%",
-        scrub: true
+    const save = $gsap.timeline()
+
+    save.from(video.value, {
+        filter: 'blur(10px)',
+        opacity: .5,
+        scrollTrigger: {
+            trigger: video.value,
+            start: "top bottom-=15%",
+            end: "+=40%",
+            scrub: true,
+            immediateRender: false
+        }
     })
 
-    const title = document.querySelectorAll('#home-title-3')[0]
-    const titleAnnotation = annotate(title, { 
+    const title3 = document.querySelectorAll('#home-title-3')[0]
+    const titleAnnotation3 = annotate(title3, { 
         type: 'underline',
         color: '#687441'
     })
 
-    $ScrollTrigger.create({
-        trigger: title,
-        start: 'bottom bottom-=20%',
-        onEnter: ()=>{
-            titleAnnotation.show()
+    save.to(title3, {
+        scrollTrigger: {
+            trigger: title3,
+            start: 'bottom bottom-=20%',
+            immediateRender: false,
+            onEnter: ()=>{
+                titleAnnotation3.show()
+            }
         }
     })
 })

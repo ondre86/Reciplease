@@ -7,7 +7,7 @@
                 Reciplease is here to help you get back to that.
             </p>
         </div>
-        <div class="tilted-img-group flex flex-col gap-4 my-12 lg:flex-row items-center">
+        <div class="tilted-img-group flex flex-col gap-4 my-16 lg:flex-row items-center">
             <div class="feature-img shadow-2xl rounded-xl overflow-hidden">
                 <img src="/public/img/IMG_6056.webp" width="300px" alt="">
             </div>
@@ -23,74 +23,61 @@
 
 <script setup>
 import { annotate } from 'rough-notation';
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 
 onMounted(() => {
     const imgs = document.querySelectorAll('.feature-img')
-    const testimonials = document.querySelectorAll('.testimonial')
+    const marquee = $gsap.timeline()
 
-    $ScrollTrigger.create({
-        animation: $gsap.from(imgs[0], {
-            x: 105,
-            y: 50,
-            filter: 'blur(10px)'
-        }),
-        trigger: imgs[0],
-        start: "top bottom-=15%",
-        end: "+=40%",
-        scrub: true
+    $gsap.fromTo(imgs[0], {
+        x: 105,
+        y: 50,
+        filter: 'blur(10px)',
+        rotate: '-18deg'
+    }, {
+        x: 20,
+        y: 40,
+        filter: 'blur(0px)',
+        rotate: '-10deg',
+        scrollTrigger: {
+            trigger: imgs[0],
+            start: "top bottom-=21%",
+            end: "+=30%",
+            scrub: .5,
+            immediateRender: false
+        }
     })
-    $ScrollTrigger.create({
-        animation: $gsap.from(imgs[1], {
-            y: 50,
-            filter: 'blur(10px)'
-        }),
-        trigger: imgs[1],
-        start: "top bottom-=15%",
-        end: "+=40%",
-        scrub: true
+    $gsap.fromTo(imgs[1], {
+        y: 50,
+        filter: 'blur(10px)',
+    }, {
+        y: 20,
+        filter: 'blur(0px)',
+        scrollTrigger: {
+            trigger: imgs[1],
+            start: "top bottom-=21%",
+            end: "+=30%",
+            scrub: .5,
+            immediateRender: false
+        }
     })
-    $ScrollTrigger.create({
-        animation: $gsap.from(imgs[2], {
-            x: -105,
-            y: 50,
-            filter: 'blur(10px)'
-        }),
-        trigger: imgs[2],
-        start: "top bottom-=15%",
-        end: "+=40%",
-        scrub: true
-    })
-
-    $ScrollTrigger.create({
-        animation: $gsap.from(testimonials[0], {
-            y: 50,
-            opacity: 0
-        }),
-        trigger: testimonials[0],
-        start: "top bottom-=15%",
-        end: "+=30%",
-        scrub: true
-    })
-    $ScrollTrigger.create({
-        animation: $gsap.from(testimonials[1], {
-            y: 50,
-            opacity: 0
-        }),
-        trigger: testimonials[1],
-        start: "top bottom-=15%",
-        end: "+=30%",
-        scrub: true
-    })
-    $ScrollTrigger.create({
-        animation: $gsap.from(testimonials[2], {
-            y: 50,
-            opacity: 0
-        }),
-        trigger: testimonials[2],
-        start: "top bottom-=15%",
-        end: "+=30%",
-        scrub: true
+    $gsap.fromTo(imgs[2], {
+        x: -105,
+        y: 50,
+        filter: 'blur(10px)',
+        rotate: '18deg'
+    }, {
+        x: -20,
+        y: 40,
+        filter: 'blur(0px)',
+        rotate: '10deg',
+        scrollTrigger: {
+            trigger: imgs[2],
+            start: "top bottom-=21%",
+            end: "+=30%",
+            scrub: .5,
+            immediateRender: false
+        }
     })
 
     const title = document.querySelectorAll('#home-title-1')[0]
@@ -99,11 +86,14 @@ onMounted(() => {
         color: '#687441'
     })
 
-    $ScrollTrigger.create({
-        trigger: title,
-        start: 'bottom bottom-=20%',
-        onEnter: ()=>{
-            titleAnnotation.show()
+    marquee.to(title, {
+        scrollTrigger: {
+            trigger: title,
+            start: 'bottom bottom-=20%',
+            immediateRender: false,
+            onEnter: ()=>{
+                titleAnnotation.show()
+            }
         }
     })
 })
@@ -119,8 +109,8 @@ onMounted(() => {
 
 
     &:first-of-type
-        rotate: -15deg
-        transform: translate(25px, 50px)
+        // rotate: -15deg
+        // transform: translate(25px, 50px)
         z-index: 2
 
         img
@@ -132,8 +122,8 @@ onMounted(() => {
             object-position: 0px -35px
 
     &:last-of-type
-        rotate: 15deg
-        transform: translate(-25px, 50px)
+        // rotate: 15deg
+        // transform: translate(-25px, 50px)
         z-index: 2
 
         img
@@ -150,8 +140,8 @@ onMounted(() => {
             max-height: 400px
 
         &:first-of-type
-            rotate: -8deg
-            transform: translate(0px, 25px)
+            // rotate: -8deg
+            // transform: translate(25px, 50px)
             z-index: 3
 
             img
@@ -164,8 +154,9 @@ onMounted(() => {
                 
 
         &:last-of-type
-            rotate: 8deg
-            transform: translate(0px, -50px)
+            // rotate: 8deg
+            // transform: translate(-25px, -50px)
+            margin: -3rem 0 0 0
             z-index: 1
 
             img

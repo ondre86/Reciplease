@@ -1,5 +1,5 @@
 <template>
-    <div class="my-12 md:my-24">
+    <div class="my-12 pt-12 md:my-24">
         <div class="flex flex-col gap-6 items-center">
             <h2 id="home-title-2" class="text-center text-4xl font-bold w-fit">We All Know the Struggle...</h2>
             <p class="font-light text-center">
@@ -28,20 +28,40 @@
 
 <script setup>
 import { annotate } from 'rough-notation';
-const { $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 
 onMounted(() => {
-    const title = document.querySelectorAll('#home-title-2')[0]
-    const titleAnnotation = annotate(title, { 
+    const testimonials = document.querySelectorAll('.testimonial')
+    const struggle = $gsap.timeline()
+
+    testimonials.forEach(testimonial => {
+        struggle.from(testimonial, {
+            y: 50,
+            opacity: 0,
+            scrollTrigger: {
+                trigger: testimonial,
+                start: "top bottom-=15%",
+                end: "+=30%",
+                scrub: true,
+                immediateRender: false
+            }
+        })
+    })  
+
+    const title2 = document.querySelectorAll('#home-title-2')[0]
+    const titleAnnotation2 = annotate(title2, { 
         type: 'underline',
         color: '#687441'
     })
 
-    $ScrollTrigger.create({
-        trigger: title,
-        start: 'bottom bottom-=20%',
-        onEnter: ()=>{
-            titleAnnotation.show()
+    struggle.to(title2, {
+        scrollTrigger: {
+            trigger: title2,
+            start: 'bottom bottom-=20%',
+            immediateRender: false,
+            onEnter: ()=>{
+                titleAnnotation2.show()
+            }
         }
     })
 })
