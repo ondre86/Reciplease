@@ -87,6 +87,37 @@ definePageMeta({
   requiresAuth: true,
 })
 
+useHead({
+  title: 'Profile',
+  meta: [
+	{
+		name: 'description',
+		content: 'Manage your Reciplease account.'
+	},
+	{
+		name: 'og:description',
+		content: 'Manage your Reciplease account.'
+	},
+	{
+		name: 'og:title',
+		content: 'Profile · Reciplease'
+	},
+	{
+		name: 'og:image',
+		content: '/og-img.jpg'
+	},
+	{
+		name: 'twitter:card',
+		content: 'summary_large_image'
+	}
+  ],
+  titleTemplate: '%s %seperator %siteName',
+  templateParams: {
+    seperator: '·',
+    siteName: 'Reciplease'
+  }
+})
+
 const authStore = useAuthStore()
 
 const tier = ref('')

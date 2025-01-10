@@ -29,11 +29,11 @@ useHead({
 	},
 	{
 		name: 'og:image',
-		ogImage: '/og-img.jpg'
+		content: '/og-img.jpg'
 	},
 	{
 		name: 'twitter:card',
-		twitterCard: 'summary_large_image'
+		content: 'summary_large_image'
 	}
   ],
   titleTemplate: '%s %seperator %siteName',
