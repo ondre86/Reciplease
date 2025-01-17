@@ -1,10 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useSearchModeStore } from './search'
+import { useFirestoreStore } from './firestore'
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, sendEmailVerification, updateEmail, updatePassword, verifyBeforeUpdateEmail, sendPasswordResetEmail } from "firebase/auth"
 
 export const useAuthStore = defineStore('auth', ()=>{
     const searchStore = useSearchModeStore()
+    const firestoreStore = useFirestoreStore()
 
     const isInitialized = ref(false)
     const auth = ref(null)
@@ -81,6 +83,7 @@ export const useAuthStore = defineStore('auth', ()=>{
             sendEmailVerification(auth.value.currentUser)
             await navigateTo('/')
             authMsg.value = null
+            await firestoreStore.addUser()
         } 
         catch (error) {
             console.error('Login failed:', error)
@@ -158,12 +161,6 @@ export const useAuthStore = defineStore('auth', ()=>{
             authMsg.value = error
         }
     }
-
-
-
-
-
-
 
 	return { 
         isInitialized,

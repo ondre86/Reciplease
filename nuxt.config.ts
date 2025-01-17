@@ -17,9 +17,13 @@ export default defineNuxtConfig({
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
     stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
+    stripeWebhookSecret: process.env.NUXT_STRIPE_WEBHOOK_SECRET,
     ipGeoKey: process.env.NUXT_IP_GEO_KEY,
+    firebaseServiceAccount: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT,
 
     public: {
+      baseURL: process.env.NUXT_PUBLIC_BASE_URL,
+      stripePriceId: process.env.NUXT_PUBLIC_STRIPE_PRICE_ID,
       stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
       apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
       authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,

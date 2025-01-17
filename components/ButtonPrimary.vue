@@ -9,8 +9,9 @@
         <slot></slot>
     </div>
     <NuxtLink 
-        class="btn w-fit px-3 py-2 rounded-lg ring-1 h-fit transition-all duration-300 text-xl font-medium cursor-pointer text-center" 
+        class="btn w-fit px-3 py-2 rounded-lg ring-1 h-fit transition-all duration-300 text-xl font-medium cursor-pointer text-center flex items-center gap-2" 
         :to="link"
+        :target="externalLink ? '_blank' : '_self'"
         :class="{ toggled: darkEmphasis }"
         v-else
     >
@@ -21,7 +22,8 @@
 <script setup>
 const props = defineProps({
     link: String,
-    darkEmphasis: Boolean
+    darkEmphasis: Boolean,
+    externalLink: Boolean
 })
 
 </script>

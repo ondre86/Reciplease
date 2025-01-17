@@ -7,7 +7,7 @@
 			</div>
 			<div id="acctMeta" class="flex flex-col gap-16 mt-8 w-full md:w-fit">
 				<div class="meta-wrap flex flex-col text-xl p-4 gap-10 rounded-xl border shadow-xl items-center md:flex-row md:gap-16">
-					<div class="flex flex-col gap-3">
+					<div class="flex flex-col gap-5">
 						<div class="flex flex-col gap-4 md:flex-row">
 							<div class="flex flex-col gap-2 flex-wrap justify-center">
 								<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
@@ -15,7 +15,8 @@
 						</div>
 						<div class="flex gap-4 justify-center">
 							<div class="flex gap-4 w-fit items-center">
-								<span class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
+								<span v-if="userData?.subscriptionStatus !== 'active'" class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
+								<span v-else class="pro-badge border p-2 rounded-lg w-fit text-xs font-semibold">Unlimited</span>
 							</div>
 							<div class="flex gap-4 justify-center self-center verify-badge border p-2 rounded-lg w-fit text-xs">
 								<span class="" v-if="authStore.user && authStore.user.emailVerified">Verified</span>
@@ -63,7 +64,9 @@
 					<ProfileOption 
 						:optionTitle="'Billing & Plans'" 
 						:subtitle="'View invoices and manage your subscription.'"
-						:disabled="true"
+						:link="'https://billing.stripe.com/p/login/6oE15Q2rH5V11PibII'"
+						:external="true"
+						:icon="'i-heroicons-arrow-top-right-on-square'"
 					>
 					</ProfileOption>
 				</li>
@@ -83,6 +86,8 @@
 </template>
 
 <script setup>
+import { useFirestoreStore } from '#build/imports'
+
 definePageMeta({
   requiresAuth: true,
 })
@@ -119,6 +124,8 @@ useHead({
 })
 
 const authStore = useAuthStore()
+const firestoreStore = useFirestoreStore()
+const userData = await firestoreStore.fetchUser()
 
 const tier = ref('')
 
@@ -143,6 +150,10 @@ main
 		background-color: g.$green-acc1
 
 	.free-badge
-		// background-color: #E9EED8
 		border-color: g.$green-light
+
+	.pro-badge
+		background-color: g.$green-light
+		color: g.$green-acc3
+		border-color: white
 </style>

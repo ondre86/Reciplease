@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const authMode = ref('Sign In')
 
 useHead({

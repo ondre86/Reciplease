@@ -7,7 +7,16 @@
                 <span class="text-base">{{ subtitle }}</span>
             </div>
             <div class="flex flex-col gap-4 items-center self-center w-full md:w-fit">
-                <ButtonPrimary class="toggled w-full md:w-fit" :link="link" :class="{ 'disabled': disabled }" :disabled="disabled == true">{{ disabled ? "Coming Soon" : `${noView ? '' : 'View'} ${optionTitle}` }}</ButtonPrimary>
+                <ButtonPrimary 
+                    class="toggled w-full md:w-fit" 
+                    :link="link" 
+                    :externalLink="external" 
+                    :class="{ 'disabled': disabled }" 
+                    :disabled="disabled == true"
+                >
+                    {{ external ? "View on Stripe" : `View ${optionTitle}` }}
+                    <UIcon v-if="icon" :name="icon"></UIcon>
+                </ButtonPrimary>
             </div>
         </div>
     </div>
@@ -19,7 +28,9 @@ const props = defineProps({
     subtitle: String,
     link: String,
     disabled: Boolean,
-    noView: Boolean
+    noView: Boolean,
+    external: Boolean,
+    icon: String
 })
 const btnPrefix = ref(props.noView)
 </script>
