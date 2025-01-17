@@ -3,7 +3,7 @@ import admin from "firebase-admin"
 import { getFirestore } from "firebase-admin/firestore"
 
 const config = useRuntimeConfig()
-serviceAccount = {
+const serviceAccount = {
     "type": config.firebaseServiceAccountType,
     "project_id": config.firebaseServiceAccountProjectID,
     "private_key_id": config.firebaseServiceAccountPrivateKeyID,
