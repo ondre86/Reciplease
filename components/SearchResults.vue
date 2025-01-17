@@ -71,6 +71,19 @@
 <script setup>
 const searchStore = useSearchModeStore()
 
+let storedSearchResults = JSON.parse(sessionStorage.getItem('searchResults'))
+let parsedStoredSearchResults = []
+storedSearchResults.forEach(result => {
+    parsedStoredSearchResults.push(JSON.parse(result))
+})
+
+const storedSearchValidity = JSON.parse(sessionStorage.getItem('validSearch'))
+
+if ((parsedStoredSearchResults && parsedStoredSearchResults.length > 0) && (storedSearchValidity && storedSearchValidity == true)){
+    searchStore.serverResponseList.recipes = parsedStoredSearchResults
+    searchStore.isValidRequest = storedSearchValidity
+}
+
 </script>
 
 <style lang="sass" scoped>

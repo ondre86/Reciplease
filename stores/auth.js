@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', ()=>{
             })
         })
     }
-    initializeAuth()
+    initializeAuth
 
 
     const monitorAuthState = () => {

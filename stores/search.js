@@ -1,11 +1,12 @@
 import { ref, computed } from 'vue'
-import { defineStore, skipHydrate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useFirestoreStore } from './firestore'
-import { useStorage } from '@vueuse/core'
 
 export const useSearchModeStore = defineStore('search', ()=>{
+	// not exported
 	const db = useFirestoreStore()
 
+	// exported
 	const searchMode = ref('pantry')
 	const searchTerms = ref(new Set([]))
 	const searchTermsForServer = ref(new Set([]))
@@ -83,8 +84,9 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	}
 
 	async function sendSearchTerms(){
+		const userData = await db.fetchUser()
 		if (!searchTermsForServer.value || searchTermsForServer.value.size == 0) return
-		if (!searchLimit.value){
+		if (!searchLimit.value && (!userData.subscriptionStatus || userData.subscriptionStatus !== 'active')){
 			let searches = 0
 			await db.fetchHistoryItems()
 			db.historyItems.forEach((item)=>{
@@ -104,15 +106,14 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			clearCurrentRecipeResponseList()
 		}
 
-		submittedRequest.value = true
 		if (currentRecipeResponseList.value.size > 0){
 			additionalRequestFulfilled.value = false
 		}
 		else {
-			requestFulfilled.value = false
 			await navigateTo('/search')
+			requestFulfilled.value = false
 		}
-
+		submittedRequest.value = true
 
 		const searchTermArray = Array.from(searchTermsForServer.value)
 		const currentRecipeResponseListArray = Array.from(currentRecipeResponseList.value)
@@ -215,7 +216,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		})
 	}
 	async function getRecipeDetails(recipe) {	
-		if (!recipeGenLimit.value)	{
+		const userData = await db.fetchUser()
+		if (!recipeGenLimit.value && (!userData.subscriptionStatus || userData.subscriptionStatus !== 'active'))	{
 			let generations = 0
 			await db.fetchHistoryItems()
 			db.historyItems.forEach((item)=>{
@@ -324,7 +326,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 	}
 
 	async function generateShoppingList(list, mode) {
-		if (!generationLimit.value){
+		const userData = await db.fetchUser()
+		if (!generationLimit.value && (!userData.subscriptionStatus || userData.subscriptionStatus !== 'active')){
 			let listGenerations = 0
 			await db.fetchHistoryItems()
 			db.historyItems.forEach((item)=>{

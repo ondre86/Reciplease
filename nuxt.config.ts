@@ -64,6 +64,7 @@ export default defineNuxtConfig({
     "/search/**": { ssr: false },
     "/list": { ssr: false },
     "/auth": { ssr: false },
+    "/pricing": { ssr: false },
     "/profile": { ssr: false },
     "/profile/**": { ssr: false },
     "/profile/saved/**": { ssr: false },

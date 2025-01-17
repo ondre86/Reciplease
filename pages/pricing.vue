@@ -62,9 +62,8 @@
 import { annotate } from 'rough-notation';
 const { $gsap } = useNuxtApp()
 
-const authStore = useAuthStore()
-const firestoreStore = useFirestoreStore()
-const { subscriptionStatus } = await firestoreStore.fetchUser()
+const db = useFirestoreStore()
+const { subscriptionStatus } = await db.fetchUser()
 
 useHead({
   title: 'Pricing',
