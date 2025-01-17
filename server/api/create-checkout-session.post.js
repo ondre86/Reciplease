@@ -4,17 +4,17 @@ import { getFirestore } from "firebase-admin/firestore"
 
 const config = useRuntimeConfig()
 const serviceAccount = {
-    "type": config.firebaseServiceAccountType,
-    "project_id": config.firebaseServiceAccountProjectID,
-    "private_key_id": config.firebaseServiceAccountPrivateKeyID,
-    "private_key": config.firebaseServiceAccountPrivateKey,
-    "client_email": config.firebaseServiceAccountClientEmail,
-    "client_id": config.firebaseServiceAccountClientID,
-    "auth_uri": config.firebaseServiceAccountAuthURI,
-    "token_uri": config.firebaseServiceAccountTokenURI,
-    "auth_provider_x509_cert_url": config.firebaseServiceAccountAuthProviderX509CertURL,
-    "client_x509_cert_url": config.firebaseServiceAccountClientX509CertURL,
-    "universe_domain": config.firebaseServiceAccountUniverseDomain
+    type: config.firebaseServiceAccountType,
+    project_id: config.firebaseServiceAccountProjectID,
+    private_key_id: config.firebaseServiceAccountPrivateKeyID,
+    private_key: config.firebaseServiceAccountPrivateKey,
+    client_email: config.firebaseServiceAccountClientEmail,
+    client_id: config.firebaseServiceAccountClientID,
+    auth_uri: config.firebaseServiceAccountAuthURI,
+    token_uri: config.firebaseServiceAccountTokenURI,
+    auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
+    client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
+    universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
 if (!admin.apps.length) {
