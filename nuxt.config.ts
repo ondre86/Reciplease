@@ -19,7 +19,17 @@ export default defineNuxtConfig({
     stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
     stripeWebhookSecret: process.env.NUXT_STRIPE_WEBHOOK_SECRET,
     ipGeoKey: process.env.NUXT_IP_GEO_KEY,
-    firebaseServiceAccount: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT,
+    firebaseServiceAccountType: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_TYPE,
+    firebaseServiceAccountProjectID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+    firebaseServiceAccountPrivateKeyID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+    firebaseServiceAccountPrivateKey: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY,
+    firebaseServiceAccountClientEmail: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+    firebaseServiceAccountClientID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_ID,
+    firebaseServiceAccountAuthURI: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_AUTH_URI,
+    firebaseServiceAccountTokenURI: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_TOKEN_URI,
+    firebaseServiceAccountAuthProviderX509CertURL: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL,
+    firebaseServiceAccountClientX509CertURL: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_X509_CERT_URL,
+    firebaseServiceAccountUniverseDomain: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_UNIVERSE_DOMAIN,
 
     public: {
       baseURL: process.env.NUXT_PUBLIC_BASE_URL,

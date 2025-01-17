@@ -1,7 +1,21 @@
 import Stripe from 'stripe'
 import admin from "firebase-admin"
 import { getFirestore } from "firebase-admin/firestore"
-import serviceAccount from '~/serviceAccount.json' assert { type: 'json' }
+
+const config = useRuntimeConfig()
+serviceAccount = {
+    "type": config.firebaseServiceAccountType,
+    "project_id": config.firebaseServiceAccountProjectID,
+    "private_key_id": config.firebaseServiceAccountPrivateKeyID,
+    "private_key": config.firebaseServiceAccountPrivateKey,
+    "client_email": config.firebaseServiceAccountClientEmail,
+    "client_id": config.firebaseServiceAccountClientID,
+    "auth_uri": config.firebaseServiceAccountAuthURI,
+    "token_uri": config.firebaseServiceAccountTokenURI,
+    "auth_provider_x509_cert_url": config.firebaseServiceAccountAuthProviderX509CertURL,
+    "client_x509_cert_url": config.firebaseServiceAccountClientX509CertURL,
+    "universe_domain": config.firebaseServiceAccountUniverseDomain
+}
 
 if (!admin.apps.length) {
     admin.initializeApp({
@@ -10,7 +24,6 @@ if (!admin.apps.length) {
 }
 
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 

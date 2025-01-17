@@ -32,7 +32,6 @@ const props = defineProps({
     external: Boolean,
     icon: String
 })
-const btnPrefix = ref(props.noView)
 </script>
 
 <style lang="sass" scoped>
