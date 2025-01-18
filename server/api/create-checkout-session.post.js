@@ -7,7 +7,7 @@ const serviceAccount = {
     type: config.firebaseServiceAccountType,
     project_id: config.firebaseServiceAccountProjectID,
     private_key_id: config.firebaseServiceAccountPrivateKeyID,
-    private_key: config.firebaseServiceAccountPrivateKey,
+    private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
     client_email: config.firebaseServiceAccountClientEmail,
     client_id: config.firebaseServiceAccountClientID,
     auth_uri: config.firebaseServiceAccountAuthURI,
@@ -17,10 +17,16 @@ const serviceAccount = {
     universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-    })
+try {
+    if (!admin.apps.length) {
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount),
+        })
+        console.log("Firebase Admin initialized")
+    }
+} catch (err) {
+    console.error("Error initializing Firebase Admin:", err)
+    throw err
 }
 
 export default defineEventHandler(async (event) => {
