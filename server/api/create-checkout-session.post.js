@@ -2,34 +2,36 @@ import Stripe from 'stripe'
 import admin from "firebase-admin"
 import { getFirestore } from "firebase-admin/firestore"
 
-const config = useRuntimeConfig()
-const serviceAccount = {
-    type: config.firebaseServiceAccountType,
-    project_id: config.firebaseServiceAccountProjectID,
-    private_key_id: config.firebaseServiceAccountPrivateKeyID,
-    private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
-    client_email: config.firebaseServiceAccountClientEmail,
-    client_id: config.firebaseServiceAccountClientID,
-    auth_uri: config.firebaseServiceAccountAuthURI,
-    token_uri: config.firebaseServiceAccountTokenURI,
-    auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
-    client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
-    universe_domain: config.firebaseServiceAccountUniverseDomain
-}
-
-try {
-    if (!admin.apps.length) {
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-        })
-        console.log("Firebase Admin initialized")
-    }
-} catch (err) {
-    console.error("Error initializing Firebase Admin:", err)
-    throw err
-}
-
 export default defineEventHandler(async (event) => {
+    const config = useRuntimeConfig()
+    console.log(config)
+    const serviceAccount = {
+        type: config.firebaseServiceAccountType,
+        project_id: config.firebaseServiceAccountProjectID,
+        private_key_id: config.firebaseServiceAccountPrivateKeyID,
+        private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
+        client_email: config.firebaseServiceAccountClientEmail,
+        client_id: config.firebaseServiceAccountClientID,
+        auth_uri: config.firebaseServiceAccountAuthURI,
+        token_uri: config.firebaseServiceAccountTokenURI,
+        auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
+        client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
+        universe_domain: config.firebaseServiceAccountUniverseDomain
+    }
+    console.log(serviceAccount)
+
+    try {
+        if (!admin.apps.length) {
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount),
+            })
+            console.log("Firebase Admin initialized")
+        }
+    } catch (err) {
+        console.error("Error initializing Firebase Admin:", err)
+        throw err
+    }
+
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 
