@@ -35,7 +35,9 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 
-    const stripe = new Stripe(config.stripeSecretKey)
+    const stripe = new Stripe(config.stripeSecretKey, {
+        httpClient: Stripe.createFetchHttpClient()
+    })
     const firestore = admin.firestore()
 
     try {
@@ -66,7 +68,7 @@ export default defineEventHandler(async (event) => {
                     quantity: 1,
                 },
             ],
-            success_url: `${config.public.baseURL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${config.public.baseURL}/profile`,
             cancel_url: `${config.public.baseURL}/pricing`,
         })
 

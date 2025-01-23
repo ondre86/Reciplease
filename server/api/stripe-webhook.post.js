@@ -33,7 +33,9 @@ export default defineEventHandler(async (event) => {
     }
 
     const rawBody = await readRawBody(event)
-    const stripe = new Stripe(config.stripeSecretKey)
+    const stripe = new Stripe(config.stripeSecretKey, {
+        httpClient: Stripe.createFetchHttpClient()
+    })
     const signature = getHeaders(event)["stripe-signature"]
     if (!signature || !rawBody) {
         throw createError({ statusCode: 400, message: "Invalid webhook payload or signature." })
@@ -41,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
     let stripeWebhookEvent
     try {
-        stripeWebhookEvent = stripe.webhooks.constructEvent(rawBody, signature, config.stripeWebhookSecret)
+        stripeWebhookEvent = stripe.webhooks.constructEventAsync(rawBody, signature, config.stripeWebhookSecret)
     } 
     catch (error) {
         console.error("Webhook signature verification failed:", error.message)
