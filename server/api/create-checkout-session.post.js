@@ -1,6 +1,6 @@
 import Stripe from 'stripe'
 import admin from "firebase-admin"
-import { getFirestore } from "firebase-admin/firestore"
+// import { getFirestore } from "firebase-admin/firestore"
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
     if (!body.userId) throw new Error('User not authenticated.')
 
     const stripe = new Stripe(config.stripeSecretKey)
-    const firestore = getFirestore()
+    const firestore = admin.firestore()
 
     try {
         const currentUserDoc = firestore.doc(`users/${body.userId}`)
