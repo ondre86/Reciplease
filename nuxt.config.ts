@@ -16,6 +16,9 @@ export default defineNuxtConfig({
   alias: {
     'string_decoder': 'string_decoder/',
   },
+  nitro: {
+    preset: 'cloudflare-pages'
+  },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
