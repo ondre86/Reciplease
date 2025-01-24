@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image'
   ],
+  alias: {
+    'string_decoder': 'string_decoder/',
+  },
   nitro: {
     preset: 'cloudflare-pages'
   },
