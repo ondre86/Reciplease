@@ -36,6 +36,10 @@ export default defineEventHandler(async (event) => {
     })
     const firestore = getFirestore()
 
+    return {
+        d: body
+    }
+
     // try {
     //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
     //     const currentUser = await currentUserDoc.get()

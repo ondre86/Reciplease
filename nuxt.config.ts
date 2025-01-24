@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/device',
     'nuxt-security',
-    '@nuxtjs/seo',
     '@nuxt/ui',
     '@nuxt/image'
   ],
