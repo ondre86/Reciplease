@@ -1,4 +1,5 @@
 import { initializeApp, cert } from "firebase-admin/app"
+import { getFirestore } from "firebase-admin/firestore"
 import Stripe from "stripe"
 
 export default defineEventHandler(async (event) => {
@@ -45,7 +46,7 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, message: "Webhook signature verification failed." })
     }
 
-    const firestore = admin.firestore()
+    const firestore = getFirestore()
     const usersCollection = firestore.collection('users')
     const usersDocs = await usersCollection.get()
     let firestoreUserID = ''

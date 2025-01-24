@@ -18,9 +18,8 @@ export default defineEventHandler(async (event) => {
         universe_domain: config.firebaseServiceAccountUniverseDomain
     }
 
-    let admin
     try {
-        admin = initializeApp({
+        initializeApp({
             credential: cert(serviceAccount)
         })
         console.log("Firebase Admin initialized")
@@ -29,18 +28,13 @@ export default defineEventHandler(async (event) => {
         throw err
     }
 
-    console.log(admin)
-    console.log(getFirestore())
-
-
-
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 
     const stripe = new Stripe(config.stripeSecretKey, {
         httpClient: Stripe.createFetchHttpClient()
     })
-    const firestore = admin.firestore()
+    const firestore = getFirestore()
 
     // try {
     //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
