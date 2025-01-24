@@ -4,7 +4,6 @@ import admin from "firebase-admin"
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
-    console.log(config)
     const serviceAccount = {
         type: config.firebaseServiceAccountType,
         project_id: config.firebaseServiceAccountProjectID,
@@ -18,7 +17,6 @@ export default defineEventHandler(async (event) => {
         client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
         universe_domain: config.firebaseServiceAccountUniverseDomain
     }
-    console.log(serviceAccount)
 
     try {
         if (!admin.apps.length) {
@@ -42,10 +40,13 @@ export default defineEventHandler(async (event) => {
 
     try {
         const currentUserDoc = firestore.doc(`users/${body.userId}`)
-        const currentUserData = (await currentUserDoc.get()).data()
+        const currentUser = await currentUserDoc.get()
+        const currentUserData = currentUser.data()
 
         let newCustomer
-        if (!currentUserData.stripeCustomerID) newCustomer = await createStripeCustomer()
+        if (!currentUserData?.stripeCustomerID) { 
+            newCustomer = await createStripeCustomer()
+        }
         async function createStripeCustomer(){
             const customer = await stripe.customers.create({
                 email: body.email,
@@ -59,7 +60,7 @@ export default defineEventHandler(async (event) => {
         }
     
         const session = await stripe.checkout.sessions.create({
-            customer: newCustomer?.id ? newCustomer.id : currentUserData.stripeCustomerID,
+            customer: newCustomer?.id ? newCustomer?.id : currentUserData?.stripeCustomerID,
             payment_method_types: ['card'],
             mode: 'subscription',
             line_items: [

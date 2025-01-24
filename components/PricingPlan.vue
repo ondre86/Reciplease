@@ -65,7 +65,7 @@ async function subscribe(){
 
     try {
         loading.value = true
-        const { url } = await $fetch('/api/create-checkout-session', {
+        const data = await $fetch("/api/create-checkout-session", {
             method: 'POST',
             body: {
                 email: authStore.user.email,
@@ -73,8 +73,9 @@ async function subscribe(){
                 priceId: config.public.stripePriceId,
             },
         })
+        console.log(data)
 
-        await navigateTo(url, { external: true })
+        // await navigateTo(url, { external: true })
     } catch (error) {
         console.error('Error initiating checkout:', error)
     }
