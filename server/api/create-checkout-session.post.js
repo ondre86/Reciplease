@@ -38,53 +38,57 @@ export default defineEventHandler(async (event) => {
     })
     const firestore = admin.firestore()
 
-    try {
-        const currentUserDoc = firestore.doc(`users/${body.userId}`)
-        const currentUser = await currentUserDoc.get()
-        const currentUserData = currentUser.data()
-
-        let newCustomer
-        if (!currentUserData?.stripeCustomerID) { 
-            newCustomer = await createStripeCustomer()
-        }
-        async function createStripeCustomer(){
-            const customer = await stripe.customers.create({
-                email: body.email,
-                metadata: {
-                    firebaseUserId: body.userId
-                }
-            })
-            await currentUserDoc.update({ stripeCustomerID: customer.id })
-            console.log("New Customer ID created and saved:", customer.id);
-            return customer
-        }
-    
-        const session = await stripe.checkout.sessions.create({
-            customer: newCustomer?.id ? newCustomer?.id : currentUserData?.stripeCustomerID,
-            payment_method_types: ['card'],
-            mode: 'subscription',
-            line_items: [
-                {
-                    price: body.priceId,
-                    quantity: 1,
-                },
-            ],
-            success_url: `${config.public.baseURL}/profile`,
-            cancel_url: `${config.public.baseURL}/pricing`,
-        })
-
-        const currentUserStripeCollection = firestore.collection(`users/${body.userId}/stripe`)
-        await currentUserStripeCollection.add({
-            sessionId: session.id,
-            created: new Date().toISOString(),
-            priceId: body.priceId,
-            status: session.status,
-        })
-
-        return { url: session.url }
-    } 
-    catch (error) {
-        console.error(error)
-        throw createError({ statusCode: 500, statusMessage: error.message })
+    return {
+        bd: body
     }
+
+    // try {
+    //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
+    //     const currentUser = await currentUserDoc.get()
+    //     const currentUserData = currentUser.data()
+
+    //     let newCustomer
+    //     if (!currentUserData?.stripeCustomerID) { 
+    //         newCustomer = await createStripeCustomer()
+    //     }
+    //     async function createStripeCustomer(){
+    //         const customer = await stripe.customers.create({
+    //             email: body.email,
+    //             metadata: {
+    //                 firebaseUserId: body.userId
+    //             }
+    //         })
+    //         await currentUserDoc.update({ stripeCustomerID: customer.id })
+    //         console.log("New Customer ID created and saved:", customer.id);
+    //         return customer
+    //     }
+    
+    //     const session = await stripe.checkout.sessions.create({
+    //         customer: newCustomer?.id ? newCustomer?.id : currentUserData?.stripeCustomerID,
+    //         payment_method_types: ['card'],
+    //         mode: 'subscription',
+    //         line_items: [
+    //             {
+    //                 price: body.priceId,
+    //                 quantity: 1,
+    //             },
+    //         ],
+    //         success_url: `${config.public.baseURL}/profile`,
+    //         cancel_url: `${config.public.baseURL}/pricing`,
+    //     })
+
+    //     const currentUserStripeCollection = firestore.collection(`users/${body.userId}/stripe`)
+    //     await currentUserStripeCollection.add({
+    //         sessionId: session.id,
+    //         created: new Date().toISOString(),
+    //         priceId: body.priceId,
+    //         status: session.status,
+    //     })
+
+    //     return { url: session.url }
+    // } 
+    // catch (error) {
+    //     console.error(error)
+    //     throw createError({ statusCode: 500, statusMessage: error.message })
+    // }
 })
