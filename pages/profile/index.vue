@@ -86,8 +86,6 @@
 </template>
 
 <script setup>
-import { useFirestoreStore } from '#build/imports'
-
 definePageMeta({
   requiresAuth: true,
 })

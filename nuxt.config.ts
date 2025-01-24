@@ -71,17 +71,7 @@ export default defineNuxtConfig({
       text: true
     }
   },
-  routeRules: {
-    "/": { ssr: false },
-    "/search": { ssr: false },
-    "/search/**": { ssr: false },
-    "/list": { ssr: false },
-    "/auth": { ssr: false },
-    "/pricing": { ssr: false },
-    "/profile": { ssr: false },
-    "/profile/**": { ssr: false },
-    "/profile/saved/**": { ssr: false },
-  },
+  ssr: false,
   ui: {
       safelistColors: ['gmain']
   },

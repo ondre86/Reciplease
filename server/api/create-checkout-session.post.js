@@ -1,6 +1,6 @@
-import Stripe from 'stripe'
-import admin from "firebase-admin"
-// import { getFirestore } from "firebase-admin/firestore"
+import { initializeApp, cert } from "firebase-admin/app"
+import { getFirestore } from "firebase-admin/firestore"
+import Stripe from "stripe"
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
@@ -18,17 +18,21 @@ export default defineEventHandler(async (event) => {
         universe_domain: config.firebaseServiceAccountUniverseDomain
     }
 
+    let admin
     try {
-        if (!admin.apps.length) {
-            admin.initializeApp({
-                credential: admin.credential.cert(serviceAccount),
-            })
-            console.log("Firebase Admin initialized")
-        }
+        admin = initializeApp({
+            credential: cert(serviceAccount)
+        })
+        console.log("Firebase Admin initialized")
     } catch (err) {
         console.error("Error initializing Firebase Admin:", err)
         throw err
     }
+
+    console.log(admin)
+    console.log(getFirestore())
+
+
 
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
@@ -37,10 +41,6 @@ export default defineEventHandler(async (event) => {
         httpClient: Stripe.createFetchHttpClient()
     })
     const firestore = admin.firestore()
-
-    return {
-        bd: body
-    }
 
     // try {
     //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
