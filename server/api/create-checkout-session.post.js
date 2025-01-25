@@ -17,11 +17,6 @@ const serviceAccount = {
     universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
-// const stripe = new Stripe(config.stripeSecretKey, {
-//     httpClient: Stripe.createFetchHttpClient()
-// })
-const firestore = getFirestore()
-
 if (getApps().length < 1){
     try {
         initializeApp({
@@ -33,6 +28,9 @@ if (getApps().length < 1){
         throw err
     }
 }
+const firestore = getFirestore()
+
+const stripe = new Stripe(config.stripeSecretKey)
 
 export default defineEventHandler(async (event) => {
     // const body = await readBody(event)
