@@ -75,7 +75,7 @@ async function subscribe(){
         })
         console.log(stripeSession)
 
-        await navigateTo(stripeSession.url, { external: true })
+        // await navigateTo(stripeSession.url, { external: true })
     } catch (error) {
         console.error('Error initiating checkout:', error)
     }
