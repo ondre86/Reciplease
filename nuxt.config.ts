@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
   alias: {
-    'string_decoder': '../node_modules/string_decoder/',
+    'string_decoder': '../node_modules/string_decoder',
   },
   nitro: {
     preset: 'cloudflare-pages'
