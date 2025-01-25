@@ -12,9 +12,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image'
   ],
-  nitro: {
-    preset: 'cloudflare_pages'
-  },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
