@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
   nitro: {
-    preset: 'cloudflare-pages'
+    preset: 'cloudflare_pages'
   },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
