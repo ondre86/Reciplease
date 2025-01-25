@@ -1,6 +1,6 @@
 import { initializeApp, cert } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
-import Stripe from "stripe"
+// import Stripe from "stripe"
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
@@ -31,13 +31,14 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 
-    const stripe = new Stripe(config.stripeSecretKey, {
-        httpClient: Stripe.createFetchHttpClient()
-    })
+    // const stripe = new Stripe(config.stripeSecretKey, {
+    //     httpClient: Stripe.createFetchHttpClient()
+    // })
     const firestore = getFirestore()
 
     return {
-        d: body
+        d: body,
+        cols: await firestore.listCollections()
     }
 
     // try {
