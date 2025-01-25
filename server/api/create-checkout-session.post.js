@@ -17,22 +17,22 @@ const serviceAccount = {
     universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
-const stripe = new Stripe(config.stripeSecretKey, {
-    httpClient: Stripe.createFetchHttpClient()
-})
+// const stripe = new Stripe(config.stripeSecretKey, {
+//     httpClient: Stripe.createFetchHttpClient()
+// })
 const firestore = getFirestore()
 
-// if (getApps().length < 1){
-//     try {
-//         initializeApp({
-//             credential: cert(serviceAccount)
-//         })
-//         console.log("Firebase Admin initialized")
-//     } catch (err) {
-//         console.error("Error initializing Firebase Admin:", err)
-//         throw err
-//     }
-// }
+if (getApps().length < 1){
+    try {
+        initializeApp({
+            credential: cert(serviceAccount)
+        })
+        console.log("Firebase Admin initialized")
+    } catch (err) {
+        console.error("Error initializing Firebase Admin:", err)
+        throw err
+    }
+}
 
 export default defineEventHandler(async (event) => {
     // const body = await readBody(event)
