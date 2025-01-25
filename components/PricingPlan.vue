@@ -65,7 +65,7 @@ async function subscribe(){
 
     try {
         loading.value = true
-        const stripeSession = await $fetch("/api/create-checkout-session", {
+        await $fetch("/api/create-checkout-session", {
             method: 'POST',
             body: {
                 email: authStore.user.email,
@@ -73,9 +73,11 @@ async function subscribe(){
                 priceId: config.public.stripePriceId,
             },
         })
-        console.log(stripeSession)
+        .then(stripeSession => {
+            console.log(stripeSession)
+            // navigateTo(stripeSession.url, { external: true })
+        })
 
-        // await navigateTo(stripeSession.url, { external: true })
     } catch (error) {
         console.error('Error initiating checkout:', error)
     }

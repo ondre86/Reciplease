@@ -17,6 +17,11 @@ const serviceAccount = {
     universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
+const stripe = new Stripe(config.stripeSecretKey, {
+    httpClient: Stripe.createFetchHttpClient()
+})
+const firestore = getFirestore()
+
 // if (getApps().length < 1){
 //     try {
 //         initializeApp({
@@ -33,10 +38,7 @@ export default defineEventHandler(async (event) => {
     // const body = await readBody(event)
     // if (!body.userId) throw new Error('User not authenticated.')
 
-    // const stripe = new Stripe(config.stripeSecretKey, {
-    //     httpClient: Stripe.createFetchHttpClient()
-    // })
-    // const firestore = getFirestore()
+
 
     return { hello: serviceAccount.token_uri }
 
