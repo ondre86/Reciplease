@@ -1,33 +1,35 @@
-import { initializeApp, cert } from "firebase-admin/app"
+import { initializeApp, cert, getApps } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
 import Stripe from "stripe"
 
-export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
-    const serviceAccount = {
-        type: config.firebaseServiceAccountType,
-        project_id: config.firebaseServiceAccountProjectID,
-        private_key_id: config.firebaseServiceAccountPrivateKeyID,
-        private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
-        client_email: config.firebaseServiceAccountClientEmail,
-        client_id: config.firebaseServiceAccountClientID,
-        auth_uri: config.firebaseServiceAccountAuthURI,
-        token_uri: config.firebaseServiceAccountTokenURI,
-        auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
-        client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
-        universe_domain: config.firebaseServiceAccountUniverseDomain
-    }
+const config = useRuntimeConfig()
+const serviceAccount = {
+    type: config.firebaseServiceAccountType,
+    project_id: config.firebaseServiceAccountProjectID,
+    private_key_id: config.firebaseServiceAccountPrivateKeyID,
+    private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
+    client_email: config.firebaseServiceAccountClientEmail,
+    client_id: config.firebaseServiceAccountClientID,
+    auth_uri: config.firebaseServiceAccountAuthURI,
+    token_uri: config.firebaseServiceAccountTokenURI,
+    auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
+    client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
+    universe_domain: config.firebaseServiceAccountUniverseDomain
+}
 
+if (getApps().length < 1){
     try {
         initializeApp({
-            credential: cert(serviceAccount),
+            credential: cert(serviceAccount)
         })
         console.log("Firebase Admin initialized")
     } catch (err) {
         console.error("Error initializing Firebase Admin:", err)
         throw err
     }
+}
 
+export default defineEventHandler(async (event) => {
     const rawBody = await readRawBody(event)
     const stripe = new Stripe(config.stripeSecretKey, {
         httpClient: Stripe.createFetchHttpClient()
