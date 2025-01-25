@@ -17,17 +17,17 @@ const serviceAccount = {
     universe_domain: config.firebaseServiceAccountUniverseDomain
 }
 
-if (getApps().length < 1){
-    try {
-        initializeApp({
-            credential: cert(serviceAccount)
-        })
-        console.log("Firebase Admin initialized")
-    } catch (err) {
-        console.error("Error initializing Firebase Admin:", err)
-        throw err
-    }
-}
+// if (getApps().length < 1){
+//     try {
+//         initializeApp({
+//             credential: cert(serviceAccount)
+//         })
+//         console.log("Firebase Admin initialized")
+//     } catch (err) {
+//         console.error("Error initializing Firebase Admin:", err)
+//         throw err
+//     }
+// }
 
 export default defineEventHandler(async (event) => {
     // const body = await readBody(event)
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
     // })
     // const firestore = getFirestore()
 
-    return { hello: "world" }
+    return { hello: serviceAccount.token_uri }
 
     // try {
     //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
