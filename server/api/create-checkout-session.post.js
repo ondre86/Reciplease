@@ -22,7 +22,7 @@ if (getApps().length < 1){
         initializeApp({
             credential: cert(serviceAccount)
         })
-        console.log("Firebase Admin initialized")
+        console.log("Firebase Admin Initialized")
     } catch (err) {
         console.error("Error initializing Firebase Admin:", err)
         throw err
