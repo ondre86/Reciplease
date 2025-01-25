@@ -18,28 +18,33 @@ export default defineEventHandler(async (event) => {
         universe_domain: config.firebaseServiceAccountUniverseDomain
     }
 
-    try {
-        initializeApp({
-            credential: cert(serviceAccount)
-        })
-        console.log("Firebase Admin initialized")
-    } catch (err) {
-        console.error("Error initializing Firebase Admin:", err)
-        throw err
-    }
-
     const body = await readBody(event)
     if (!body.userId) throw new Error('User not authenticated.')
 
-    // const stripe = new Stripe(config.stripeSecretKey, {
-    //     httpClient: Stripe.createFetchHttpClient()
-    // })
-    const firestore = getFirestore()
-
     return {
-        d: body,
-        cols: await firestore.listCollections()
+        b: body,
+        a: serviceAccount.token_uri
     }
+
+    // try {
+    //     initializeApp({
+    //         credential: cert(serviceAccount)
+    //     })
+    //     console.log("Firebase Admin initialized")
+    // } catch (err) {
+    //     console.error("Error initializing Firebase Admin:", err)
+    //     throw err
+    // }
+
+    // // const stripe = new Stripe(config.stripeSecretKey, {
+    // //     httpClient: Stripe.createFetchHttpClient()
+    // // })
+    // const firestore = getFirestore()
+
+    // return {
+    //     d: body,
+    //     cols: await firestore.listCollections()
+    // }
 
     // try {
     //     const currentUserDoc = firestore.doc(`users/${body.userId}`)
