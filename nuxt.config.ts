@@ -13,7 +13,10 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
   nitro: {
-    preset: 'node-server'
+    preset: 'node-server',
+    output: {
+      dir: '.output'
+    }
   },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
