@@ -49,16 +49,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'cloudflare-pages'
   },
-  ssr: true,
-  routeRules: {
-    "/search": { ssr: false },
-    "/search/**": { ssr: false },
-    "/list": { ssr: false },
-    "/profile": { ssr: false },
-    "/profile/**": { ssr: false },
-    "/profile/saved/**": { ssr: false },
-    "/api/**": { ssr: false }
-  },
+  ssr: false,
   vite: {
     css: {
       preprocessorOptions: {

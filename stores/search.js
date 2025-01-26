@@ -110,7 +110,6 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			additionalRequestFulfilled.value = false
 		}
 		else {
-			await navigateTo('/search')
 			requestFulfilled.value = false
 		}
 		submittedRequest.value = true
@@ -208,6 +207,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			sessionStorage.setItem('validSearch', isValidRequest.value)
 
 		})
+		await navigateTo('/search')
 
 		db.addHistoryItem({
 			type: "Recipe Search",
