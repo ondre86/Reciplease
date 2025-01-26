@@ -1,35 +1,35 @@
-import { initializeApp, cert, getApps } from "firebase-admin/app"
-import { getFirestore } from "firebase-admin/firestore"
+// import { initializeApp, cert, getApps } from "firebase-admin/app"
+// import { getFirestore } from "firebase-admin/firestore"
 import Stripe from "stripe"
 import fetch from 'node-fetch'
 
 const config = useRuntimeConfig()
-const serviceAccount = {
-    type: config.firebaseServiceAccountType,
-    project_id: config.firebaseServiceAccountProjectID,
-    private_key_id: config.firebaseServiceAccountPrivateKeyID,
-    private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
-    client_email: config.firebaseServiceAccountClientEmail,
-    client_id: config.firebaseServiceAccountClientID,
-    auth_uri: config.firebaseServiceAccountAuthURI,
-    token_uri: config.firebaseServiceAccountTokenURI,
-    auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
-    client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
-    universe_domain: config.firebaseServiceAccountUniverseDomain
-}
+// const serviceAccount = {
+//     type: config.firebaseServiceAccountType,
+//     project_id: config.firebaseServiceAccountProjectID,
+//     private_key_id: config.firebaseServiceAccountPrivateKeyID,
+//     private_key: config.firebaseServiceAccountPrivateKey.replace(/\\n/g, '\n'),
+//     client_email: config.firebaseServiceAccountClientEmail,
+//     client_id: config.firebaseServiceAccountClientID,
+//     auth_uri: config.firebaseServiceAccountAuthURI,
+//     token_uri: config.firebaseServiceAccountTokenURI,
+//     auth_provider_x509_cert_url: config.firebaseServiceAccountAuthProviderX509CertURL,
+//     client_x509_cert_url: config.firebaseServiceAccountClientX509CertURL,
+//     universe_domain: config.firebaseServiceAccountUniverseDomain
+// }
 
-if (getApps().length < 1){
-    try {
-        initializeApp({
-            credential: cert(serviceAccount)
-        })
-        console.log("Firebase Admin Initialized")
-    } catch (err) {
-        console.error("Error initializing Firebase Admin:", err)
-        throw err
-    }
-}
-const firestore = getFirestore()
+// if (getApps().length < 1){
+//     try {
+//         initializeApp({
+//             credential: cert(serviceAccount)
+//         })
+//         console.log("Firebase Admin Initialized")
+//     } catch (err) {
+//         console.error("Error initializing Firebase Admin:", err)
+//         throw err
+//     }
+// }
+// const firestore = getFirestore()
 
 const stripe = new Stripe(config.stripeSecretKey, {
     httpClient: Stripe.createFetchHttpClient(fetch)
@@ -40,14 +40,14 @@ export default defineEventHandler(async (event) => {
     if (!body.userId) throw new Error('User not authenticated.')
 
     try {
-        const currentUserDoc = firestore.doc(`users/${body.userId}`)
-        const currentUser = await currentUserDoc.get()
-        const currentUserData = currentUser.data()
+        // const currentUserDoc = firestore.doc(`users/${body.userId}`)
+        // const currentUser = await currentUserDoc.get()
+        // const currentUserData = currentUser.data()
 
         let newCustomer
-        if (!currentUserData?.stripeCustomerID) { 
+        // if (!currentUserData?.stripeCustomerID) { 
             newCustomer = await createStripeCustomer()
-        }
+        // }
         async function createStripeCustomer(){
             const customer = await stripe.customers.create({
                 email: body.email,
@@ -55,13 +55,13 @@ export default defineEventHandler(async (event) => {
                     firebaseUserId: body.userId
                 }
             })
-            await currentUserDoc.update({ stripeCustomerID: customer.id })
+            // await currentUserDoc.update({ stripeCustomerID: customer.id })
             console.log("New Customer ID created and saved:", customer.id);
             return customer
         }
     
         const session = await stripe.checkout.sessions.create({
-            customer: newCustomer?.id ? newCustomer?.id : currentUserData?.stripeCustomerID,
+            customer: newCustomer?.id,
             payment_method_types: ['card'],
             mode: 'subscription',
             line_items: [
@@ -74,19 +74,19 @@ export default defineEventHandler(async (event) => {
             cancel_url: `${config.public.baseURL}/pricing`,
         })
 
-        const currentUserStripeCollection = firestore.collection(`users/${body.userId}/stripe`)
-        await currentUserStripeCollection.add({
-            sessionId: session.id,
-            created: new Date().toISOString(),
-            priceId: body.priceId,
-            status: session.status,
-        })
+        // const currentUserStripeCollection = firestore.collection(`users/${body.userId}/stripe`)
+        // await currentUserStripeCollection.add({
+        //     sessionId: session.id,
+        //     created: new Date().toISOString(),
+        //     priceId: body.priceId,
+        //     status: session.status,
+        // })
 
         return { 
             url: session.url,
-            request: body,
-            custID: session.customer,
-            sID: session.id
+            // request: body,
+            // custID: session.customer,
+            // sID: session.id
         }
     } 
     catch (error) {
