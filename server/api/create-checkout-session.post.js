@@ -140,6 +140,36 @@ async function getAccessToken() {
     return data.access_token;
 }
 
+async function getUserDocument(userId, accessToken) {
+    const url = `https://firestore.googleapis.com/v1/projects/${serviceAccount.project_id}/databases/(default)/documents/users/${userId}`;
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    if (!response.ok) throw new Error(`Error fetching document: ${response.statusText}`);
+    return await response.json();
+}
+
+async function updateUserDocument(userId, data, accessToken) {
+    const url = `https://firestore.googleapis.com/v1/projects/${serviceAccount.project_id}/databases/(default)/documents/users/${userId}?updateMask.fieldPaths=stripeCustomerID`;
+    const response = await fetch(url, {
+        method: "PATCH",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            fields: {
+                stripeCustomerID: { stringValue: data.stripeCustomerID },
+            },
+        }),
+    });
+    if (!response.ok) throw new Error(`Error updating document: ${response.statusText}`);
+    return await response.json();
+}
+
+
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     if (!body.userId) throw new Error("User not authenticated.");
@@ -151,6 +181,7 @@ export default defineEventHandler(async (event) => {
         let userDoc;
         try {
             userDoc = await getUserDocument(body.userId, accessToken);
+            console.log(userDoc)
         } catch (err) {
             console.log("User document not found. Proceeding to create a new one.");
         }
