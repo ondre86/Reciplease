@@ -13,10 +13,20 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
   nitro: {
-    preset: 'node-server',
+    preset: 'cloudflare-pages',
     output: {
       dir: '.output'
     }
+  },
+  ssr: true,
+  routeRules: {
+    "/search": { ssr: false },
+    "/search/**": { ssr: false },
+    "/list": { ssr: false },
+    "/profile": { ssr: false },
+    "/profile/**": { ssr: false },
+    "/profile/saved/**": { ssr: false },
+    "/api/**": { ssr: false }
   },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
@@ -73,7 +83,6 @@ export default defineNuxtConfig({
       text: true
     }
   },
-  ssr: false,
   ui: {
       safelistColors: ['gmain']
   },

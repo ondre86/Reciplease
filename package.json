@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build && cp -r .output/server ./functions",
     "start": "node .output/server/index.mjs",
     "dev": "nuxt dev --host",
     "generate": "nuxt generate",
