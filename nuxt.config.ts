@@ -12,19 +12,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image'
   ],
-  nitro: {
-    preset: 'cloudflare_pages'
-  },
-  ssr: true,
-  routeRules: {
-    "/search": { ssr: false },
-    "/search/**": { ssr: false },
-    "/list": { ssr: false },
-    "/profile": { ssr: false },
-    "/profile/**": { ssr: false },
-    "/profile/saved/**": { ssr: false },
-    "/api/**": { ssr: false }
-  },
   runtimeConfig: {
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
@@ -56,6 +43,19 @@ export default defineNuxtConfig({
       measurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     }
   },
+  nitro: {
+    preset: 'cloudflare_pages'
+  },
+  ssr: true,
+  routeRules: {
+    "/search": { ssr: false },
+    "/search/**": { ssr: false },
+    "/list": { ssr: false },
+    "/profile": { ssr: false },
+    "/profile/**": { ssr: false },
+    "/profile/saved/**": { ssr: false },
+    "/api/**": { ssr: false }
+  },
   vite: {
     css: {
       preprocessorOptions: {
@@ -63,6 +63,11 @@ export default defineNuxtConfig({
           additionalData: `@use "@/assets/global.sass" as g`,
           api: 'modern-compiler'
         }
+      }
+    },
+    resolve: {
+      alias: {
+        stream: 'stream-browserify'
       }
     }
   },
