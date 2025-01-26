@@ -1,6 +1,7 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
 import Stripe from "stripe"
+import fetch from 'node-fetch'
 
 const config = useRuntimeConfig()
 const serviceAccount = {
@@ -30,7 +31,9 @@ if (getApps().length < 1){
 }
 const firestore = getFirestore()
 
-const stripe = new Stripe(config.stripeSecretKey)
+const stripe = new Stripe(config.stripeSecretKey, {
+    httpClient: Stripe.createFetchHttpClient(fetch)
+})
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)

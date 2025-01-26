@@ -1,6 +1,7 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app"
 import { getFirestore } from "firebase-admin/firestore"
 import Stripe from "stripe"
+import fetch from 'node-fetch'
 
 const config = useRuntimeConfig()
 const serviceAccount = {
@@ -32,7 +33,7 @@ if (getApps().length < 1){
 export default defineEventHandler(async (event) => {
     const rawBody = await readRawBody(event)
     const stripe = new Stripe(config.stripeSecretKey, {
-        httpClient: Stripe.createFetchHttpClient()
+        httpClient: Stripe.createFetchHttpClient(fetch)
     })
     const signature = getHeaders(event)["stripe-signature"]
     if (!signature || !rawBody) {
