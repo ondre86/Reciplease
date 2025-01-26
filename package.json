@@ -31,7 +31,6 @@
     "pinia": "^2.3.1",
     "rough-notation": "^0.5.1",
     "sass": "^1.83.4",
-    "stream-browserify": "^3.0.0",
     "stripe": "^17.5.0",
     "underscore.string": "^3.3.6",
     "validator": "^13.12.0",

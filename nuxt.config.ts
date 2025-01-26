@@ -43,8 +43,11 @@ export default defineNuxtConfig({
       measurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     }
   },
+  alias: {
+    'string_decoder': './node_modules/string_decoder'
+  },
   nitro: {
-    preset: 'cloudflare_pages'
+    preset: 'cloudflare-pages'
   },
   ssr: true,
   routeRules: {
@@ -65,11 +68,6 @@ export default defineNuxtConfig({
         }
       }
     },
-    resolve: {
-      alias: {
-        stream: 'stream-browserify'
-      }
-    }
   },
   app: {
     pageTransition: { name: 'fade', mode: 'out-in' },
