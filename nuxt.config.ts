@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image'
   ],
+  nitro: {
+    preset: 'cloudflare_pages'
+  },
   ssr: true,
   routeRules: {
     "/search": { ssr: false },
