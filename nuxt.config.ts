@@ -47,7 +47,7 @@ export default defineNuxtConfig({
     'string_decoder/': 'string_decoder/'
   },
   nitro: {
-    preset: 'cloudflare-pages'
+    preset: 'node-server'
   },
   ssr: false,
   vite: {
