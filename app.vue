@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
-    <AppNav />
-    <NuxtPage />
-    <NuxtRouteAnnouncer />
-  </div>
-  <UNotifications />
+	<AppNav />
+	<NuxtPage />
+	<NuxtRouteAnnouncer />
+  	<UNotifications />
 </template>
 
 <style lang="sass">

@@ -1,10 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useFirestoreStore } from './firestore'
+import { useAuthStore } from './auth'
 
 export const useSearchModeStore = defineStore('search', ()=>{
 	// not exported
 	const db = useFirestoreStore()
+	const authStore = useAuthStore()
 
 	// exported
 	const searchMode = ref('pantry')
@@ -121,20 +123,20 @@ export const useSearchModeStore = defineStore('search', ()=>{
 
 		await $fetch("/api/recipe-results", {
             method: "POST",
-			// headers: auth tokens
             body: {
 				client:{
+					user: {
+						auth: authStore.user
+					},
 					location: {
 						ip: '',
 						location: ''
 					},
-
 					time: {
 						requestTimestamp: new Date().toUTCString(),
 						requestDate: new Date().toLocaleDateString(),
 						requestTime: new Date().toLocaleTimeString(),
-					},
-				
+					},				
 					browser: {
 						browserVersion: navigator.userAgent,
 						browserLanguage: navigator.language,
@@ -143,13 +145,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						referrer: document.referrer,
 						previousSitesAmount: history.length,
 					},
-
 					storage: {
 						cookiesEnabled: navigator.cookieEnabled,
 						cookies: document.cookie.split(';'),
 						localStorage: localStorage
 					},
-
 					device: {
 						sizeScreenW: screen.width,
 						sizeScreenH: screen.height,
@@ -159,8 +159,7 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						sizeInH: innerHeight,
 						sizeAvailW: screen.availWidth,
 						sizeAvailH: screen.availHeight
-					}
-			
+					}			
 				},
 				request:{
 					message: searchTermArray,
@@ -247,24 +246,22 @@ export const useSearchModeStore = defineStore('search', ()=>{
 		let newSlug = `/search/${randomSlug}+${recipe ? recipe.replaceAll(" ", "-") : 'random'}`
 		sessionStorage.setItem('recipeSlug', newSlug)
 
-		await navigateTo(newSlug)
-
 		await $fetch("/api/recipe-details", {
             method: "POST",
-			// headers: auth tokens
             body: {
 				client:{
+					user: {
+						auth: authStore.user
+					},
 					location: {
 						ip: '',
 						location: ''
 					},
-
 					time: {
 						requestTimestamp: new Date().toUTCString(),
 						requestDate: new Date().toLocaleDateString(),
 						requestTime: new Date().toLocaleTimeString(),
 					},
-				
 					browser: {
 						browserVersion: navigator.userAgent,
 						browserLanguage: navigator.language,
@@ -273,13 +270,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						referrer: document.referrer,
 						previousSitesAmount: history.length,
 					},
-
 					storage: {
 						cookiesEnabled: navigator.cookieEnabled,
 						cookies: document.cookie.split(';'),
 						localStorage: localStorage
 					},
-
 					device: {
 						sizeScreenW: screen.width,
 						sizeScreenH: screen.height,
@@ -290,7 +285,6 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						sizeAvailW: screen.availWidth,
 						sizeAvailH: screen.availHeight
 					}
-			
 				},
 				request:{
 					message: recipe,
@@ -317,6 +311,8 @@ export const useSearchModeStore = defineStore('search', ()=>{
 			sessionStorage.setItem('recipeImage', JSON.stringify(serverResponseImage.value))
 			sessionStorage.setItem('validRecipe', serverResponseRecipe.value.recipes[0] !== undefined)
 		})
+
+		await navigateTo(newSlug)
 
 		db.addHistoryItem({
 			type: "Recipe Generation",
@@ -346,20 +342,20 @@ export const useSearchModeStore = defineStore('search', ()=>{
 
 		await $fetch("/api/generate-list", {
             method: "POST",
-			// headers: auth tokens
             body: {
 				client:{
+					user: {
+						auth: authStore.user
+					},
 					location: {
 						ip: '',
 						location: ''
 					},
-
 					time: {
 						requestTimestamp: new Date().toUTCString(),
 						requestDate: new Date().toLocaleDateString(),
 						requestTime: new Date().toLocaleTimeString(),
 					},
-				
 					browser: {
 						browserVersion: navigator.userAgent,
 						browserLanguage: navigator.language,
@@ -368,13 +364,11 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						referrer: document.referrer,
 						previousSitesAmount: history.length,
 					},
-
 					storage: {
 						cookiesEnabled: navigator.cookieEnabled,
 						cookies: document.cookie.split(';'),
 						localStorage: localStorage
 					},
-
 					device: {
 						sizeScreenW: screen.width,
 						sizeScreenH: screen.height,
@@ -385,7 +379,6 @@ export const useSearchModeStore = defineStore('search', ()=>{
 						sizeAvailW: screen.availWidth,
 						sizeAvailH: screen.availHeight
 					}
-			
 				},
 				request:{
 					message: shoppingListArray,

@@ -33,7 +33,7 @@ const stripe = new Stripe(config.stripeSecretKey)
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
-    if (!body.userId) throw new Error('User not authenticated.')
+    if (!body.userId) throw createError({ statusCode: 401, message: "Invalid or Expired Authentication." })
 
     try {
         const currentUserDoc = firestore.doc(`users/${body.userId}`)

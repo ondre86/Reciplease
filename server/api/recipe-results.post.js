@@ -5,6 +5,10 @@ export default defineEventHandler(async (event)=>{
     const clientRequest = await readBody(event)
     const config = useRuntimeConfig()
 
+    if (!clientRequest.client.user.auth.stsTokenManager.accessToken || clientRequest.client.user.auth.stsTokenManager.expirationTime < Date.now()) {
+        throw createError({ statusCode: 401, message: "Invalid or Expired Authentication." })
+    }
+
     const openai = new OpenAI({apiKey: config.openAIKey})
     const recipeSearchDirection = `
         You are a helpful assistant with decades of culinary and bartending experience here to provide delicious recipes based on users' queries. 
