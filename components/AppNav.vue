@@ -1,99 +1,101 @@
 <template>
-    <header class="flex justify-center w-full py-4 z-50 fixed top-0">
-        <nav 
-            class="
-                flex justify-between px-6 w-full max-w-screen-xl items-center relative z-10
-            "
-            aria-label="Primary Navigation"
-        >
-            <NuxtLink 
-                :to="'/'" 
-                class="p-1 rounded-lg cursor-pointer transition-all duration-300"
-                @click.prevent="$event.target.blur(); mobileMenuTransition($event); searchStore.viewingSearchItems = false; searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.viewingRecipeFromSearch = false; searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms()"
-                id="logo-link"
+    <ClientOnly>
+        <header class="flex justify-center w-full py-4 z-50 fixed top-0">
+            <nav
+                class="
+                    flex justify-between px-6 w-full max-w-screen-xl items-center relative z-10
+                "
+                aria-label="Primary Navigation"
             >
-                <div id="logo" class="flex items-center">
-                    <picture id="logo-pic">
-                        <source media="(prefers-color-scheme:dark)" srcset="@/assets/logo/logo-full-green-light.svg">
-                        <img id="logo-img" src="@/assets/logo/logo-full-green-dark.svg" alt="a Fork, Knife, Spoon, and a Question-Mark, followed by 'Reciplease'">
-                    </picture>
+                <NuxtLink
+                    :to="'/'"
+                    class="p-1 rounded-lg cursor-pointer transition-all duration-300"
+                    @click.prevent="$event.target.blur(); mobileMenuTransition($event); searchStore.viewingSearchItems = false; searchStore.submittedRequest = false; searchStore.requestFulfilled = false; searchStore.viewingRecipeFromSearch = false; searchStore.clearSearchTerms(); searchStore.clearServerSearchTerms()"
+                    id="logo-link"
+                >
+                    <div id="logo" class="flex items-center">
+                        <picture id="logo-pic">
+                            <source media="(prefers-color-scheme:dark)" srcset="@/assets/logo/logo-full-green-light.svg">
+                            <img id="logo-img" src="@/assets/logo/logo-full-green-dark.svg" alt="a Fork, Knife, Spoon, and a Question-Mark, followed by 'Reciplease'">
+                        </picture>
+                    </div>
+                </NuxtLink>
+                <div class="flex gap-6" v-show="isLargeScreen">
+                    <ul class="flex gap-4">
+                        <li>
+                            <NuxtLink to="/about">About</NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink to="/pricing">Pricing</NuxtLink>
+                        </li>
+                        <li v-if="authStore.user">
+                            <NuxtLink to="/list">Shopping List</NuxtLink>
+                        </li>
+                    </ul>
+                    <Transition name="fade" mode="out-in">
+                        <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!authStore.user">Sign In</ButtonPrimary>
+                        <ButtonPrimary class="justify-self-end" :link="'/profile'" v-else>Profile</ButtonPrimary>
+                    </Transition>
                 </div>
-            </NuxtLink>
-            <div class="flex gap-6" v-show="isLargeScreen">
-                <ul class="flex gap-4">
-                    <li>
-                        <NuxtLink to="/about">About</NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink to="/pricing">Pricing</NuxtLink>
-                    </li>
-                    <li v-if="authStore.user">
-                        <NuxtLink to="/list">Shopping List</NuxtLink>
-                    </li>
-                </ul>
-                <Transition name="fade" mode="out-in">
-                    <ButtonPrimary class="justify-self-end toggled" :link="'/auth'" v-if="!authStore.user">Sign In</ButtonPrimary>
-                    <ButtonPrimary class="justify-self-end" :link="'/profile'" v-else>Profile</ButtonPrimary>
-                </Transition>
-            </div>
-            <div 
-                class="flex gap-12 h-full w-8 items-center justify-center" 
-                v-show="!isLargeScreen"
-                @click="mobileMenuTransition"
-            >
-                <MobileMenuIcon class="overflow-visible flex flex-col items-center justify-center"></MobileMenuIcon>
-            </div>
-        </nav>
-        <div v-show="!isLargeScreen" id='mobile-menu' class="absolute top-0 opacity-0 w-full flex justify-center py-1 z-0 pb-4 invisible"> 
-            <nav aria-label="Mobile Navigation">
-                <ul class="flex gap-5">
-                    <li>
-                        <NuxtLink 
-                            to="/about"
-                            @click="mobileMenuTransition"
-                        >
-                            About
-                        </NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink 
-                            to="/pricing"
-                            @click="mobileMenuTransition"
-                        >
-                            Pricing
-                        </NuxtLink>
-                    </li>
-                    <li v-if="authStore.user">
-                        <NuxtLink 
-                            to="/list" 
-                            class="text-green-500"
-                            @click="mobileMenuTransition"
-                        >
-                            List
-                        </NuxtLink>
-                    </li>
-                    <li>
-                        <NuxtLink 
-                            to="/auth" 
-                            class="text-green-500"
-                            @click="mobileMenuTransition"
-                            v-if="!authStore.user"
-                        >
-                            Sign In
-                        </NuxtLink>
-                        <NuxtLink 
-                            to="/profile" 
-                            class="text-green-500"
-                            @click="mobileMenuTransition"
-                            v-else
-                        >
-                            Profile
-                        </NuxtLink>
-                    </li>
-                </ul>
+                <div
+                    class="flex gap-12 h-full w-8 items-center justify-center"
+                    v-show="!isLargeScreen"
+                    @click="mobileMenuTransition"
+                >
+                    <MobileMenuIcon class="overflow-visible flex flex-col items-center justify-center"></MobileMenuIcon>
+                </div>
             </nav>
-        </div>
-    </header>
+            <div v-show="!isLargeScreen" id='mobile-menu' class="absolute top-0 opacity-0 w-full flex justify-center py-1 z-0 pb-4 invisible">
+                <nav aria-label="Mobile Navigation">
+                    <ul class="flex gap-5">
+                        <li>
+                            <NuxtLink
+                                to="/about"
+                                @click="mobileMenuTransition"
+                            >
+                                About
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink
+                                to="/pricing"
+                                @click="mobileMenuTransition"
+                            >
+                                Pricing
+                            </NuxtLink>
+                        </li>
+                        <li v-if="authStore.user">
+                            <NuxtLink
+                                to="/list"
+                                class="text-green-500"
+                                @click="mobileMenuTransition"
+                            >
+                                List
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink
+                                to="/auth"
+                                class="text-green-500"
+                                @click="mobileMenuTransition"
+                                v-if="!authStore.user"
+                            >
+                                Sign In
+                            </NuxtLink>
+                            <NuxtLink
+                                to="/profile"
+                                class="text-green-500"
+                                @click="mobileMenuTransition"
+                                v-else
+                            >
+                                Profile
+                            </NuxtLink>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </ClientOnly>
 </template>
 
 <script setup>

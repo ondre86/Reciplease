@@ -5,7 +5,7 @@
         style="margin-top: calc(69.4px + 2rem);"
     >
             <div
-				class="flex items-center gap-3 self-start cursor-pointer back-text mb-4"
+				class="flex items-center gap-3 self-start cursor-pointer back-text mb-8"
 				@click="navigateTo('/profile/saved')"
 				@keyup.enter="navigateTo('/profile/saved')"
 			>

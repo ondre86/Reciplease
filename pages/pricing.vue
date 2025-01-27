@@ -13,7 +13,7 @@
 						"
 					>
 					<PricingPlan
-						:text="'Sign Up Now'"
+						:text="subscriptionStatus == 'active' ? 'Switch Plan' : 'Sign Up Free'"
 						:link="'/auth'"
 						:plan="'Free'"
 						:price="0"
@@ -26,16 +26,17 @@
 							'Unlimited Shopping List Items',
 							'3 Shopping List Generations/Month'
 						]"
-						:darkEmphasis="true"
-						:disabled="false"
+						:darkEmphasis="false"
+						:disabled="subscriptionStatus !== 'active'"
 						class="bg-transparent"
 						id="free"
 					>
 					</PricingPlan>
 					<PricingPlan
-						:text="'Coming Soon'"
-						:plan="'Pro'"
-						:price="10"
+						:text="subscriptionStatus == 'active' ? 'Active' : 'Subscribe'"
+						:hasFunction="subscriptionStatus !== 'active'"
+						:plan="'Unlimited'"
+						:price="5"
 						:subtitle="'Enjoy full access to Reciplease.'"
 						:features="[
 							'Unlimited Recipe Searches',
@@ -45,8 +46,8 @@
 							'Unlimited Shopping List Generations',
 							'Access to Latest Features',
 						]"
-						:darkEmphasis="false"
-						:disabled="true"
+						:darkEmphasis="true"
+						:disabled="subscriptionStatus == 'active'"
 						class="shadow-2xl opacity-0"
 						id="unlimited"
 					>
@@ -60,6 +61,9 @@
 <script setup>
 import { annotate } from 'rough-notation';
 const { $gsap } = useNuxtApp()
+
+const db = useFirestoreStore()
+const { subscriptionStatus } = await db.fetchUser()
 
 useHead({
   title: 'Pricing',

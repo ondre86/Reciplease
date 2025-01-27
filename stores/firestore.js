@@ -4,6 +4,49 @@ import { useAuthStore } from './auth'
 import { collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot } from 'firebase/firestore'
 
 export const useFirestoreStore = defineStore('firestoreStore', () => {
+    const addUser = async () => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userCollection = collection($firebase.firestore, `users`)
+            const userDoc = doc(userCollection, `${userId}`)
+            await setDoc(userDoc, {
+                email: authStore.user?.email ? authStore.user?.email : authStore.displayName,
+                userID: userId
+            })
+
+            return true
+        } 
+        catch (error) {
+            console.error('Error adding user to Firestore:', error.message)
+            return false
+        }
+    }
+
+    const fetchUser = async () => {
+        try {
+            const { $firebase } = useNuxtApp()
+            const authStore = useAuthStore()
+            const userId = authStore.user?.uid
+
+            if (!userId) throw new Error('User is not authenticated.')
+
+            const userDoc = doc($firebase.firestore, `users/${userId}`)
+            const userData = (await getDoc(userDoc)).data()
+
+            return userData
+        } 
+        catch (error) {
+            console.error('Error fetching user data from Firestore:', error.message)
+            return false
+        }
+    }
+
+    // Recipes
     const recipes = ref([])
     const currentRecipe = ref({})
 
@@ -11,8 +54,6 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
     const historyItems = ref([])
 
     const unsubscribe = ref(null)
-
-    // Recipes
 
     const addRecipe = async (recipe) => {
         try {
@@ -97,6 +138,8 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
 
     // Shopping List
 
+    const loadingListItems = ref(false)
+
     const addListItem = async (listItem) => {
         try {
             const { $firebase } = useNuxtApp()
@@ -125,10 +168,12 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
 
             if (!userId) throw new Error('User is not authenticated.')
 
+            loadingListItems.value = true
             const userCollection = collection($firebase.firestore, `users/${userId}/shoppingList`)
             const snapshot = await getDocs(userCollection)
 
             shoppingListItems.value = new Set(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+            loadingListItems.value = false
         } 
         catch (error) {
             console.error('Error fetching shoppingListItems:', error.message)
@@ -224,8 +269,11 @@ export const useFirestoreStore = defineStore('firestoreStore', () => {
     }
 
     return {
+        addUser,
+        fetchUser,
         recipes,
         currentRecipe,
+        loadingListItems,
         shoppingListItems,
         historyItems,
         addRecipe,

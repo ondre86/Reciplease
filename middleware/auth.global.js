@@ -4,20 +4,20 @@ import { useSearchModeStore } from "~/stores/search"
 export default defineNuxtRouteMiddleware(async (to, from) => {
 	if (process.server) return
 
-    const userStore = useAuthStore()
+    const authStore = useAuthStore()
 	const searchStore = useSearchModeStore()
 
 	const toast = useToast()
 
-	if (!userStore.isInitialized) {
-		await userStore.initializeAuth()
+	if (!authStore.isInitialized) {
+		await authStore.initializeAuth()
 	}
 
-	if (!userStore.user && to.meta.requiresAuth) {
+	if (!authStore.user && to.meta.requiresAuth) {
 		return navigateTo('/auth')
 	}
 
-	if (userStore.user && to.path == '/auth'){
+	if (authStore.user && to.path == '/auth'){
 		return navigateTo('/profile')
 	}
 
@@ -50,8 +50,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 	}
 	// forward from search to recipe
 	if (from.path.includes('/search') && (to.path == sessionStorage.getItem('recipeSlug'))){
-		console.log(sessionStorage.getItem('recipeSlug'))
-
 		searchStore.viewingRecipeFromSearch = true
 		searchStore.viewingSearchItems = false
 
@@ -99,15 +97,61 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 		searchStore.viewingSearchItems = false
 	}
 
+	// return to search toast clear
+	if (to.path == '/search' && from.path !== '/search' && searchStore.viewingSearchItems){
+		toast.remove('returnToSearch')
+	}
+
 	// leave search toast
-	if ((searchStore.viewingSearchItems) && !to.path.includes('/search')){
+	if (from.path == '/search' && to.path !== '/search'){
+		addSearchToast()
+	}
+
+	// return to recipe toast clear
+	if (sessionStorage.getItem('recipeSlug') && to.path == sessionStorage.getItem('recipeSlug') && from.path !== sessionStorage.getItem('recipeSlug') && searchStore.viewingRecipeFromSearch){
+		toast.remove('returnToRecipe')
+	}
+
+	// leave recipe toast
+	if (sessionStorage.getItem('recipeSlug') && to.path !== sessionStorage.getItem('recipeSlug') && from.path == sessionStorage.getItem('recipeSlug')){
+		addRecipeToast()
+	}
+
+	if (!to.meta.requiresAuth) return
+
+	function addRecipeToast(){
+		toast.add({
+			id: 'returnToRecipe',
+			title: 'Return to Recipe',
+			icon: 'i-heroicons-arrow-uturn-left',
+			timeout: 0,
+			click: ()=>{
+				toast.remove('returnToRecipe')
+				searchStore.viewingRecipeFromSearch = true
+				searchStore.viewingSearchItems = false
+				return navigateTo(sessionStorage.getItem('recipeSlug'))
+			},
+			actions: [
+				{
+					label: 'Return',
+					click: () => {
+						toast.remove('returnToRecipe')
+						searchStore.viewingRecipeFromSearch = true
+						searchStore.viewingSearchItems = false
+						return navigateTo(sessionStorage.getItem('recipeSlug'))
+					}
+				}
+			]
+		})
+	}
+	function addSearchToast() {
 		toast.add({
 			id: 'returnToSearch',
 			title: 'Return to Search Results',
 			icon: 'i-heroicons-arrow-uturn-left',
 			timeout: 0,
 			click: ()=>{
-				toast.clear()
+				toast.remove('returnToSearch')
 				searchStore.viewingRecipeFromSearch = false
 				searchStore.viewingSearchItems = true
 				return navigateTo('/search')
@@ -116,7 +160,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 				{
 					label: 'Return',
 					click: () => {
-						toast.clear()
+						toast.remove('returnToSearch')
 						searchStore.viewingRecipeFromSearch = false
 						searchStore.viewingSearchItems = true
 						return navigateTo('/search')
@@ -125,40 +169,5 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 			]
 		})
 	}
-
-	// leave recipe toast
-	if (sessionStorage.getItem('recipeSlug') && to.path !== sessionStorage.getItem('recipeSlug')){
-		toast.add({
-			id: 'returnToRecipe',
-			title: 'Return to Recipe',
-			icon: 'i-heroicons-arrow-uturn-left',
-			timeout: 0,
-			click: ()=>{
-				toast.clear()
-				searchStore.viewingRecipeFromSearch = true
-				searchStore.viewingSearchItems = false
-				console.log(searchStore)
-				return navigateTo(sessionStorage.getItem('recipeSlug'))
-			},
-			actions: [
-				{
-					label: 'Return',
-					click: () => {
-						toast.clear()
-						searchStore.viewingRecipeFromSearch = true
-						searchStore.viewingSearchItems = false
-						console.log(searchStore)
-						return navigateTo(sessionStorage.getItem('recipeSlug'))
-					}
-				}
-			]
-		})
-	}
-
-	if (to.path == '/' && !(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)){
-		toast.clear()
-	}
-
-	if (!to.meta.requiresAuth) return
   })
   

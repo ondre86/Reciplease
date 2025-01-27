@@ -72,6 +72,9 @@ function switchVideo(event) {
         })
         videoTL.call(()=>{
             videoSRC.value = '/video/Recipe-Demo.mp4'
+            console.log(video.value)
+            video.value.ariaDescription = RecipeDemo.value.innerText.replace('\n', '. ')
+            video.value.ariaDescription = RecipeDemo.value.innerText.replace('\n', '')
             RecipeDemo.value.blur()
             IngredientDemo.value.blur()
             ProfileDemo.value.blur()
@@ -94,6 +97,8 @@ function switchVideo(event) {
         })
         videoTL.call(()=>{
             videoSRC.value = '/video/Ingredient-Demo.mp4'
+            video.value.ariaDescription = IngredientDemo.value.innerText.replace('\n', '. ')
+            video.value.ariaDescription = IngredientDemo.value.innerText.replace('\n', '')
             RecipeDemo.value.blur()
             IngredientDemo.value.blur()
             ProfileDemo.value.blur()
@@ -116,6 +121,8 @@ function switchVideo(event) {
         })
         videoTL.call(()=>{
             videoSRC.value = '/video/Profile-Demo.mp4'
+            video.value.ariaDescription = ProfileDemo.value.innerText.replace('\n', '. ')
+            video.value.ariaDescription = ProfileDemo.value.innerText.replace('\n', '')
             RecipeDemo.value.blur()
             IngredientDemo.value.blur()
             ProfileDemo.value.blur()

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-4 justify-center items-center p-1 text-wrap">
-        <img :src="img" alt="" class="rounded-2xl">
+        <img :src="img" :alt="title" class="rounded-2xl">
         <span class="font-light italic text-base text-center">{{title}}</span>
     </div>
 </template>

@@ -1,7 +1,8 @@
 <template>
 	<div id="app-wrap">
 		<Transition name="fade" mode="out-in" @before-enter="y = 0">
-			<DefaultHome v-if="!(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch)"></DefaultHome>
+			<DefaultHome v-if="!(searchStore.viewingSearchItems || searchStore.viewingRecipeFromSearch) && !(searchStore.submittedRequest && !searchStore.requestFulfilled)"></DefaultHome>
+			<LoadingHome v-else></LoadingHome>
 		</Transition>
 	</div>
 

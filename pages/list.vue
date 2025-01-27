@@ -152,7 +152,7 @@ import { annotate } from 'rough-notation';
 const searchStore = useSearchModeStore()
 const db = useFirestoreStore()
 await db.fetchListItems()
-await db.subscribeToShoppingList()
+db.subscribeToShoppingList()
 
 const { $gsap } = useNuxtApp()
 const genModalOpen = ref(false)

@@ -130,7 +130,7 @@ function hidePlaceholder(){
     })
 }
 function showPlaceholder(){
-    if (searchInput.value == '' || !searchInput.value){
+    if ((searchInput.value == '' || !searchInput.value) && placeholderEl.value){
         $gsap.to(placeholderEl.value, {
             opacity: 1,
             duration: .5

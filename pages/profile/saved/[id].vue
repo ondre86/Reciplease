@@ -12,12 +12,8 @@ definePageMeta({
 const db = useFirestoreStore()
 const route = useRoute()
 
-console.log(route.params.id)
-console.log(db.currentRecipe.value)
-
 if (!db.currentRecipe.value){
 	db.currentRecipe = await db.fetchRecipeById(route.params.id)
-	console.log(db.currentRecipe)
 }
 
 useHead({

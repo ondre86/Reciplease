@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/device',
     'nuxt-security',
-    '@nuxtjs/seo',
     '@nuxt/ui',
     '@nuxt/image'
   ],
@@ -17,9 +16,23 @@ export default defineNuxtConfig({
     openAIKey: process.env.NUXT_OPEN_AI_KEY,
     braveSearchKey: process.env.NUXT_BRAVE_SEARCH_KEY,
     stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
+    stripeWebhookSecret: process.env.NUXT_STRIPE_WEBHOOK_SECRET,
     ipGeoKey: process.env.NUXT_IP_GEO_KEY,
+    firebaseServiceAccountType: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_TYPE,
+    firebaseServiceAccountProjectID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PROJECT_ID,
+    firebaseServiceAccountPrivateKeyID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+    firebaseServiceAccountPrivateKey: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY,
+    firebaseServiceAccountClientEmail: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+    firebaseServiceAccountClientID: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_ID,
+    firebaseServiceAccountAuthURI: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_AUTH_URI,
+    firebaseServiceAccountTokenURI: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_TOKEN_URI,
+    firebaseServiceAccountAuthProviderX509CertURL: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_AUTH_PROVIDER_X509_CERT_URL,
+    firebaseServiceAccountClientX509CertURL: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_CLIENT_X509_CERT_URL,
+    firebaseServiceAccountUniverseDomain: process.env.NUXT_FIREBASE_SERVICE_ACCOUNT_UNIVERSE_DOMAIN,
 
     public: {
+      baseURL: process.env.NUXT_PUBLIC_BASE_URL,
+      stripePriceId: process.env.NUXT_PUBLIC_STRIPE_PRICE_ID,
       stripePublishableKey: process.env.NUXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
       apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
       authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -30,6 +43,20 @@ export default defineNuxtConfig({
       measurementId: process.env.NUXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     }
   },
+  alias: {
+    'string_decoder/': 'string_decoder/'
+  },
+  nitro: {
+    preset: 'node-server'
+  },
+  ssr: true,
+  routeRules: {
+    '/pricing': { ssr: false },
+    '/list': { ssr: false },
+    '/profile/**': { ssr: false },
+    '/search': { ssr: false },
+    '/search/**': { ssr: false }
+  },
   vite: {
     css: {
       preprocessorOptions: {
@@ -38,7 +65,7 @@ export default defineNuxtConfig({
           api: 'modern-compiler'
         }
       }
-    }
+    },
   },
   app: {
     pageTransition: { name: 'fade', mode: 'out-in' },
@@ -53,16 +80,6 @@ export default defineNuxtConfig({
       scrollTrigger: true,
       text: true
     }
-  },
-  routeRules: {
-    "/": { ssr: false },
-    "/search": { ssr: false },
-    "/search/**": { ssr: false },
-    "/list": { ssr: false },
-    "/auth": { ssr: false },
-    "/profile": { ssr: false },
-    "/profile/**": { ssr: false },
-    "/profile/saved/**": { ssr: false },
   },
   ui: {
       safelistColors: ['gmain']
