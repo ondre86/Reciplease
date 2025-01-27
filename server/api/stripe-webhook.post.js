@@ -40,11 +40,9 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, message: "Invalid webhook payload or signature." })
     }
 
-    console.log(rawBody, signature)
-
     let stripeWebhookEvent
     try {
-        stripeWebhookEvent = stripe.webhooks.constructEventAsync(rawBody, signature, config.stripeWebhookSecret)
+        stripeWebhookEvent = await stripe.webhooks.constructEventAsync(rawBody, signature, config.stripeWebhookSecret)
         console.log("Stripe Webhook Event:", JSON.stringify(stripeWebhookEvent, null, 2));
     } 
     catch (error) {
@@ -52,12 +50,9 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, message: "Webhook signature verification failed." })
     }
 
-    
     const usersCollection = firestore.collection('users')
     const usersDocs = await usersCollection.get()
     let firestoreUserID = ''
-
-    console.log(usersDocs.docs)
 
     for (const user of usersDocs.docs) {
         if (user.data().stripeCustomerID && (user.data().stripeCustomerID == stripeWebhookEvent.data.object.customer)) firestoreUserID = user.data().userID
