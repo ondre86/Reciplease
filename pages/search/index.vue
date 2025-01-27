@@ -70,8 +70,6 @@ if (!searchStore.submittedRequest){
 		searchStore.viewingSearchItems = true
 		searchStore.searchMode = sessionStorage.getItem("searchMode")
 		searchStore.serverResponseList.recipes = parsedSavedSearchResults
-
-		console.log(searchStore)
 	}
 	if (!sessionStorage.getItem("searchResults")){
 		await navigateTo('/')

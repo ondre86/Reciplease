@@ -257,7 +257,6 @@ const passwordVisible = ref(false)
 const modalOpen = ref(false)
 
 watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength], ([currentEmail, currentPass, currentCPass, currentPasswordStrength], [oldEmail, oldPass, oldCPass, oldPasswordStrength])=>{
-	console.log(currentEmail, currentPass, currentCPass)
 	if (currentPass || currentPass == ''){
 		passwordStrength.value = validator.isStrongPassword(passwordInput.value, {returnScore: true})
 	}
@@ -290,8 +289,6 @@ watch([emailInput, passwordInput, confirmPasswordInput, passwordStrength], ([cur
 	if (authStore.authMsg){
 		if (currentEmail !== oldEmail || currentPass !== oldPass){
 			authStore.authMsg = null
-			console.log(currentEmail !== oldEmail)
-			console.log(currentPass !== oldPass)
 		}
 	}
 })
