@@ -29,27 +29,35 @@ if (getApps().length < 1){
     }
 }
 
+const firestore = getFirestore()
+const stripe = new Stripe(config.stripeSecretKey)
+
 export default defineEventHandler(async (event) => {
     const rawBody = await readRawBody(event)
-    const stripe = new Stripe(config.stripeSecretKey)
     const signature = getHeaders(event)["stripe-signature"]
+    
     if (!signature || !rawBody) {
         throw createError({ statusCode: 400, message: "Invalid webhook payload or signature." })
     }
 
+    console.log(rawBody, signature)
+
     let stripeWebhookEvent
     try {
         stripeWebhookEvent = stripe.webhooks.constructEventAsync(rawBody, signature, config.stripeWebhookSecret)
+        console.log("Stripe Webhook Event:", JSON.stringify(stripeWebhookEvent, null, 2));
     } 
     catch (error) {
         console.error("Webhook signature verification failed:", error.message)
         throw createError({ statusCode: 400, message: "Webhook signature verification failed." })
     }
 
-    const firestore = getFirestore()
+    
     const usersCollection = firestore.collection('users')
     const usersDocs = await usersCollection.get()
     let firestoreUserID = ''
+
+    console.log(usersDocs.docs)
 
     for (const user of usersDocs.docs) {
         if (user.data().stripeCustomerID && (user.data().stripeCustomerID == stripeWebhookEvent.data.object.customer)) firestoreUserID = user.data().userID

@@ -29,7 +29,6 @@ if (getApps().length < 1){
     }
 }
 const firestore = getFirestore()
-
 const stripe = new Stripe(config.stripeSecretKey)
 
 export default defineEventHandler(async (event) => {
