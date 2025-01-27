@@ -90,11 +90,14 @@ export default defineEventHandler(async (event) => {
             timestamp: stripeWebhookEvent.data.object.created
         }
 
-        const userSpecificDoc = firestore.doc(`users/${firestoreUserID}`)
-        await userSpecificDoc.update({
-            subscriptionStatus: subscriptionInfo.subscriptionStatus,
-            subscriptionEndDate: subscriptionInfo.subscriptionEndDate,
-        })
+
+        if (subscriptionInfo.subscriptionStatus !== 'incomplete') {
+            const userSpecificDoc = firestore.doc(`users/${firestoreUserID}`)
+            await userSpecificDoc.update({
+                subscriptionStatus: subscriptionInfo.subscriptionStatus,
+                subscriptionEndDate: subscriptionInfo.subscriptionEndDate,
+            })
+        }
 
         const stripeCollection = firestore.collection(`users/${firestoreUserID}/stripe`)
         await stripeCollection.add(subscriptionInfo)
