@@ -6,21 +6,23 @@
             <span class="text-xl max-w-sm block font-light">{{ subtitle }}</span>
             <span class="text-sm max-w-sm block font-light h-4">{{ extraSubtitle }}</span>
         </div>
-        <Transition name="fade" mode="out-in">
-            <ButtonPrimary
-                class="mt-4"
-                :class="{'disabled': disabled}"
-                :aria-disabled=disabled
-                :link="link"
-                :darkEmphasis="darkEmphasis"
-                @click="hasFunction ? subscribe() : null"
-                @keyup.enter="hasFunction ? subscribe() : null"
-                v-if="!loading"
-            >
-                {{text}}
-            </ButtonPrimary>
-            <LoadingAnimation v-else :svg-width="'46px'" class="self-center mt-4"></LoadingAnimation>
-        </Transition>
+        <ClientOnly>
+            <Transition name="fade" mode="out-in">
+                <ButtonPrimary
+                    class="mt-4"
+                    :class="{'disabled': disabled}"
+                    :aria-disabled=disabled
+                    :link="link"
+                    :darkEmphasis="darkEmphasis"
+                    @click="hasFunction ? subscribe() : null"
+                    @keyup.enter="hasFunction ? subscribe() : null"
+                    v-if="!loading"
+                >
+                    {{text}}
+                </ButtonPrimary>
+                <LoadingAnimation v-else :svg-width="'46px'" class="self-center mt-4"></LoadingAnimation>
+            </Transition>
+        </ClientOnly>
         <div class="grid gap-4 mt-4 border-t py-4 pt-8 justify-items-start">
             <h3 class="text-2xl font-medium ">Features</h3>
             <ul 

@@ -49,7 +49,14 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server'
   },
-  ssr: false,
+  ssr: true,
+  routeRules: {
+    '/pricing': { ssr: false },
+    '/list': { ssr: false },
+    '/profile/**': { ssr: false },
+    '/search': { ssr: false },
+    '/search/**': { ssr: false }
+  },
   vite: {
     css: {
       preprocessorOptions: {

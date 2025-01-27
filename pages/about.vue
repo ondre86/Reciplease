@@ -27,7 +27,7 @@
 				</AboutGridItem>
 				<AboutGridItem
 					:image="'/svg/money.svg'"
-					:alt="'Money bag'"
+					:alt="'Umbrella next to a Dollar Sign'"
 					:title="'Budget Booster'"
 					:subline="`Forget about surprises at the cash register.`"
 					:desc="'We all know that food prices are rising and our budgets need to be better. Take the guesswork out of the grocery store by knowing how much your meals are going to cost with our Shopping List Generator.'"

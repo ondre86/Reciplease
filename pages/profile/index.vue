@@ -5,36 +5,37 @@
 				<h1 class="text-6xl font-semibold">Profile</h1>
 				<span class="w-full text-lg font-light text-center">View saved recipes, history, and account settings.</span>
 			</div>
-			<div id="acctMeta" class="flex flex-col gap-16 mt-8 w-full md:w-fit">
-				<div class="meta-wrap flex flex-col text-xl p-4 gap-10 rounded-xl border shadow-xl items-center md:flex-row md:gap-16">
-					<div class="flex flex-col gap-5">
-						<div class="flex flex-col gap-4 md:flex-row">
-							<div class="flex flex-col gap-2 flex-wrap justify-center">
-								<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
+			<ClientOnly>
+				<div id="acctMeta" class="flex flex-col gap-16 mt-8 w-full md:w-fit">
+					<div class="meta-wrap flex flex-col text-xl p-4 gap-10 rounded-xl border shadow-xl items-center md:flex-row md:gap-16">
+						<div class="flex flex-col gap-5">
+							<div class="flex flex-col gap-4 md:flex-row">
+								<div class="flex flex-col gap-2 flex-wrap justify-center">
+									<span v-if="authStore.user" class="text-2xl font-semibold text-center break-all">{{ authStore.displayName }}</span>
+								</div>
+							</div>
+							<div class="flex gap-4 justify-center">
+								<div class="flex gap-4 w-fit items-center">
+									<span v-if="userData?.subscriptionStatus !== 'active'" class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
+									<span v-else class="pro-badge border p-2 rounded-lg w-fit text-xs font-semibold">Unlimited</span>
+								</div>
+								<div class="flex gap-4 justify-center self-center verify-badge border p-2 rounded-lg w-fit text-xs">
+									<span class="" v-if="authStore.user && authStore.user.emailVerified">Verified</span>
+									<span class="" v-else>Not Verified</span>
+								</div>
 							</div>
 						</div>
-						<div class="flex gap-4 justify-center">
-							<div class="flex gap-4 w-fit items-center">
-								<span v-if="userData?.subscriptionStatus !== 'active'" class="free-badge border p-2 rounded-lg w-fit text-xs font-semibold">Free</span>
-								<span v-else class="pro-badge border p-2 rounded-lg w-fit text-xs font-semibold">Unlimited</span>
-							</div>
-							<div class="flex gap-4 justify-center self-center verify-badge border p-2 rounded-lg w-fit text-xs">
-								<span class="" v-if="authStore.user && authStore.user.emailVerified">Verified</span>
-								<span class="" v-else>Not Verified</span>
-							</div>
-						</div>
-
+						<ButtonSecondary
+							class="cursor-pointer text-center w-full h-fit md:w-fit"
+							@click="authStore.signOutUser()"
+							@keyup.enter="authStore.signOutUser()"
+							tabindex="0"
+						>
+							Sign Out
+						</ButtonSecondary>
 					</div>
-					<ButtonSecondary
-						class="cursor-pointer text-center w-full h-fit md:w-fit"
-						@click="authStore.signOutUser()"
-						@keyup.enter="authStore.signOutUser()"
-						tabindex="0"
-					>
-						Sign Out
-					</ButtonSecondary>
 				</div>
-			</div>
+			</ClientOnly>
 			<ul class="mt-12 flex flex-col justify-center items-center gap-4 w-full md:flex-row md:flex-wrap">
 				<li class="w-full md:w-fit">
 					<ProfileOption 

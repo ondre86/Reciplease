@@ -9,13 +9,13 @@
         </div>
         <div class="tilted-img-group flex flex-col gap-4 my-16 lg:flex-row items-center">
             <div class="feature-img shadow-2xl rounded-xl overflow-hidden">
-                <img src="/public/img/IMG_6056.webp" width="300px" alt="">
+                <img src="/public/img/IMG_6056.webp" width="300px" alt="Aglio e Olio pasta dish with shrimp on top and a glass of white wine">
             </div>
             <div class="feature-img shadow-2xl rounded-xl overflow-hidden">
-                <img src="/public/img/IMG_6447.webp" width="300px" alt="">
+                <img src="/public/img/IMG_6447.webp" width="300px" alt="Braised Short Rib on a bed of risotto with Broccolini and Rosemary garnishments">
             </div>
             <div class="feature-img shadow-2xl rounded-xl overflow-hidden">
-                <img src="/public/img/IMG_6293.webp" width="300px" alt="">
+                <img src="/public/img/IMG_6293.webp" width="300px" alt="Croque Monsieur with a side spinach salad and a glass of orange juice">
             </div>
         </div>
     </div>
@@ -109,8 +109,6 @@ onMounted(() => {
 
 
     &:first-of-type
-        // rotate: -15deg
-        // transform: translate(25px, 50px)
         z-index: 2
 
         img
@@ -122,8 +120,6 @@ onMounted(() => {
             object-position: 0px -35px
 
     &:last-of-type
-        // rotate: 15deg
-        // transform: translate(-25px, 50px)
         z-index: 2
 
         img
@@ -140,8 +136,6 @@ onMounted(() => {
             max-height: 400px
 
         &:first-of-type
-            // rotate: -8deg
-            // transform: translate(25px, 50px)
             z-index: 3
 
             img
@@ -154,8 +148,6 @@ onMounted(() => {
                 
 
         &:last-of-type
-            // rotate: 8deg
-            // transform: translate(-25px, -50px)
             margin: -3rem 0 0 0
             z-index: 1
 
