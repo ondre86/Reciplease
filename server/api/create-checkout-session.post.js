@@ -58,7 +58,7 @@ export default defineEventHandler(async (event) => {
         }
     
         const session = await stripe.checkout.sessions.create({
-            customer: newCustomer?.id,
+            customer: newCustomer?.id ? newCustomer?.id : currentUserData?.stripeCustomerID,
             payment_method_types: ['card'],
             mode: 'subscription',
             line_items: [
