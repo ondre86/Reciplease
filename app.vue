@@ -23,6 +23,8 @@
 #app-wrap
 	display: flex
 	justify-content: center
+	max-width: 100vw
+	overflow-x: hidden
 
 main
 	width: 100%
