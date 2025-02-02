@@ -15,7 +15,7 @@
             <SearchModeWrapper></SearchModeWrapper>
         </div>
         <TitledImages></TitledImages>
-        <TheStruggle></TheStruggle>
+        <!-- <TheStruggle></TheStruggle> -->
         <SaveTheDay></SaveTheDay>
         <GetInspiration></GetInspiration>
         <LandingCTA></LandingCTA>
