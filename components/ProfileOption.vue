@@ -8,7 +8,7 @@
             </div>
             <div class="flex flex-col gap-4 items-center self-center w-full md:w-fit">
                 <ButtonPrimary 
-                    class="toggled w-full md:w-fit" 
+                    class="toggled w-full justify-center md:w-fit" 
                     :link="link" 
                     :externalLink="external" 
                     :class="{ 'disabled': disabled }" 
