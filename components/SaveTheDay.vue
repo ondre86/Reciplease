@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center mt-6 py-12 px-6 save">
+    <div class="flex flex-col items-center mt-6 py-24 px-6 save">
         <div class="text-center flex flex-col gap-6">
             <h2 id="home-title-3" class="text-4xl font-bold w-fit">Reciplease Saves the Day!</h2>
             <p class="font-light">

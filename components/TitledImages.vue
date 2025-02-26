@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col mt-24 md:mt-32">
+    <div class="flex flex-col my-24 md:my-28">
         <div class="text-center flex flex-col gap-6 items-center">
             <h2 id="home-title-1" class="text-4xl font-bold w-fit">Enjoy Cooking Again!</h2>
             <p class="font-light">
