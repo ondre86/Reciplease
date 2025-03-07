@@ -5,7 +5,7 @@
 				<h1 class="text-6xl font-semibold">Shopping List</h1>
 				<span class="w-full text-lg font-light">View, modify, and generate your shopping list.</span>
 			</div>
-			<div class="flex flex-col gap-16 max-w-96 w-full md:grid md:grid-cols-2 md:gap-12 md:max-w-3xl">
+			<div class="flex flex-col gap-16 max-w-96 w-full md:flex-row md:gap-12 md:max-w-3xl">
 				<Transition name="fade" mode="out-in">
 					<div class="flex flex-col gap-24 md:flex-row" v-if="db.shoppingListItems.size > 0" ref="listWrap">
 						<TransitionGroup 
@@ -43,7 +43,7 @@
 						</div>
 					</div>
 				</Transition>
-				<ListInput @newItem="scrollToListEnd($event)" class="md:sticky list-input"></ListInput>
+				<ListInput @newItem="scrollToListEnd($event)" class="md:sticky md:top-6 h-fit list-input"></ListInput>
 			</div>
 			<Transition name="fade" mode="out-in">
 				<div v-if="db.shoppingListItems.size > 0" class="flex flex-col gap-10 text-start px-6 py-4 rounded-xl border max-w-96">

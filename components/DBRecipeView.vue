@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ingredients py-6 px-8 rounded-xl border shadow-2xl w-80">
+            <div class="ingredients py-6 px-8 rounded-xl border shadow-2xl">
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2 text-center mb-4">
                         <h2 class="text-4xl font-semibold annotate w-fit self-center">Ingredients</h2>
